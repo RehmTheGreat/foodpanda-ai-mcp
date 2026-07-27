@@ -9,7 +9,7 @@
 [![node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-1.29-blue.svg)](https://modelcontextprotocol.io)
-[![Tests](https://img.shields.io/badge/tests-117%20passing-success.svg)](tests/)
+[![Tests](https://img.shields.io/badge/tests-145%20passing-success.svg)](tests/)
 
 An [MCP](https://modelcontextprotocol.io) server that gives Claude, ChatGPT, Cursor and any
 other MCP client **read-only** access to foodpanda's public restaurant data across **10 countries**.
@@ -315,15 +315,15 @@ Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-ai-mcp\\dist
 
 | Tool | What it does | Notes |
 |---|---|---|
-| `search_restaurants` | The main one. Find restaurants with filters for rating, fee, minimum order, distance, delivery time, discounts, open-now. | Text matching is local — see [limitations](#-known-limitations-read-this) |
-| `get_restaurant` | Full detail: fees, minimum, ETA, rating, deals, weekly hours, open right now. | Needs `code` + `market` |
-| `get_menu` | A restaurant's menu with prices; filter by keyword or category. | Menus can be 100s of items — use `maxItems` |
+| `search_restaurants` | The main one. Find restaurants with filters for rating, fee, minimum order, distance, delivery time, discounts, open-now. | Text matching is local; with a filter active it scans the whole area, so results are complete — see [limitations](#-known-limitations-read-this) |
+| `get_restaurant` | Full detail: fees (minimum order, small-order fee, delivery, service fee, VAT), ETA, rating, deals and discounts with their numbers, weekly hours, open right now. | Needs `code` + `market` |
+| `get_menu` | A restaurant's menu with prices, plus the fees and deals needed to estimate a total. | Menus can be 100s of items — use `maxItems` |
 | `search_menu_items` | **Search one dish across many restaurants**, ranked by price. | Slowest tool: opens one menu per restaurant |
 | `compare_restaurants` | Side-by-side on fee, minimum, ETA, rating, deals; flags cheapest/fastest/best-rated. | 2–8 restaurants |
 | `check_open_now` | Open/closed for up to 10 restaurants, with next opening time. | Uses each market's local timezone |
 | `list_cuisines` | Cuisines available near a point, with restaurant counts. | Returns ids for `browse_by_cuisine` |
 | `browse_by_cuisine` | Restaurants of one cuisine, filtered server-side. | More precise than a text search |
-| `find_deals` | Restaurants currently advertising a discount, best offers first. | Restaurant promos only, not voucher codes |
+| `find_deals` | Restaurants currently advertising a discount, best offers first. | Scans the whole area; restaurant promos only, not voucher codes |
 | `resolve_location` | Address → coordinates + which market it's in. | OpenStreetMap; no key needed |
 | `list_markets` | Supported countries with currency and timezone. | Works offline |
 
@@ -416,6 +416,8 @@ Why each decision was made: **[DECISIONS.md](DECISIONS.md)**.
 | `ALLOWED_ORIGINS` | `*` | CORS allowlist |
 | `ALLOWED_HOSTS` | *(empty)* | Enables DNS-rebinding protection when set |
 | `FOODPANDA_DEFAULT_MARKET` | `pk` | Fallback country code |
+| `FOODPANDA_MAX_SCAN` | `600` | Max nearby restaurants a filtered search scans. Listing pages are cheap and not rate-limited |
+| `FOODPANDA_LISTING_PAGE_SIZE` | `200` | Restaurants fetched per listing page |
 | `FOODPANDA_RATE_LIMIT_RPS` | `2` | Upstream requests/second |
 | `FOODPANDA_MAX_CONCURRENCY` | `2` | Simultaneous upstream requests |
 | `FOODPANDA_TIMEOUT_MS` | `15000` | Per-request timeout |
@@ -572,15 +574,18 @@ Consequences of what the upstream API actually supports. Details in
 
 1. **There is no upstream text search.** The `q=` parameter is accepted and *completely
    ignored* — `q=pizza` and `q=zzzznonexistent` return identical results. All searching is
-   done locally over a bounded set of nearby restaurants (`scanLimit`), so a match beyond
-   that window can be missed.
+   done locally. When a filter is active the server scans the whole area first (up to
+   `FOODPANDA_MAX_SCAN`, default 600) so filtered results are complete; if an area exceeds
+   that ceiling the response says so via `scanComplete: false` and a warning.
 2. **"Open now" costs extra requests.** Opening hours are absent from listing data entirely,
    so the filter must fetch each candidate's detail. It's bounded and therefore slower.
 3. **Menus are bot-protected.** See troubleshooting. Search-type tools use a different host
    and are more reliable.
-4. **Prices are indicative.** Menu prices already include vendor promotions. Bank/voucher
-   discounts, service fees, taxes and surge pricing are **not** modelled. Checkout is the
-   only authority.
+4. **Prices are indicative.** `get_restaurant` and `get_menu` return the fees needed to
+   estimate a total (minimum order, small-order fee, delivery, service fee, VAT) and the
+   vendor's deals with their numbers. **Menu prices already include vendor deals — do not
+   subtract an advertised percentage again.** Bank/voucher codes and surge pricing are **not**
+   modelled. Checkout is the only authority.
 5. **No reviews, no order history, no account data.** Not exposed by these endpoints.
 6. **Thailand is unavailable** (origin DNS failure upstream).
 7. **This cannot order food.** By design, permanently.

@@ -3,7 +3,7 @@
   "name": "io.github.rehmthegreat/foodpanda-ai-mcp",
   "title": "foodpanda",
   "description": "Read-only access to foodpanda restaurant discovery data across 10 markets: search restaurants, read menus and prices, compare delivery fees and minimums, browse cuisines, find deals and check opening hours. No API key, no account, no ordering.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "repository": {
     "url": "https://github.com/RehmTheGreat/foodpanda-ai-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "foodpanda-ai-mcp",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "runtimeHint": "npx",
       "transport": {
         "type": "stdio"

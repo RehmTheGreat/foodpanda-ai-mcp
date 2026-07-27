@@ -275,6 +275,52 @@ label; the offset is identical so open/closed calculations are unaffected.
 
 ---
 
+## 6b. Public website hosts per market (verified 2026-07-27)
+
+Vendor payloads carry a link in `web_path` (and `redirection_url`). **It is already an
+absolute URL, not a path** — and the host differs by endpoint for the same vendor:
+
+| Endpoint | `web_path` for vendor `u1od` |
+|---|---|
+| listing (`disco`) | `https://foodpanda.pk/restaurant/u1od/subway-sehar-commercial-ave` |
+| detail (`pk.fd-api.com`) | `https://www.foodpanda.pk/restaurant/u1od/subway-sehar-commercial-ave` |
+
+Treating it as a path and prefixing a host produced
+`https://www.foodpanda.pk/https://foodpanda.pk/restaurant/...` — see DECISIONS D20.
+
+Hosts read from live `web_path` values, one vendor per market. **There is no derivable rule**
+for the suffix, so these are stored as data rather than computed:
+
+| Market | Web host | | Market | Web host |
+|---|---|---|---|---|
+| pk | `foodpanda.pk` | | tw | `foodpanda.com.tw` |
+| bd | `foodpanda.com.bd` | | hk | `foodpanda.hk` |
+| my | `foodpanda.my` | | kh | `foodpanda.com.kh` |
+| sg | `foodpanda.sg` | | la | `foodpanda.la` |
+| ph | `foodpanda.ph` | | mm | `foodpanda.com.mm` |
+
+Note `my` is `foodpanda.my` while `bd` is `foodpanda.com.bd`: a `.com.<cc>` rule would be
+wrong for half the markets.
+
+## 6c. Fee fields
+
+Both the listing and the detail payload use the same field names, so one mapper serves both:
+
+| Field | Meaning |
+|---|---|
+| `minimum_order_amount` | Basket value below which the small-order fee applies |
+| `small_order_fee` | Surcharge under that minimum |
+| `minimum_delivery_fee` | Delivery fee |
+| `is_service_fee_enabled` / `service_fee_percentage_amount` | Service fee and its rate |
+| `vat_percentage_amount` / `is_vat_included_in_product_price` / `is_vat_visible` | VAT and whether it is already inside menu prices |
+
+Observed in the captured listing payload: `is_service_fee_enabled: false`,
+`service_fee_percentage_amount: 0`, `vat_percentage_amount: 0` — so zero is a real, meaningful
+value here and must not be dropped as falsy.
+
+**Menu prices already include vendor deals and discounts.** Applying an advertised percentage
+to a menu price double-counts it. The fees above are additive; the discounts are not.
+
 ## 7. Rate limits and bot protection
 
 The detail endpoint exposes its budget in response headers:
@@ -373,6 +419,12 @@ Kept deliberately — each cost real debugging time.
 6. **Listing data can answer "open now".** It cannot — no listing vendor has `schedules`.
 7. **The API is unprotected.** The listing host is; the menu host is behind PerimeterX and
    will block a busy IP.
+8. **`web_path` is a path.** It is an absolute URL, and the host differs between the listing
+   and detail endpoints for the same vendor. Prefixing it doubled every link.
+9. **Market web hosts follow a `.com.<cc>` pattern.** They do not: `foodpanda.my` but
+   `foodpanda.com.bd`.
+10. **Scanning had to be capped at 100 for politeness.** The cap was on the wrong host. The
+    listing host has no page-size cap and is not bot-protected; only the menu host is.
 
 ---
 
