@@ -1,0 +1,15 @@
+# Normalise line endings so the repo is identical on Windows, macOS and Linux.
+* text=auto eol=lf
+
+# The published binary must keep LF regardless of checkout platform.
+*.js text eol=lf
+*.ts text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+Dockerfile text eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
