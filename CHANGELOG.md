@@ -55,3 +55,33 @@ until then.
 - `get_menu`: `restaurantUrl?: string`.
 - `search_menu_items` hits: `restaurantUrl?: string`,
   `restaurantIsUnrated?: boolean`.
+
+### Phase 2 — skipped by request
+
+Not built in this pass: surfacing address/phone/images/modifiers on
+`get_restaurant`/`get_menu`, the `orderMode` (pickup) parameter, and the
+darkstores/shop verticals. `docs/payload-inventory.md` already documents
+exactly what's fetched-and-discarded versus what needs a new request, so this
+remains cheap to pick up later — nothing here required Phase 2 groundwork.
+
+### Phase 3 — new capabilities
+
+- **Added:** `export_data` tool — bulk-dumps `restaurants`, one restaurant's
+  `menu`, or a `deals` list as a CSV or JSON text blob (`structuredContent.data`),
+  for pasting into a spreadsheet or piping elsewhere. Returns the blob directly
+  rather than writing to disk, since this server can run on a hosted/remote
+  transport where a local file write wouldn't reach the caller. Row counts are
+  capped (`limit`/`maxItems`) and truncation is reported honestly, matching the
+  `scanComplete` pattern used elsewhere. New `src/domain/csv.ts` is a small
+  hand-rolled encoder — no new dependency added for a handful of columns.
+- **Added:** `foodpanda://voucher-codes` resource — HBL25 and ASKARI30, the two
+  publicly known Pakistan bank promo codes, with their published terms and an
+  explicit disclaimer that this is static reference content, not live API data
+  (there is no voucher/promotions endpoint upstream). Documents the known
+  inconsistency between foodpanda's own bank-deals page and Askari Bank's
+  material (25% vs 30%) and a real observed 32.5% redemption, rather than
+  presenting a single confident number.
+- **Not built: review text.** Phase 0 found the reviews endpoint returning a
+  bot-protection challenge; this phase re-verified with a single, isolated
+  request and got a clean 404 (confirmed with two more probes). There is no
+  reviews endpoint to build against — see `docs/payload-inventory.md` §3.

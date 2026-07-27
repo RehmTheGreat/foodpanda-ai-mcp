@@ -85,20 +85,25 @@ The adapter requests `include=menus,bundles,multiple_discounts`. `bundles` and
 `multiple_discounts` were requested but not inspected for extra fields in this
 pass — worth a follow-up capture if Phase 3 wants combo/bundle pricing.
 
-## 3. Reviews — re-verified, and the finding has changed
+## 3. Reviews — re-verified twice; settled as a clean 404
 
 `docs/API-RESEARCH.md` (2026-07-27) says `/api/v5/vendors/<code>/reviews` → `404`.
-A fresh request today, made immediately after 5 vendor-detail fetches in this same
-run, returned **HTTP 403 with a genuine PerimeterX challenge page** (`_pxAppId:
-"PXlJuB4eTB"`), not a clean 404. Given D11/CONTRIBUTING.md's rule to verify
-live rather than infer: this endpoint sits behind the **same bot protection as the
-rest of the menu host**, and the request volume in this Phase 0 run was enough to
-trigger it — a real, reproducible instance of Bug 5's premise. Whether the *route*
-itself would 404 on a fresh, unthrottled IP is now unknown; the honest statement is
-"blocked, not confirmed absent." Given the project's stated scope boundary
-(DECISIONS D11, CONTRIBUTING.md), this does not change the Phase 3 recommendation
-to skip review-text scraping unless a clean, unblocked capture proves the route
-actually returns data.
+A request made immediately after 5 vendor-detail fetches in this same Phase 0
+run returned **HTTP 403 with a genuine PerimeterX challenge page** instead —
+that request volume was enough to trigger the menu host's bot protection, a
+real instance of Bug 5's premise, but it left the route's actual behaviour
+ambiguous ("blocked, not confirmed absent").
+
+**Phase 3 update:** a single, isolated, well-spaced request (no other calls in
+the preceding minute) got a clean `404 page not found` — plain text, not a
+PerimeterX page. Two follow-up probes (`/vendors/<code>/ratings`,
+`?include=reviews`) also found nothing: `/ratings` 404s the same way, and
+`include=reviews` just returns the ordinary vendor payload unchanged (the
+`include` param silently ignores the unknown value, same pattern as `q=`
+documented in API-RESEARCH.md §3). So the original finding holds: **there is
+no reviews endpoint to build against**, and the 403 above was this session's
+own request volume, not evidence of a real, gated capability. Review text is
+not built in Phase 3 for this reason.
 
 ## 4. Bug 1 — delivery-fee-vs-discount reconciliation, confirmed at the field level
 
@@ -234,8 +239,7 @@ Confirmed **needs a new/adjusted request** (Phase 2, costed):
   new endpoint. Cheap.
 - `vertical=darkstores`/`shop` — same endpoint, same schema, just a parameter the
   tools don't expose yet. Cheap.
-- Reviews — endpoint is bot-protected (§3); recommend not building this in Phase 3
-  without a clean capture proving it ever returns data unblocked.
+- Reviews — settled in Phase 3 (§3): a clean, isolated request 404s. Not built.
 
 Confirmed **Phase 1 bugs, root-caused to exact lines**: Bug 1 (`menus.ts:328,331`),
 Bug 2 (`search.ts` `scoreMatch`, needs head-noun handling), Bug 3 (`discovery.ts`

@@ -311,7 +311,7 @@ Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-ai-mcp\\dist
 
 ## 🧰 Tools
 
-11 tools. Most accept **either** an `address` **or** `latitude`+`longitude`.
+12 tools. Most accept **either** an `address` **or** `latitude`+`longitude`.
 
 | Tool | What it does | Notes |
 |---|---|---|
@@ -323,12 +323,15 @@ Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-ai-mcp\\dist
 | `check_open_now` | Open/closed for up to 10 restaurants, with next opening time. | Uses each market's local timezone |
 | `list_cuisines` | Cuisines available near a point, with restaurant counts. | Returns ids for `browse_by_cuisine` |
 | `browse_by_cuisine` | Restaurants of one cuisine, filtered server-side. | More precise than a text search |
-| `find_deals` | Restaurants currently advertising a discount, best offers first. | Scans the whole area; restaurant promos only, not voucher codes |
+| `find_deals` | Restaurants currently advertising a discount, best offers first. | Scans the whole area; restaurant promos only — for bank/voucher codes see `foodpanda://voucher-codes` |
 | `resolve_location` | Address → coordinates + which market it's in. | OpenStreetMap; no key needed |
 | `list_markets` | Supported countries with currency and timezone. | Works offline |
+| `export_data` | Bulk dump restaurants, one restaurant's menu, or a deals list, as a CSV or JSON text blob. | Not a search tool — for pasting into a spreadsheet or piping elsewhere; row counts are capped and reported honestly |
 
 **Prompts:** `what_should_i_order`, `cheapest_dish_nearby`, `compare_delivery_options`
-**Resources:** `foodpanda://markets`, `foodpanda://server-info`, `foodpanda://restaurant/{market}/{code}`
+**Resources:** `foodpanda://markets`, `foodpanda://server-info`, `foodpanda://restaurant/{market}/{code}`,
+`foodpanda://voucher-codes` (publicly known Pakistan bank codes — static reference, not live API data, see
+[limitations](#-known-limitations-read-this))
 
 Every tool returns both human-readable text **and** validated structured JSON.
 
@@ -370,7 +373,7 @@ flowchart TD
 
     subgraph Server["foodpanda-ai-mcp"]
         B["Transport<br/><i>stdio · HTTP + /health /ready</i>"]
-        B --> C["11 Tools · 3 Prompts · 3 Resources<br/><i>zod in · structured JSON out</i>"]
+        B --> C["12 Tools · 3 Prompts · 4 Resources<br/><i>zod in · structured JSON out</i>"]
         C --> D["Search & ranking<br/><i>local text match, filters, sorting</i>"]
         C --> E["Adapter layer<br/><b>the only code that knows upstream URLs</b>"]
         E --> F["Normalisation + zod validation<br/><i>degrade, never throw</i>"]
@@ -587,9 +590,13 @@ Consequences of what the upstream API actually supports. Details in
 4. **Prices are indicative.** `get_restaurant` and `get_menu` return the fees needed to
    estimate a total (minimum order, small-order fee, delivery, service fee, VAT) and the
    vendor's deals with their numbers. **Menu prices already include vendor deals — do not
-   subtract an advertised percentage again.** Bank/voucher codes and surge pricing are **not**
-   modelled. Checkout is the only authority.
-5. **No reviews, no order history, no account data.** Not exposed by these endpoints.
+   subtract an advertised percentage again.** Surge pricing is **not** modelled. Bank/voucher
+   codes are not modelled by any tool either — `foodpanda://voucher-codes` lists a couple of
+   publicly known Pakistan bank codes as static reference content (explicitly **not** live API
+   data; its own disclaimer says so). Checkout is the only authority on what any code pays out.
+5. **No reviews, no order history, no account data.** `/vendors/<code>/reviews` and `/ratings`
+   both cleanly 404 — not just bot-protected, genuinely absent. No order history or account data
+   either; none of this is exposed by the discovery endpoints this server reads.
 6. **Thailand is unavailable** (origin DNS failure upstream).
 7. **This cannot order food.** By design, permanently.
 
