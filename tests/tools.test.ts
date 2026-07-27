@@ -446,6 +446,25 @@ describe('resources', () => {
     expect(data.code).toBeTruthy();
     expect(data.menuSummary.itemCount).toBeGreaterThan(0);
   });
+
+  it('serves publicly known Pakistan voucher codes with a clear disclaimer (Phase 3)', async () => {
+    const data = readJson(await client.readResource({ uri: 'foodpanda://voucher-codes' }));
+    expect(data.market).toBe('pk');
+    // Not from the API — this project has no working voucher endpoint. The
+    // disclaimer must say so plainly, matching the project's honesty-about-
+    // data-provenance ethos (D11, D20 etc.) rather than presenting scraped
+    // coupon-site content as live/verified.
+    expect(data.disclaimer).toMatch(/not.*(api|upstream|live)|static|unverified/i);
+    expect(data.disclaimer).toMatch(/checkout/i);
+    const codes = data.codes.map((c: any) => c.code);
+    expect(codes).toContain('HBL25');
+    expect(codes).toContain('ASKARI30');
+    for (const c of data.codes) {
+      expect(c.minOrder, `${c.code} needs minOrder`).toBeTruthy();
+      expect(c.maxDiscount, `${c.code} needs maxDiscount`).toBeTruthy();
+      expect(c.confidence, `${c.code} needs a confidence note`).toBeTruthy();
+    }
+  });
 });
 
 describe('prompts', () => {
