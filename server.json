@@ -1,0 +1,54 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.rehmthegreat/foodpanda-mcp",
+  "title": "foodpanda",
+  "description": "Read-only access to foodpanda restaurant discovery data across 10 markets: search restaurants, read menus and prices, compare delivery fees and minimums, browse cuisines, find deals and check opening hours. No API key, no account, no ordering.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/RehmTheGreat/foodpanda-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://github.com/RehmTheGreat/foodpanda-mcp#readme",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "foodpanda-mcp-server",
+      "version": "0.1.0",
+      "runtimeHint": "npx",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "FOODPANDA_DEFAULT_MARKET",
+          "description": "Default two-letter market code used when a tool call does not specify one. One of: pk, bd, my, sg, ph, tw, hk, kh, la, mm.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "pk"
+        },
+        {
+          "name": "LOG_LEVEL",
+          "description": "Logging verbosity: error, warn, info, debug or silent. Logs are written to stderr only.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "info"
+        },
+        {
+          "name": "FOODPANDA_RATE_LIMIT_RPS",
+          "description": "Sustained upstream requests per second. Kept low on purpose: the upstream menu host is bot-protected and blocks busy IP addresses.",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "2"
+        },
+        {
+          "name": "CACHE_BACKEND",
+          "description": "Cache backend: 'memory' (default, zero config) or 'redis' (requires REDIS_URL and 'npm install redis').",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "memory"
+        }
+      ]
+    }
+  ]
+}

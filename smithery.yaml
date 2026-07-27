@@ -1,0 +1,48 @@
+# Smithery deployment descriptor — https://smithery.ai/docs/build/project-config/smithery.yaml
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: []
+    properties:
+      defaultMarket:
+        type: string
+        title: Default market
+        description: >-
+          Two-letter country code used when a request does not specify one.
+          Supported: pk, bd, my, sg, ph, tw, hk, kh, la, mm.
+        enum: [pk, bd, my, sg, ph, tw, hk, kh, la, mm]
+        default: pk
+      logLevel:
+        type: string
+        title: Log level
+        description: Logging verbosity. Logs go to stderr only.
+        enum: [error, warn, info, debug, silent]
+        default: info
+      rateLimitRps:
+        type: number
+        title: Upstream requests per second
+        description: >-
+          Kept low deliberately — the upstream menu host is behind bot protection
+          that blocks busy IP addresses. Raising this makes blocks more likely.
+        default: 2
+        minimum: 1
+        maximum: 20
+  commandFunction: |-
+    (config) => ({
+      command: 'node',
+      args: ['dist/index.js', '--stdio'],
+      env: {
+        FOODPANDA_DEFAULT_MARKET: config.defaultMarket || 'pk',
+        LOG_LEVEL: config.logLevel || 'info',
+        FOODPANDA_RATE_LIMIT_RPS: String(config.rateLimitRps || 2),
+        MCP_TRANSPORT: 'stdio'
+      }
+    })
+  exampleConfig:
+    defaultMarket: pk
+    logLevel: info
+    rateLimitRps: 2
+
+build:
+  dockerfile: Dockerfile
