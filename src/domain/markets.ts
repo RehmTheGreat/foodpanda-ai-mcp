@@ -20,6 +20,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Karachi',
     decimalDigits: 0,
+    webHost: 'foodpanda.pk',
   },
   bd: {
     code: 'bd',
@@ -29,6 +30,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Dhaka',
     decimalDigits: 0,
+    webHost: 'foodpanda.com.bd',
   },
   my: {
     code: 'my',
@@ -38,6 +40,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Kuala_Lumpur',
     decimalDigits: 2,
+    webHost: 'foodpanda.my',
   },
   sg: {
     code: 'sg',
@@ -47,6 +50,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Singapore',
     decimalDigits: 2,
+    webHost: 'foodpanda.sg',
   },
   ph: {
     code: 'ph',
@@ -56,6 +60,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Manila',
     decimalDigits: 2,
+    webHost: 'foodpanda.ph',
   },
   tw: {
     code: 'tw',
@@ -65,6 +70,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Taipei',
     decimalDigits: 0,
+    webHost: 'foodpanda.com.tw',
   },
   hk: {
     code: 'hk',
@@ -74,6 +80,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Hong_Kong',
     decimalDigits: 1,
+    webHost: 'foodpanda.hk',
   },
   kh: {
     code: 'kh',
@@ -83,6 +90,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Phnom_Penh',
     decimalDigits: 2,
+    webHost: 'foodpanda.com.kh',
   },
   la: {
     code: 'la',
@@ -92,6 +100,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Vientiane',
     decimalDigits: 0,
+    webHost: 'foodpanda.la',
   },
   mm: {
     code: 'mm',
@@ -101,6 +110,7 @@ export const MARKETS: Record<string, Market> = {
     currencyPosition: 'left',
     timezone: 'Asia/Yangon',
     decimalDigits: 0,
+    webHost: 'foodpanda.com.mm',
   },
 };
 

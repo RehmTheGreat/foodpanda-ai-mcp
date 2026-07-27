@@ -17,6 +17,13 @@ export interface Market {
   currencyPosition?: 'left' | 'right';
   timezone?: string;
   decimalDigits?: number;
+  /**
+   * Public website host for this market, e.g. `foodpanda.pk`. Used only as a
+   * fallback when a vendor payload carries no absolute link of its own. The
+   * suffix is genuinely irregular (`foodpanda.my` but `foodpanda.com.bd`), so
+   * these are read from live `web_path` values rather than derived from a rule.
+   */
+  webHost?: string;
 }
 
 export interface Coordinates {
@@ -83,6 +90,28 @@ export interface OpenStatus {
   scheduleUnavailable: boolean;
 }
 
+/**
+ * The charges that sit on top of menu prices.
+ *
+ * IMPORTANT: menu item prices already reflect vendor-level deals and discounts.
+ * These fees are additive on top of the basket; the discounts are NOT — applying
+ * an advertised percentage to a menu price double-counts it.
+ */
+export interface Fees {
+  /** Basket value below which `smallOrderFee` applies. */
+  minimumOrderAmount?: number;
+  /** Surcharge added when the basket is under the minimum. */
+  smallOrderFee?: number;
+  deliveryFee?: number;
+  /** Whether the vendor charges a service fee at all. */
+  isServiceFeeEnabled?: boolean;
+  serviceFeePercent?: number;
+  vatPercent?: number;
+  /** When true, VAT is already inside the menu price and must not be added. */
+  isVatIncludedInPrice?: boolean;
+  isVatVisible?: boolean;
+}
+
 export interface Restaurant {
   code: string;
   id: number;
@@ -117,6 +146,8 @@ export interface Restaurant {
   hasDiscount: boolean;
   discounts: Discount[];
   deals: Deal[];
+  /** Charges on top of the basket. See the Fees doc comment on double-counting. */
+  fees?: Fees;
   schedules?: ScheduleEntry[];
   openStatus?: OpenStatus;
   /** Public web page for the restaurant, when derivable. */
