@@ -95,7 +95,7 @@ export interface Config {
   userAgent: string;
 }
 
-export const SERVER_NAME = 'foodpanda-mcp-server';
+export const SERVER_NAME = 'foodpanda-ai-mcp';
 export const SERVER_VERSION = '0.1.0';
 
 /**
@@ -103,7 +103,7 @@ export const SERVER_VERSION = '0.1.0';
  * the project is named, versioned and linkable so operators can identify and
  * contact the source of the traffic.
  */
-const UA = `${SERVER_NAME}/${SERVER_VERSION} (+https://github.com/RehmTheGreat/foodpanda-mcp)`;
+const UA = `${SERVER_NAME}/${SERVER_VERSION} (+https://github.com/RehmTheGreat/foodpanda-ai-mcp)`;
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
   const parsed = EnvSchema.safeParse(env);

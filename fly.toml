@@ -1,5 +1,5 @@
 # fly.io deployment. Run `fly launch --no-deploy` once to set app/region, then `fly deploy`.
-app = "foodpanda-mcp"
+app = "foodpanda-ai-mcp"
 primary_region = "sin"   # Singapore: closest region to the supported markets
 
 [build]

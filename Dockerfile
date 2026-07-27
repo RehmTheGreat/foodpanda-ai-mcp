@@ -40,5 +40,5 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
   CMD node -e "fetch('http://127.0.0.1:'+(process.env.PORT||3000)+'/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 # Default to HTTP because that is what containers are useful for. For stdio,
-# run: docker run -i --rm foodpanda-mcp node dist/index.js --stdio
+# run: docker run -i --rm foodpanda-ai-mcp node dist/index.js --stdio
 CMD ["node", "dist/index.js", "--http"]

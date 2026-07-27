@@ -1,11 +1,11 @@
 <div align="center">
 
-# 🐼 foodpanda-mcp
+# 🐼 foodpanda-ai-mcp
 
 **Ask your AI assistant what's good to eat near you — and get real answers, from real menus, at real prices.**
 
-[![CI](https://github.com/RehmTheGreat/foodpanda-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/RehmTheGreat/foodpanda-mcp/actions/workflows/ci.yml)
-[![npm version](https://img.shields.io/npm/v/foodpanda-mcp-server.svg)](https://www.npmjs.com/package/foodpanda-mcp-server)
+[![CI](https://github.com/RehmTheGreat/foodpanda-ai-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/RehmTheGreat/foodpanda-ai-mcp/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/foodpanda-ai-mcp.svg)](https://www.npmjs.com/package/foodpanda-ai-mcp)
 [![node](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![MCP](https://img.shields.io/badge/MCP-1.29-blue.svg)](https://modelcontextprotocol.io)
@@ -176,7 +176,7 @@ Fastest route: **Claude Desktop → Settings → Developer → Edit Config**.
   "mcpServers": {
     "foodpanda": {
       "command": "npx",
-      "args": ["-y", "foodpanda-mcp-server"]
+      "args": ["-y", "foodpanda-ai-mcp"]
     }
   }
 }
@@ -192,7 +192,7 @@ Windows sometimes cannot resolve `npx` from Claude Desktop. Use `cmd` instead:
   "mcpServers": {
     "foodpanda": {
       "command": "cmd",
-      "args": ["/c", "npx", "-y", "foodpanda-mcp-server"]
+      "args": ["/c", "npx", "-y", "foodpanda-ai-mcp"]
     }
   }
 }
@@ -207,7 +207,7 @@ Windows sometimes cannot resolve `npx` from Claude Desktop. Use `cmd` instead:
   "mcpServers": {
     "foodpanda": {
       "command": "npx",
-      "args": ["-y", "foodpanda-mcp-server"],
+      "args": ["-y", "foodpanda-ai-mcp"],
       "env": { "FOODPANDA_DEFAULT_MARKET": "sg" }
     }
   }
@@ -227,13 +227,13 @@ Windows sometimes cannot resolve `npx` from Claude Desktop. Use `cmd` instead:
 One command:
 
 ```bash
-claude mcp add foodpanda -- npx -y foodpanda-mcp-server
+claude mcp add foodpanda -- npx -y foodpanda-ai-mcp
 ```
 
 Then `claude mcp list` to confirm. To make it available in every project:
 
 ```bash
-claude mcp add --scope user foodpanda -- npx -y foodpanda-mcp-server
+claude mcp add --scope user foodpanda -- npx -y foodpanda-ai-mcp
 ```
 
 ---
@@ -247,7 +247,7 @@ Create `.cursor/mcp.json` in your project (or `~/.cursor/mcp.json` for all proje
   "mcpServers": {
     "foodpanda": {
       "command": "npx",
-      "args": ["-y", "foodpanda-mcp-server"]
+      "args": ["-y", "foodpanda-ai-mcp"]
     }
   }
 }
@@ -265,7 +265,7 @@ Run the server in HTTP mode and point the client at `/mcp`.
 Locally:
 
 ```bash
-npx -y foodpanda-mcp-server --http
+npx -y foodpanda-ai-mcp --http
 # → http://localhost:3000/mcp
 ```
 
@@ -280,7 +280,7 @@ Almost every client accepts the same command/args pair:
 ```json
 {
   "command": "npx",
-  "args": ["-y", "foodpanda-mcp-server"]
+  "args": ["-y", "foodpanda-ai-mcp"]
 }
 ```
 </details>
@@ -289,8 +289,8 @@ Almost every client accepts the same command/args pair:
 <summary>Run from source instead of npx</summary>
 
 ```bash
-git clone https://github.com/RehmTheGreat/foodpanda-mcp.git
-cd foodpanda-mcp
+git clone https://github.com/RehmTheGreat/foodpanda-ai-mcp.git
+cd foodpanda-ai-mcp
 npm install && npm run build
 ```
 
@@ -299,12 +299,12 @@ npm install && npm run build
   "mcpServers": {
     "foodpanda": {
       "command": "node",
-      "args": ["/absolute/path/to/foodpanda-mcp/dist/index.js"]
+      "args": ["/absolute/path/to/foodpanda-ai-mcp/dist/index.js"]
     }
   }
 }
 ```
-Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-mcp\\dist\\index.js"`.
+Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-ai-mcp\\dist\\index.js"`.
 </details>
 
 ---
@@ -368,7 +368,7 @@ flowchart TD
 
     A -->|stdio or streamable HTTP| B
 
-    subgraph Server["foodpanda-mcp-server"]
+    subgraph Server["foodpanda-ai-mcp"]
         B["Transport<br/><i>stdio · HTTP + /health /ready</i>"]
         B --> C["11 Tools · 3 Prompts · 3 Resources<br/><i>zod in · structured JSON out</i>"]
         C --> D["Search & ranking<br/><i>local text match, filters, sorting</i>"]
@@ -438,8 +438,8 @@ Full annotated list: [.env.example](.env.example).
 ### Docker
 
 ```bash
-docker build -t foodpanda-mcp .
-docker run -p 3000:3000 foodpanda-mcp
+docker build -t foodpanda-ai-mcp .
+docker run -p 3000:3000 foodpanda-ai-mcp
 curl http://localhost:3000/health
 ```
 
@@ -500,7 +500,7 @@ Config: [`fly.toml`](fly.toml).
    - Windows: `%APPDATA%\Claude\logs\`
 5. Test the server by hand — it should print JSON and wait:
    ```bash
-   npx -y foodpanda-mcp-server --help
+   npx -y foodpanda-ai-mcp --help
    ```
 </details>
 
@@ -590,8 +590,8 @@ Consequences of what the upstream API actually supports. Details in
 ## 🛠 Development
 
 ```bash
-git clone https://github.com/RehmTheGreat/foodpanda-mcp.git
-cd foodpanda-mcp
+git clone https://github.com/RehmTheGreat/foodpanda-ai-mcp.git
+cd foodpanda-ai-mcp
 npm install
 
 npm run verify        # lint + typecheck + tests

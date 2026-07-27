@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: foodpanda-mcp
+    name: foodpanda-ai-mcp
     runtime: node
     plan: free
     buildCommand: npm ci && npm run build

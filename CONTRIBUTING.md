@@ -13,8 +13,8 @@ of the project, not an oversight. See [DECISIONS.md](DECISIONS.md#d11).
 ## Getting set up
 
 ```bash
-git clone https://github.com/RehmTheGreat/foodpanda-mcp.git
-cd foodpanda-mcp
+git clone https://github.com/RehmTheGreat/foodpanda-ai-mcp.git
+cd foodpanda-ai-mcp
 npm install
 npm run verify     # lint + typecheck + test
 ```

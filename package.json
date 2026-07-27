@@ -1,5 +1,5 @@
 {
-  "name": "foodpanda-mcp-server",
+  "name": "foodpanda-ai-mcp",
   "version": "0.1.0",
   "description": "Unofficial MCP server for foodpanda / Delivery Hero public discovery data — search restaurants, menus, fees and deals across 10 markets. Read-only, no API key, no account, no ordering.",
   "keywords": [
@@ -16,13 +16,13 @@
     "anthropic",
     "mcp-server"
   ],
-  "homepage": "https://github.com/RehmTheGreat/foodpanda-mcp#readme",
+  "homepage": "https://github.com/RehmTheGreat/foodpanda-ai-mcp#readme",
   "bugs": {
-    "url": "https://github.com/RehmTheGreat/foodpanda-mcp/issues"
+    "url": "https://github.com/RehmTheGreat/foodpanda-ai-mcp/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RehmTheGreat/foodpanda-mcp.git"
+    "url": "git+https://github.com/RehmTheGreat/foodpanda-ai-mcp.git"
   },
   "license": "MIT",
   "author": "RehmTheGreat",
@@ -40,8 +40,7 @@
     }
   },
   "bin": {
-    "foodpanda-mcp-server": "./dist/index.js",
-    "foodpanda-mcp": "./dist/index.js"
+    "foodpanda-ai-mcp": "./dist/index.js"
   },
   "files": [
     "dist",

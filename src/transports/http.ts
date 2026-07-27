@@ -165,7 +165,7 @@ export async function startHttp(): Promise<void> {
       mcpEndpoint: '/mcp',
       health: '/health',
       readiness: '/ready',
-      documentation: 'https://github.com/RehmTheGreat/foodpanda-mcp',
+      documentation: 'https://github.com/RehmTheGreat/foodpanda-ai-mcp',
     });
   });
 

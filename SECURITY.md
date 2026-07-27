@@ -5,7 +5,7 @@
 Please **do not open a public issue** for a security problem.
 
 Use GitHub's private reporting: **Security → Report a vulnerability** on
-[this repository](https://github.com/RehmTheGreat/foodpanda-mcp/security/advisories/new).
+[this repository](https://github.com/RehmTheGreat/foodpanda-ai-mcp/security/advisories/new).
 
 Include what the issue is, how to reproduce it, and what an attacker could achieve. Expect an
 acknowledgement within a few days. Please give a reasonable window to ship a fix before

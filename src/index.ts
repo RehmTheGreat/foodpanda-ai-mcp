@@ -10,7 +10,7 @@ const HELP = `${SERVER_NAME} v${SERVER_VERSION}
 Unofficial MCP server for foodpanda public discovery data. Read-only.
 
 USAGE
-  foodpanda-mcp [--stdio | --http] [--help] [--version]
+  foodpanda-ai-mcp [--stdio | --http] [--help] [--version]
 
 TRANSPORTS
   --stdio   JSON-RPC over stdin/stdout (default). For Claude Desktop, Claude Code, Cursor.
@@ -24,7 +24,7 @@ ENVIRONMENT
   See .env.example for the full list. Every value is optional.
 
 No API key is required. This server cannot order food or access any account.
-Docs: https://github.com/RehmTheGreat/foodpanda-mcp`;
+Docs: https://github.com/RehmTheGreat/foodpanda-ai-mcp`;
 
 async function main(): Promise<void> {
   const argv = process.argv.slice(2);

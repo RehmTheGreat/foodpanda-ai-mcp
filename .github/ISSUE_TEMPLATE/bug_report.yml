@@ -51,7 +51,7 @@ body:
     id: version
     attributes:
       label: Server version
-      description: From `foodpanda://server-info` or `npx foodpanda-mcp-server --version`
+      description: From `foodpanda://server-info` or `npx foodpanda-ai-mcp --version`
       placeholder: 0.1.0
     validations:
       required: true

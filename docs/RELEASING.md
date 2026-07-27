@@ -2,7 +2,7 @@
 
 ## Publishing to npm
 
-The package is `foodpanda-mcp-server` (the unscoped name `foodpanda-mcp` was already taken
+The package is `foodpanda-ai-mcp` (the unscoped name `foodpanda-mcp` was already taken
 by an unrelated project — see [DECISIONS.md](../DECISIONS.md#d5)).
 
 Everything needed to publish is already configured: `files`, `bin`, `exports`, `engines`,
@@ -36,14 +36,14 @@ nothing else. No sources, no tests, no fixtures, no research directory.
 ### Verifying a published version
 
 ```bash
-npx -y foodpanda-mcp-server@latest --version
-npx -y foodpanda-mcp-server@latest --help
+npx -y foodpanda-ai-mcp@latest --version
+npx -y foodpanda-ai-mcp@latest --help
 ```
 
 Then confirm a real client can drive it:
 
 ```bash
-claude mcp add foodpanda -- npx -y foodpanda-mcp-server
+claude mcp add foodpanda -- npx -y foodpanda-ai-mcp
 ```
 
 ## Cutting a version
@@ -72,7 +72,7 @@ claude mcp add foodpanda -- npx -y foodpanda-mcp-server
 
 - **MCP Registry** — publish `server.json` with the
   [registry CLI](https://github.com/modelcontextprotocol/registry). The name
-  `io.github.rehmthegreat/foodpanda-mcp` is under the publisher's GitHub namespace, so
+  `io.github.rehmthegreat/foodpanda-ai-mcp` is under the publisher's GitHub namespace, so
   authentication is via GitHub.
 - **Smithery** — connect the repository at [smithery.ai](https://smithery.ai); it reads
   `smithery.yaml` from the repo root.

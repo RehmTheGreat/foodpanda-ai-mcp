@@ -62,14 +62,14 @@ jobs:
           context: .
           push: false
           load: true
-          tags: foodpanda-mcp:ci
+          tags: foodpanda-ai-mcp:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
       # Building is not enough - prove the container actually serves traffic.
       - name: Run container and check /health
         run: |
-          docker run -d --name fp -p 3000:3000 foodpanda-mcp:ci
+          docker run -d --name fp -p 3000:3000 foodpanda-ai-mcp:ci
           for i in $(seq 1 30); do
             if curl -fsS http://localhost:3000/health > /tmp/health.json; then
               echo "healthy after ${i}s"; cat /tmp/health.json; exit 0

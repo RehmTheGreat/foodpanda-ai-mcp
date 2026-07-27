@@ -35,13 +35,17 @@ npm shows `@modelcontextprotocol/sdk` at `latest = 1.29.0` while the v2 packages
 SDK, so v1.29.0 it is. Note the v1 API takes a **raw zod shape** for `inputSchema`, not a
 `z.object(...)`.
 
-### D5 — npm package name is `foodpanda-mcp-server`
+### D5 — the project is named `foodpanda-ai-mcp`, repo and package alike
 
-`foodpanda-mcp` is **already taken** on npm (v1.2.1, by John Carlo Joyo — a PH-only server
-that performs authenticated *ordering*). Different project, genuinely different scope. This
-one publishes as `foodpanda-mcp-server` and installs a `foodpanda-mcp` binary alias, so
-`npx foodpanda-mcp-server` and the `foodpanda-mcp` command both work. The GitHub repo keeps
-the requested name `foodpanda-mcp`.
+The obvious name, `foodpanda-mcp`, is **already taken** on npm (v1.2.1, by John Carlo Joyo —
+a PH-only server that performs authenticated *ordering*). Different project, genuinely
+different scope, but the name is spoken for.
+
+`foodpanda-ai-mcp` is free, so the GitHub repository and the npm package share it. That keeps
+one name for the whole project and makes `npx foodpanda-ai-mcp` work directly, with no scope
+prefix, no `-server` suffix and no possibility of being confused with the unrelated package.
+A single binary is installed, `foodpanda-ai-mcp`; no alias is registered under the other
+project's name.
 
 ### D6 — Text search is implemented client-side
 
@@ -156,6 +160,26 @@ command for the owner to run.
 
 `server.json` follows the MCP registry schema
 (`https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json`) with a
-reverse-DNS name under the publisher's GitHub namespace, `io.github.rehmthegreat/foodpanda-mcp`.
+reverse-DNS name under the publisher's GitHub namespace, `io.github.rehmthegreat/foodpanda-ai-mcp`.
 `smithery.yaml` uses the stdio `commandFunction` form. Both were written against the current
 published schemas rather than from memory.
+
+### D19 — Renamed to `foodpanda-ai-mcp` before first publish
+
+The project was originally pushed as repo `foodpanda-mcp` with the package name
+`foodpanda-mcp-server`, then renamed at the owner's request.
+
+Because nothing had been published to npm yet, the rename was free and worth taking further
+than the repository: the npm name `foodpanda-ai-mcp` was available, so repo and package now
+share one name. That is strictly better than the original split — `npx foodpanda-ai-mcp`
+works with no suffix, and there is no longer any binary registered under a name belonging to
+the unrelated `foodpanda-mcp` package.
+
+Renamed everywhere in one pass: package and binary names, repository URLs, the MCP registry
+identifier (`io.github.rehmthegreat/foodpanda-ai-mcp`), Docker image tags and compose service,
+Fly and Render app names, the server's `SERVER_NAME` and User-Agent, and every README config
+block. The two documented references to the *other* project's `foodpanda-mcp` npm package were
+deliberately left intact, since renaming those would have falsified the history.
+
+GitHub redirects the old repository URL, so existing links keep working. The npm badge and
+install instructions point at the new name, which is the one that will be published.

@@ -1,7 +1,7 @@
 services:
-  foodpanda-mcp:
+  foodpanda-ai-mcp:
     build: .
-    image: foodpanda-mcp:latest
+    image: foodpanda-ai-mcp:latest
     ports:
       - "3000:3000"
     environment:
