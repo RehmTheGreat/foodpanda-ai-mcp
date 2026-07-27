@@ -3,6 +3,7 @@ import { getMarket } from './markets.js';
 import type {
   Deal,
   Discount,
+  Fees,
   Menu,
   MenuCategory,
   MenuItem,
@@ -99,10 +100,13 @@ function normalizeDiscounts(raw: unknown): Discount[] {
           out.amount = amount;
         }
       }
+      // Upstream writes 0 for "no minimum" and "no cap". Passing that through
+      // renders as "capped at Rs.0", which reads as a worthless discount, so
+      // treat 0 as absent for these two fields.
       const minOrder = n(d?.minimum_order_value);
-      if (minOrder !== undefined) out.minimumOrderValue = minOrder;
+      if (minOrder !== undefined && minOrder > 0) out.minimumOrderValue = minOrder;
       const maxDisc = n(d?.maximum_discount_amount);
-      if (maxDisc !== undefined) out.maximumDiscountAmount = maxDisc;
+      if (maxDisc !== undefined && maxDisc > 0) out.maximumDiscountAmount = maxDisc;
       return out;
     })
     .filter((x): x is Discount => x !== undefined);
@@ -119,10 +123,11 @@ function normalizeDeals(raw: unknown): Deal[] {
       if (desc && desc !== title) out.description = desc;
       const type = s(d?.offer_type) ?? s(d?.type);
       if (type) out.type = type;
+      // As above: 0 means "none", not "zero".
       const minOrder = n(d?.minimum_order_value);
-      if (minOrder !== undefined) out.minimumOrderValue = minOrder;
+      if (minOrder !== undefined && minOrder > 0) out.minimumOrderValue = minOrder;
       const maxDisc = n(d?.maximum_discount_amount);
-      if (maxDisc !== undefined) out.maximumDiscountAmount = maxDisc;
+      if (maxDisc !== undefined && maxDisc > 0) out.maximumDiscountAmount = maxDisc;
       const value = n(d?.value);
       if (value !== undefined) out.value = value;
       if (b(d?.is_pro) !== undefined) out.isProOnly = b(d?.is_pro);
@@ -134,7 +139,7 @@ function normalizeDeals(raw: unknown): Deal[] {
 
 export function normalizeSchedules(raw: unknown): ScheduleEntry[] | undefined {
   if (!Array.isArray(raw)) return undefined;
-  const out = raw
+  const mapped = raw
     .map((sc: any): ScheduleEntry | undefined => {
       const weekday = n(sc?.weekday);
       const opensAt = s(sc?.opening_time);
@@ -143,6 +148,19 @@ export function normalizeSchedules(raw: unknown): ScheduleEntry[] | undefined {
       return { weekday, openingType: s(sc?.opening_type) ?? 'delivering', opensAt, closesAt };
     })
     .filter((x): x is ScheduleEntry => x !== undefined);
+
+  // Upstream repeats the full week (observed: 28 entries covering 14 distinct
+  // windows), which rendered every opening time twice. Collapse identical
+  // windows and present them in weekday order.
+  const seen = new Set<string>();
+  const out = mapped.filter((e) => {
+    const key = `${e.weekday}|${e.openingType}|${e.opensAt}|${e.closesAt}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+  out.sort((a, b) => a.weekday - b.weekday || a.opensAt.localeCompare(b.opensAt));
+
   return out.length ? out : undefined;
 }
 
@@ -157,12 +175,94 @@ function cityName(raw: unknown): string | undefined {
   return undefined;
 }
 
+/**
+ * Public link for a vendor.
+ *
+ * `web_path` and `redirection_url` are **already absolute URLs** upstream, and
+ * they differ between endpoints for the same vendor: listing responses return
+ * `https://foodpanda.pk/restaurant/...` while detail responses return
+ * `https://www.foodpanda.pk/restaurant/...`. An earlier version treated them as
+ * paths and prefixed a host, producing
+ * `https://www.foodpanda.pk/https://foodpanda.pk/restaurant/...` — every emitted
+ * link was broken.
+ *
+ * So: use what upstream gives us when it is already a URL, and only build one
+ * ourselves when it is not. Anything that does not end up a valid http(s) URL is
+ * omitted rather than guessed at.
+ */
 function vendorUrl(v: any, market: string): string | undefined {
-  const path = s(v?.web_path) ?? (s(v?.url_key) && s(v?.code) ? `/restaurant/${s(v.code)}/${s(v.url_key)}` : undefined);
-  if (!path) return undefined;
-  const host = market === 'pk' ? 'www.foodpanda.pk' : `www.foodpanda.${market === 'sg' || market === 'my' || market === 'ph' || market === 'hk' || market === 'tw' || market === 'th' ? 'com' : ''}`;
-  // Only emit a URL we are confident about; otherwise omit rather than guess.
-  return market === 'pk' ? `https://${host}${path.startsWith('/') ? path : `/${path}`}` : undefined;
+  const candidate = s(v?.web_path) ?? s(v?.redirection_url);
+
+  if (candidate) {
+    // Already absolute — take it as-is.
+    if (/^https?:\/\//i.test(candidate)) return safeUrl(candidate);
+    // Protocol-relative ("//host/path").
+    if (candidate.startsWith('//')) return safeUrl(`https:${candidate}`);
+    // Anything else carrying a scheme is not a path. Refuse it rather than
+    // gluing it onto the host, which would turn "javascript:..." into a
+    // plausible-looking but nonsensical link.
+    if (/^[a-z][a-z0-9+.-]*:/i.test(candidate)) return undefined;
+    // A genuine path: join it to the market host.
+    const host = getMarket(market)?.webHost;
+    if (host) return safeUrl(`https://${host}/${candidate.replace(/^\/+/, '')}`);
+    return undefined;
+  }
+
+  // No link at all: reconstruct from the vendor code and slug.
+  const code = s(v?.code);
+  const slug = s(v?.url_key);
+  const host = getMarket(market)?.webHost;
+  if (!code || !slug || !host) return undefined;
+  return safeUrl(`https://${host}/restaurant/${code}/${slug}`);
+}
+
+/**
+ * Extract the charges needed to estimate an order total.
+ *
+ * The same field names appear on both the listing and the detail payload, so one
+ * mapper serves both; whichever fields the payload happens to carry get through.
+ * Returns undefined when nothing at all was present, so the caller can omit the
+ * object rather than emit a bag of undefineds.
+ */
+function normalizeFees(v: any): Fees | undefined {
+  const fees: Fees = {};
+
+  const minOrder = n(v?.minimum_order_amount);
+  if (minOrder !== undefined) fees.minimumOrderAmount = minOrder;
+
+  const smallOrder = n(v?.small_order_fee);
+  if (smallOrder !== undefined) fees.smallOrderFee = smallOrder;
+
+  const delivery = n(v?.minimum_delivery_fee) ?? n(v?.delivery_fee);
+  if (delivery !== undefined) fees.deliveryFee = delivery;
+
+  const serviceEnabled = b(v?.is_service_fee_enabled);
+  if (serviceEnabled !== undefined) fees.isServiceFeeEnabled = serviceEnabled;
+
+  const servicePct = n(v?.service_fee_percentage_amount);
+  if (servicePct !== undefined) fees.serviceFeePercent = servicePct;
+
+  const vatPct = n(v?.vat_percentage_amount);
+  if (vatPct !== undefined) fees.vatPercent = vatPct;
+
+  const vatIncluded = b(v?.is_vat_included_in_product_price);
+  if (vatIncluded !== undefined) fees.isVatIncludedInPrice = vatIncluded;
+
+  const vatVisible = b(v?.is_vat_visible);
+  if (vatVisible !== undefined) fees.isVatVisible = vatVisible;
+
+  return Object.keys(fees).length > 0 ? fees : undefined;
+}
+
+/** Return the URL only if it actually parses as http(s); never emit a broken link. */
+function safeUrl(candidate: string): string | undefined {
+  try {
+    const u = new URL(candidate);
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return undefined;
+    return u.toString();
+  } catch {
+    return undefined;
+  }
 }
 
 export function normalizeRestaurant(v: any, market: string, opts: { computeOpen?: boolean } = {}): Restaurant {
@@ -239,6 +339,9 @@ export function normalizeRestaurant(v: any, market: string, opts: { computeOpen?
   if (vertical) r.vertical = vertical;
   const url = vendorUrl(v, market);
   if (url) r.url = url;
+
+  const fees = normalizeFees(v);
+  if (fees) r.fees = fees;
 
   if (schedules) {
     r.schedules = schedules;
