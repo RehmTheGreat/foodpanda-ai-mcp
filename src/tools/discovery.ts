@@ -171,11 +171,11 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
           cuisineId !== undefined
             ? await ctx.foodpanda.listAllVendors(
                 { latitude: loc.latitude, longitude: loc.longitude, market, cuisineId },
-                { maxTotal: 100 },
+                { maxTotal: ctx.config.maxScan },
               )
             : await ctx.foodpanda.listAllVendors(
                 { latitude: loc.latitude, longitude: loc.longitude, market },
-                { maxTotal: 100 },
+                { maxTotal: ctx.config.maxScan },
               );
 
         let list = listing.restaurants;
@@ -240,7 +240,17 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
           .describe('Only restaurants open right now. Costs one extra lookup per candidate, so it is slower.'),
         minRating: z.number().min(0).max(5).optional().describe('Minimum average rating.'),
         limit: z.number().int().min(1).max(40).default(15).describe('How many restaurants to return.'),
-        scanLimit: z.number().int().min(20).max(200).default(100).describe('How many nearby restaurants to scan.'),
+        scanLimit: z
+          .number()
+          .int()
+          .min(20)
+          .max(2000)
+          .optional()
+          .describe(
+            'How many nearby restaurants to scan. Omit to scan everything available (up to ' +
+            'FOODPANDA_MAX_SCAN, default 600) so the deal list is complete rather than a sample. ' +
+            'Listing pages are cheap and not rate-limited.',
+          ),
       },
       outputSchema: {
         restaurants: z.array(
@@ -256,6 +266,7 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
         ),
         matched: z.number(),
         scanned: z.number(),
+        scanComplete: z.boolean(),
         meta: metaShape,
       },
     },
@@ -266,7 +277,7 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
 
         const listing = await ctx.foodpanda.listAllVendors(
           { latitude: loc.latitude, longitude: loc.longitude, market },
-          { maxTotal: input.scanLimit },
+          { maxTotal: input.scanLimit ?? ctx.config.maxScan },
         );
 
         const dealWarnings = [...listing.warnings];
@@ -299,11 +310,13 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
 
         if (page.length === 0) {
           return toolResult(
-            `No restaurants near ${loc.displayName} are advertising a discount right now (scanned ${listing.restaurants.length}).`,
+            `No restaurants near ${loc.displayName} are advertising a discount right now ` +
+              `(scanned ${listing.restaurants.length} of ${listing.availableCount} nearby).`,
             {
               restaurants: [],
               matched: 0,
               scanned: listing.restaurants.length,
+              scanComplete: listing.complete === true,
               meta: buildMeta(market, 'foodpanda', dealWarnings),
             },
           );
@@ -323,9 +336,12 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
           return `${i + 1}. ${r.name} (${r.code})\n   ${bits}\n   ${offers.map((o) => `🏷 ${o}`).join('\n   ')}`;
         });
 
+        const coverage = listing.complete
+          ? `scanned all ${listing.availableCount} nearby`
+          : `scanned ${listing.restaurants.length} of ${listing.availableCount} nearby`;
         const text =
           `${withDeals.length} restaurants near ${loc.displayName} have active offers ` +
-          `(scanned ${listing.restaurants.length}). Top ${page.length}:\n\n${lines.join('\n\n')}`;
+          `(${coverage}). Top ${page.length}:\n\n${lines.join('\n\n')}`;
 
         return toolResult(text, {
           restaurants: page.map(({ r }) => ({
@@ -339,6 +355,7 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
           })),
           matched: withDeals.length,
           scanned: listing.restaurants.length,
+          scanComplete: listing.complete === true,
           meta: buildMeta(market, 'foodpanda', dealWarnings),
         });
       } catch (err) {
