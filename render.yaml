@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: foodpanda-mcp
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: node dist/index.js --http
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: MCP_TRANSPORT
+        value: http
+      - key: LOG_LEVEL
+        value: info
+      - key: FOODPANDA_DEFAULT_MARKET
+        value: pk
+      # Render injects PORT; the server reads it automatically.

@@ -1,0 +1,33 @@
+services:
+  foodpanda-mcp:
+    build: .
+    image: foodpanda-mcp:latest
+    ports:
+      - "3000:3000"
+    environment:
+      MCP_TRANSPORT: http
+      PORT: 3000
+      LOG_LEVEL: info
+      FOODPANDA_DEFAULT_MARKET: pk
+      # Uncomment together with the redis service below for a shared cache.
+      # CACHE_BACKEND: redis
+      # REDIS_URL: redis://redis:6379
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # Optional shared cache. Only useful when running several instances, since the
+  # default in-memory cache is per-process. Requires `npm install redis` in the
+  # image (redis is an optional dependency, not installed by default).
+  # redis:
+  #   image: redis:7-alpine
+  #   restart: unless-stopped
+  #   command: ["redis-server", "--save", "", "--appendonly", "no"]
