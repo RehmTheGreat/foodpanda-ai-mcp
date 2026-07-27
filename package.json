@@ -1,6 +1,6 @@
 {
   "name": "foodpanda-ai-mcp",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Unofficial MCP server for foodpanda / Delivery Hero public discovery data — search restaurants, menus, fees and deals across 10 markets. Read-only, no API key, no account, no ordering.",
   "keywords": [
     "mcp",
@@ -40,7 +40,7 @@
     }
   },
   "bin": {
-    "foodpanda-ai-mcp": "./dist/index.js"
+    "foodpanda-ai-mcp": "dist/index.js"
   },
   "files": [
     "dist",

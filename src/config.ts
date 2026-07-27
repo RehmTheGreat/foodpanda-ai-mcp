@@ -110,7 +110,7 @@ export interface Config {
 }
 
 export const SERVER_NAME = 'foodpanda-ai-mcp';
-export const SERVER_VERSION = '0.2.0';
+export const SERVER_VERSION = '0.2.1';
 
 /**
  * A polite, honest, identifying User-Agent. We do not impersonate a browser:
