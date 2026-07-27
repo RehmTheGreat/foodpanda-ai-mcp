@@ -35,6 +35,17 @@ export function scoreMatch(haystack: string, queryTokens: string[], phrase: stri
   const hay = normalizeText(haystack);
   if (!hay) return 0;
 
+  // For a multi-word query, English food names put the dish noun last
+  // ("chicken biryani", "cold coffee", "chicken karahi"). Treat that last
+  // token as the head noun and require it: a hit on modifier tokens alone
+  // ("chicken") is not a match on the dish, no matter how many of them hit.
+  // Without this, cheap items sharing only a modifier word outrank the actual
+  // dish once results are ranked by price rather than by this score.
+  if (queryTokens.length > 1) {
+    const headNoun = queryTokens[queryTokens.length - 1]!;
+    if (!hay.includes(headNoun)) return 0;
+  }
+
   let score = 0;
 
   if (phrase && hay.includes(phrase)) {

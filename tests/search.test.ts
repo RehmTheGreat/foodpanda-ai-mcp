@@ -63,6 +63,47 @@ describe('scoreMatch', () => {
   });
 });
 
+describe('head noun requirement (Bug 2)', () => {
+  // Reported symptom: for "chicken biryani", the top 5 search_menu_items
+  // results were Chicken Samosa, Chicken Samosa, Chicken Roll, Chicken Samosa,
+  // Fried Onion — the actual biryani appeared at position 16. Cause: a hit on
+  // the modifier token ("chicken") alone was merely penalised (score / 3),
+  // never excluded, so cheap chicken-anything items outranked the dish itself
+  // once results are sorted by price rather than score.
+  it('scores zero when the head noun is missing, no matter how many modifier tokens hit', () => {
+    expect(scoreMatch('Chicken Samosa', tokenize('chicken biryani'), 'chicken biryani')).toBe(0);
+    expect(scoreMatch('Chicken Roll', tokenize('chicken biryani'), 'chicken biryani')).toBe(0);
+    expect(scoreMatch('Chicken Biryani', tokenize('chicken biryani'), 'chicken biryani')).toBeGreaterThan(0);
+  });
+
+  it('applies the same rule to "cold coffee"', () => {
+    expect(scoreMatch('Cold Drink', tokenize('cold coffee'), 'cold coffee')).toBe(0);
+    expect(scoreMatch('Cold Coffee', tokenize('cold coffee'), 'cold coffee')).toBeGreaterThan(0);
+  });
+
+  it('applies the same rule to "chicken karahi"', () => {
+    expect(scoreMatch('Chicken Handi', tokenize('chicken karahi'), 'chicken karahi')).toBe(0);
+    expect(scoreMatch('Mutton Karahi', tokenize('chicken karahi'), 'chicken karahi')).toBeGreaterThan(0);
+    expect(scoreMatch('Chicken Karahi', tokenize('chicken karahi'), 'chicken karahi')).toBeGreaterThan(0);
+  });
+
+  it('keeps single-word queries unaffected — there is no modifier to require a noun over', () => {
+    expect(scoreMatch('Chicken Karahi', tokenize('chicken'), 'chicken')).toBeGreaterThan(0);
+  });
+
+  it('every top-5 result is a genuine dish match at the filterMenuItems level', () => {
+    const items: MenuItem[] = [
+      { id: 1, name: 'Chicken Samosa', price: 80, isDiscounted: false, variations: [] },
+      { id: 2, name: 'Chicken Samosa', price: 90, isDiscounted: false, variations: [] },
+      { id: 3, name: 'Chicken Roll', price: 100, isDiscounted: false, variations: [] },
+      { id: 4, name: 'Fried Onion', price: 50, isDiscounted: false, variations: [] },
+      { id: 5, name: 'Chicken Biryani', price: 256, isDiscounted: false, variations: [] },
+    ];
+    const hits = filterMenuItems(items, { query: 'chicken biryani' });
+    expect(hits.map((h) => h.item.name)).toEqual(['Chicken Biryani']);
+  });
+});
+
 describe('filterRestaurants', () => {
   const list = [
     r({ code: 'a', name: 'Biryani House', cuisines: ['Biryani'], rating: 4.5, deliveryFee: 50, distanceKm: 1 }),
