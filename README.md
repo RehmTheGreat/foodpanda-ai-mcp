@@ -515,8 +515,11 @@ filters) sits behind PerimeterX and challenges IPs that make many requests in a 
 **What to do:** wait — it clears on its own. Meanwhile `search_restaurants`, `list_cuisines`,
 `find_deals` and `browse_by_cuisine` use a *different* host and usually keep working.
 
-**To avoid it:** lower `FOODPANDA_RATE_LIMIT_RPS` and `FOODPANDA_MAX_CONCURRENCY`, reduce
-`restaurantLimit` on `search_menu_items`, and avoid `openNow` on large result sets.
+**To avoid it:** reduce `restaurantLimit` on `search_menu_items`, avoid `openNow` on large
+result sets, and reuse restaurant codes you already looked up rather than re-fetching them.
+If you operate the server yourself, lowering `FOODPANDA_RATE_LIMIT_RPS` and
+`FOODPANDA_MAX_CONCURRENCY` also helps — but a hosted MCP client calling this server can't
+change those, which is why the error message itself only suggests what the caller can do.
 
 This project intentionally does **not** try to bypass the challenge.
 </details>
