@@ -30,6 +30,36 @@ describe('HttpClient', () => {
     await expect(http.getJson('https://blocked.test/v')).rejects.toThrow(/bot-protection|403/i);
   });
 
+  it('gives caller-actionable advice instead of unsettable server env vars (Bug 5)', async () => {
+    const { http } = makeClient([{ match: 'blocked.test', status: 403, body: fixture('perimeterx-403.json') }]);
+    let message = '';
+    try {
+      await http.getJson('https://blocked.test/v');
+    } catch (err) {
+      message = err instanceof Error ? err.message : String(err);
+    }
+    // A hosted MCP client cannot set the server's environment, so telling it
+    // to change FOODPANDA_RATE_LIMIT_RPS / FOODPANDA_MAX_CONCURRENCY is advice
+    // it cannot act on.
+    expect(message).not.toMatch(/FOODPANDA_RATE_LIMIT_RPS|FOODPANDA_MAX_CONCURRENCY/);
+    expect(message).toMatch(/wait|retry/i);
+    expect(message).toMatch(/restaurantLimit|fewer/i);
+  });
+
+  it('explains a "vendor does not deliver here" response in plain English (Bug 5)', async () => {
+    const { http } = makeClient([{ match: 'x.test', status: 400, body: fixture('vendor-not-deliverable-400.json') }]);
+    let message = '';
+    try {
+      await http.getJson('https://x.test/v');
+    } catch (err) {
+      message = err instanceof Error ? err.message : String(err);
+    }
+    expect(message).toMatch(/does not deliver|cannot deliver/i);
+    // A clean sentence, not a slice of the raw upstream JSON dump.
+    expect(message).not.toMatch(/[{}"]/);
+    expect(message).not.toContain('exception_type');
+  });
+
   it('treats a plain 403 without a challenge body as an ordinary error', async () => {
     const { http } = makeClient([{ match: 'x.test', status: 403, body: { error: 'Invalid Client ID' } }]);
     await expect(http.getJson('https://x.test/v')).rejects.toBeInstanceOf(UpstreamError);

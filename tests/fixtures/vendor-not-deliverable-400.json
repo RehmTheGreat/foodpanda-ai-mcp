@@ -1,0 +1,10 @@
+{
+  "status_code": 400,
+  "data": {
+    "error": "The restaurant cannot deliver to your selected address. Please try another one",
+    "message": "The restaurant cannot deliver to your selected address. Please try another one",
+    "exception_type": "ApiVendorDoesNotDeliverToAddressException",
+    "developer_message": "The vendor does not delivery to the address or is unavailable",
+    "exception": null
+  }
+}

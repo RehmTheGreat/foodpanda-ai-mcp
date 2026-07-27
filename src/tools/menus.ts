@@ -35,7 +35,8 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         'alongside the vendor\'s active deals and discounts. ' +
         'Optionally filter to items matching a keyword or a single category, and cap how much is returned — ' +
         'full menus can run to hundreds of items. ' +
-        'Menu prices already include vendor deals; the fees are additive.',
+        'Menu prices already include vendor deals; the fees are additive. ' +
+        'Includes restaurantUrl, a link to the restaurant\'s foodpanda page, when upstream provides one.',
       inputSchema: {
         code: z.string().min(1).describe('Restaurant code from search_restaurants.'),
         market: z.string().length(2).describe('Two-letter market code the restaurant belongs to.'),
@@ -178,7 +179,8 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         'Search for a specific dish across many nearby restaurants at once and rank the results by price. ' +
         'This answers questions like "the cheapest biryani within 3 km" or "who has beef pizza under 1500". ' +
         'It fetches menus from multiple restaurants, so it is the slowest tool here — keep `restaurantLimit` modest. ' +
-        'Set includeDeliveryFee to rank by true landed cost (item price + delivery fee) rather than sticker price.',
+        'Set includeDeliveryFee to rank by true landed cost (item price + delivery fee) rather than sticker price. ' +
+        'Each hit includes restaurantUrl, a link to the restaurant\'s foodpanda page, when upstream provides one.',
       inputSchema: {
         ...locationInput,
         query: z.string().min(2).describe('The dish to look for, e.g. "chicken biryani", "cold coffee", "margherita".'),

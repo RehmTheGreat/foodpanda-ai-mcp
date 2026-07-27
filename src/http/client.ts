@@ -29,13 +29,27 @@ export class UpstreamBlockedError extends Error {
     super(
       'The upstream endpoint responded with a bot-protection challenge (HTTP 403) instead of data. ' +
         'This usually means too many requests came from this IP address recently. ' +
-        'It normally clears on its own after a while. ' +
-        'To reduce the chance of it recurring, lower FOODPANDA_RATE_LIMIT_RPS and FOODPANDA_MAX_CONCURRENCY, ' +
-        'or use fewer menu-heavy calls (search_menu_items, or openNow filters) in quick succession. ' +
+        'Wait a minute or two before retrying. ' +
+        'To reduce the chance of it recurring, pass a smaller restaurantLimit to search_menu_items, ' +
+        'avoid openNow filters and menu-heavy calls in quick succession, and reuse restaurant codes you already ' +
+        'looked up rather than re-fetching them. ' +
         'Restaurant search, cuisine browsing and deal listing use a different host and are usually still available.',
     );
     this.name = 'UpstreamBlockedError';
   }
+}
+
+/** Upstream telling us a specific vendor cannot serve the given address, distinct from a bot block. */
+function looksLikeNotDeliverableHere(body: string): string | undefined {
+  try {
+    const parsed = JSON.parse(body) as { data?: { exception_type?: string; error?: string; message?: string } };
+    if (parsed.data?.exception_type === 'ApiVendorDoesNotDeliverToAddressException') {
+      return parsed.data.error ?? parsed.data.message ?? 'This restaurant does not deliver to the given address.';
+    }
+  } catch {
+    // Not JSON, or not this shape — fall through to the generic error.
+  }
+  return undefined;
 }
 
 /** PerimeterX challenge pages carry these markers regardless of status text. */
@@ -227,6 +241,11 @@ export class HttpClient {
         if (res.status === 403 && looksLikeBotChallenge(body)) {
           this.opts.logger.warn('upstream served a bot-protection challenge', { url, status: res.status });
           throw new UpstreamBlockedError(url);
+        }
+
+        const notDeliverable = res.status === 400 ? looksLikeNotDeliverableHere(body) : undefined;
+        if (notDeliverable !== undefined) {
+          throw new UpstreamError(notDeliverable, res.status, url, false);
         }
 
         throw new UpstreamError(

@@ -98,7 +98,8 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
       description:
         'List restaurants of a specific cuisine near a location, filtered server-side by cuisine id. ' +
         'More precise than a text search when the user names a cuisine category ("show me Thai places"). ' +
-        'Get the cuisine id from list_cuisines, or pass a cuisine name and it will be looked up automatically.',
+        'Get the cuisine id from list_cuisines, or pass a cuisine name and it will be looked up automatically. ' +
+        'Each result includes a url to the restaurant\'s foodpanda page, when upstream provides one.',
       inputSchema: {
         ...locationInput,
         cuisineId: z.number().int().optional().describe('Upstream cuisine id from list_cuisines. Preferred when known.'),
@@ -235,7 +236,8 @@ export function registerDiscoveryTools(server: McpServer, ctx: ToolContext): voi
       description:
         'Find restaurants near a location that currently advertise a discount or deal, ranked by how good the offer looks. ' +
         'Answers "what is on offer near me right now". ' +
-        'Note these are restaurant-level promotions published by foodpanda; bank or voucher codes are not covered.',
+        'Note these are restaurant-level promotions published by foodpanda; bank or voucher codes are not covered. ' +
+        'Each result includes a url to the restaurant\'s foodpanda page, when upstream provides one.',
       inputSchema: {
         ...locationInput,
         openNow: z
