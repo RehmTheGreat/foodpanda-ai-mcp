@@ -186,6 +186,38 @@ describe('search behaviour', () => {
   });
 });
 
+describe('defect: search_menu_items ranked by stale listing-level delivery fee (Bug 1)', () => {
+  // Reproduces the reported case: c1tf (Lasani Biryani Centre) shows
+  // "Rs.256 · Rs.355 with delivery" from search_menu_items, but its OWN
+  // vendor-detail response — which search_menu_items already fetches per
+  // candidate — reports minimum_delivery_fee: 0 plus an active free-delivery
+  // discount. The listing-level fee (used here as a stand-in stale value)
+  // must not win over the fresher detail-level one.
+  it('uses the freshly-fetched detail fee, not the listing-level one', async () => {
+    const c = await connect([
+      { match: 'disco.deliveryhero.io', body: fixture('listing-c1tf.json') },
+      { match: '/api/v5/vendors/', body: fixture('vendor-c1tf-detail.json') },
+      { match: '/api/v5/configuration', body: fixture('configuration-pk.json') },
+    ]);
+    const res: any = await c.callTool({
+      name: 'search_menu_items',
+      arguments: {
+        latitude: 24.814422,
+        longitude: 67.070805,
+        market: 'pk',
+        query: 'chicken biryani',
+        restaurantLimit: 1,
+      },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    const hit = res.structuredContent.items.find((i: any) => i.name === 'Chicken Biryani');
+    expect(hit, 'expected a Chicken Biryani hit').toBeDefined();
+    expect(hit.price).toBe(256);
+    expect(hit.deliveryFee).toBe(0);
+    expect(hit.totalWithDelivery).toBe(256);
+  });
+});
+
 describe('graceful degradation', () => {
   it('surfaces a bot-protection block as a clear, actionable error', async () => {
     const c = await connect([

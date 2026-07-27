@@ -332,10 +332,17 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
                 if (r.isUnrated) hit.restaurantIsUnrated = r.isUnrated;
                 if (r.url) hit.restaurantUrl = r.url;
                 if (r.distanceKm !== undefined) hit.distanceKm = r.distanceKm;
-                if (r.deliveryFee !== undefined) hit.deliveryFee = r.deliveryFee;
                 if (r.minimumOrderAmount !== undefined) hit.minimumOrderAmount = r.minimumOrderAmount;
                 if (r.deliveryTimeMinutes !== undefined) hit.deliveryTimeMinutes = r.deliveryTimeMinutes;
-                hit.totalWithDelivery = item.price + (r.deliveryFee ?? 0);
+                // deliveryFee deliberately comes from the freshly-fetched detail-level
+                // `restaurant`, not the listing-level candidate `r`: the detail response
+                // already reconciles the fee against active discounts (e.g. a vendor-level
+                // "Free delivery" promo can zero out a nonzero listing-level fee), and it's
+                // already in scope from the fetch above. Ranking by the stale listing value
+                // here was Bug 1 — it could rank a truly-free-delivery vendor as more
+                // expensive than it actually is.
+                if (restaurant.deliveryFee !== undefined) hit.deliveryFee = restaurant.deliveryFee;
+                hit.totalWithDelivery = item.price + (restaurant.deliveryFee ?? 0);
                 hits.push(hit);
               }
             } catch (err) {

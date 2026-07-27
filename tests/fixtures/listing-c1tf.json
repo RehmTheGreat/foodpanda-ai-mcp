@@ -1,0 +1,172 @@
+{
+  "status_code": 200,
+  "message": "ok",
+  "data": {
+    "available_count": 1,
+    "returned_count": 1,
+    "items": [
+      {
+        "id": 99001,
+        "code": "c1tf",
+        "accepts_instructions": true,
+        "address": "Sehar Commercial, DHA Phase 6, Karachi",
+        "address_line2": "Building 12C Shop 1 Main Seher Commercial Avenue DHA Phase 7.",
+        "budget": 2,
+        "chain": {
+          "code": "cz0ks",
+          "name": "Subway -  South ",
+          "main_vendor_code": "t1gt",
+          "url_key": "subway-south"
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 193,
+            "name": "Biryani",
+            "url_key": "biryani",
+            "main": true
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 0.55,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/u1od-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/u1od-listing.jpg",
+        "is_new_until": "2022-12-30T00:00:00Z",
+        "premium_position": 0,
+        "latitude": 24.80871393,
+        "logo": "https://images.deliveryhero.io/image/fd-pk/pk-logos/cz0ks-logo.jpg",
+        "longitude": 67.0685123,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Lasani Biryani Centre",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 193,
+        "rating": 4.8,
+        "redirection_url": "https://foodpanda.pk/restaurant/c1tf/lasani-biryani-centre",
+        "review_number": 15,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [],
+        "url_key": "lasani-biryani-centre",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 133,
+              "name": "Healthy Food",
+              "url_key": "healthy-food",
+              "main": false
+            },
+            {
+              "id": 71,
+              "name": "Sandwiches",
+              "url_key": "sandwiches",
+              "main": true
+            },
+            {
+              "id": 151,
+              "name": "Western",
+              "url_key": "western",
+              "main": false
+            },
+            {
+              "id": 87,
+              "name": "American",
+              "url_key": "american",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": true
+          }
+        },
+        "vendor_points": 14080,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/c1tf/lasani-biryani-centre",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "F AND S VENTURES",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": true,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "VOxE/k1Zut9RJzKgFLTTH+4yo3uOwVjYMFWBChPE6w2BdR2TBcjimT32u0jcJdhJAUypVwonITZzAzBPuBpJvZDQTetvMC5CK+sFyP1AaAa8WYWW7Sb/J6wHQpcH4eoVr+oTtHodvRq0T94rrMJ+8VBPuJZfeG7PtIVXdMrYprLNEuPXseX3lwz+KoyWG3TBA4sY7uiCUkvG6+lnDMv5Ry2b8IRGgOkb0fl7P5xymfZ/DmlPYd6vBP4IBMn9KZttueJWFSp7TP2I/vIIeb+O",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      }
+    ],
+    "aggregations": {
+      "cuisines": [
+        {
+          "id": 193,
+          "name": "Biryani",
+          "count": 1,
+          "slug": "biryani"
+        }
+      ]
+    }
+  }
+}

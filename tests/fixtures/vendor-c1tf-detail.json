@@ -1,0 +1,402 @@
+{
+  "status_code": 200,
+  "data": {
+    "id": 174105,
+    "code": "c1tf",
+    "name": "Lasani Biryani Centre",
+    "rating": 4.8,
+    "review_number": 15,
+    "distance": 0.54889315,
+    "latitude": 24.8096551,
+    "longitude": 67.0693984,
+    "address": "Plot#18-C, Main Khayaban e Rahat Commercial, Behind Hot & Spicy, Opposite Umer Farooq Masjid, Phase 6, DHA, Karachi",
+    "city": {
+      "id": 107681,
+      "name": "Karachi",
+      "url_key": "karachi",
+      "is_top_city": false,
+      "is_main_city": false,
+      "is_express_delivery_enabled": false,
+      "latitude": 25.144689559936523,
+      "longitude": 67.18477630615234,
+      "timezone": "Asia/Karachi"
+    },
+    "cuisines": [
+      {
+        "id": 84,
+        "name": "Desserts",
+        "url_key": "desserts",
+        "main": false
+      },
+      {
+        "id": 139,
+        "name": "Pakistani",
+        "url_key": "pakistani",
+        "main": true
+      },
+      {
+        "id": 193,
+        "name": "Biryani",
+        "url_key": "biryani",
+        "main": false
+      },
+      {
+        "id": 247,
+        "name": "Savouries",
+        "url_key": "savouries",
+        "main": false
+      }
+    ],
+    "primary_cuisine_id": 139,
+    "minimum_order_amount": 149,
+    "minimum_delivery_fee": 0,
+    "minimum_delivery_time": 15,
+    "budget": 2,
+    "is_delivery_enabled": true,
+    "is_pickup_enabled": true,
+    "has_online_payment": false,
+    "is_promoted": false,
+    "is_new": false,
+    "web_path": "https://www.foodpanda.pk/restaurant/c1tf/lasani-biryani-centre",
+    "url_key": "lasani-biryani-centre",
+    "vertical": "restaurants",
+    "deals": [
+      {
+        "id": 1708761,
+        "code": "1708761",
+        "offer_type": "percentage",
+        "type": "discount",
+        "voucher_type": "",
+        "minimum_order_value": 0,
+        "maximum_discount_amount": 0,
+        "value": 20,
+        "title": "20% off",
+        "description": "",
+        "start_date": "2026-07-20T00:00:00+05:00",
+        "end_date": "2026-09-30T00:00:00+05:00",
+        "is_pro": false,
+        "is_new_customer": false,
+        "seq_priority": 1000,
+        "additional_info": {
+          "should_override": [
+            "dps"
+          ],
+          "calculation": {
+            "baseOn": null
+          }
+        },
+        "tc": [
+          "Applicable for Delivery, Pick-up.",
+          "Additional T&C can apply"
+        ],
+        "action": {
+          "type": "",
+          "name": "",
+          "description": ""
+        },
+        "source": "incentives",
+        "conditions": null,
+        "quantity": 0,
+        "used_quantity": 0,
+        "is_full_basket_applicable": true,
+        "construct_id": "",
+        "is_bogo": false
+      },
+      {
+        "id": 8150401026675059,
+        "code": "pehlaorder",
+        "offer_type": "percentage",
+        "type": "voucher",
+        "voucher_type": "percentage",
+        "minimum_order_value": 499,
+        "maximum_discount_amount": 300,
+        "value": 50,
+        "title": "",
+        "description": "50% off for your first food order",
+        "start_date": "2026-06-16T00:00:00+05:00",
+        "end_date": "2026-12-31T23:59:00+05:00",
+        "is_pro": false,
+        "is_new_customer": true,
+        "seq_priority": 0,
+        "additional_info": {
+          "calculation": {
+            "baseOn": null
+          },
+          "high_value_action": "ACQUISITION",
+          "high_value_action_label": "NEXTGEN_HVA_ACQUISITION_FD"
+        },
+        "tc": [
+          "Valid for a minimum order of Rs.499",
+          "Discount capped at Rs.300",
+          "Applicable for Delivery.",
+          "Valid for payment with Credit or debit card, Cash, Invoice, pandapay, Credit or Debit Card, JazzCash, easypaisa",
+          "Limited to 1 redemption per user.",
+          "Valid for orders on Android app, iOS app",
+          "For selected users only.",
+          "foodpanda may at any time in its sole and absolute discretion withdraw, amend and/or alter any applicable terms and conditions of the voucher, deals, or promotions without prior notice.",
+          "foodpanda may at any time in its sole and absolute discretion exclude, void, discontinue or disqualify you from any voucher, deal, or promotion without prior notice."
+        ],
+        "action": {
+          "type": "",
+          "name": "",
+          "description": ""
+        },
+        "source": "incentives",
+        "conditions": null,
+        "quantity": 1,
+        "used_quantity": 0,
+        "is_full_basket_applicable": true,
+        "construct_id": "177614982600",
+        "is_bogo": false
+      }
+    ],
+    "discounts": [
+      {
+        "banner_title": "",
+        "bogo_product_blocks": [],
+        "bogo_discount_unit": "",
+        "closing_time": "23:59",
+        "condition_type": "multiple_vendors",
+        "condition_object": 0,
+        "condition_object_array": [],
+        "discount_amount": 20,
+        "discount_type": "percentage",
+        "conditions": null,
+        "daily_limit": 0,
+        "description": "",
+        "discount_text": "",
+        "end_date": "2026-09-30",
+        "file_name": "",
+        "id": 1708761,
+        "maximum_discount_amount": 0,
+        "minimum_order_value": 0,
+        "name": "20% off",
+        "opening_time": "00:00",
+        "platform_ratio": 0,
+        "promotional_limit": 0,
+        "start_date": "2026-07-20",
+        "vendor_id": 0,
+        "additional_info": {
+          "calculation": {
+            "baseOn": null
+          },
+          "should_override": [
+            "dps"
+          ]
+        }
+      },
+      {
+        "banner_title": "",
+        "bogo_product_blocks": [],
+        "bogo_discount_unit": "",
+        "closing_time": "22:16",
+        "condition_type": "multiple_vendors",
+        "condition_object": 0,
+        "condition_object_array": [],
+        "discount_amount": 0,
+        "discount_type": "free-delivery",
+        "conditions": null,
+        "daily_limit": 0,
+        "description": "",
+        "discount_text": "",
+        "end_date": "2027-07-27",
+        "file_name": "",
+        "id": 0,
+        "maximum_discount_amount": 0,
+        "minimum_order_value": 0,
+        "name": "",
+        "opening_time": "22:16",
+        "platform_ratio": 0,
+        "promotional_limit": 0,
+        "start_date": "2026-07-27",
+        "vendor_id": 0,
+        "additional_info": {
+          "calculation": {
+            "baseOn": null
+          },
+          "high_value_action": "ACQUISITION",
+          "high_value_action_label": "NEXTGEN_HVA_ACQUISITION_FD"
+        }
+      }
+    ],
+    "delivery_duration_range": {
+      "lower_limit_in_minutes": 5,
+      "upper_limit_in_minutes": 20
+    },
+    "menus": [
+      {
+        "id": 242330,
+        "name": "Main Menu",
+        "type": "delivery",
+        "menu_categories": [
+          {
+            "id": 2896154,
+            "name": "Biryani",
+            "description": "",
+            "is_popular_category": true,
+            "products": [
+              {
+                "id": 98796740,
+                "code": "8f2ae9b0-70be-4ccd-92d0-9961e50b6cf7",
+                "name": "Chicken Biryani",
+                "description": "Chicken Biryani",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/98796740.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/98796740.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/98796740.jpg",
+                    "tags": {
+                      "hm": "true"
+                    }
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101893545,
+                    "code": "c687c6a0-aad1-428a-bc96-4baf9fcba865",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Single",
+                    "price": 256,
+                    "price_before_discount": 320,
+                    "topping_ids": [],
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "topping_properties": [],
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  },
+                  {
+                    "id": 101893546,
+                    "code": "93b3b6eb-748c-43dc-9da2-ffdfd528b9c0",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Double",
+                    "price": 496,
+                    "price_before_discount": 620,
+                    "topping_ids": [],
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "topping_properties": [],
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "vat_percentage": 0,
+                "tags": [
+                  "system:image-updated-at=1771524617",
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 98796741,
+                "code": "ce322e15-d542-4565-ab2f-9257b3112b0c",
+                "name": "Sada Biryani",
+                "description": "Sada Biryani",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/98796741.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/98796741.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/98796741.jpg",
+                    "tags": {
+                      "hm": "true"
+                    }
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101893547,
+                    "code": "936d47c5-7c3a-4122-b122-8829568cc08f",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 176,
+                    "price_before_discount": 220,
+                    "topping_ids": [],
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "topping_properties": [],
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "vat_percentage": 0,
+                "tags": [
+                  "system:image-updated-at=1771524618",
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
