@@ -1,0 +1,42 @@
+name: Feature request
+description: Suggest a new tool or capability
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This server is **read-only by design**. Requests for ordering, login, account access
+        or payments will be closed, as will anything that works around upstream bot
+        protection. See DECISIONS.md for the reasoning.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What are you trying to do?
+      description: Describe the question you want to ask your assistant that you currently can't.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should it look like?
+      description: A tool name, inputs and outputs, or an example conversation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: feasible
+    attributes:
+      label: Does the upstream API support this?
+      description: >-
+        If you know which endpoint or field would provide the data, say so — that makes this
+        far easier to act on. docs/API-RESEARCH.md documents what is and isn't available.
+
+  - type: checkboxes
+    id: readonly
+    attributes:
+      label: Confirmation
+      options:
+        - label: This is read-only and does not involve ordering, authentication or account access
+          required: true

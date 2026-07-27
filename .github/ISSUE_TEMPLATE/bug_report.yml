@@ -1,0 +1,86 @@
+name: Bug report
+description: Something isn't working
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: if requests suddenly started failing with a "bot-protection challenge"
+        message, that is the upstream blocking your IP address, not a bug here. It clears on
+        its own — see the Troubleshooting section of the README.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you get instead?
+    validations:
+      required: true
+
+  - type: input
+    id: tool
+    attributes:
+      label: Which tool?
+      placeholder: search_menu_items
+    validations:
+      required: true
+
+  - type: textarea
+    id: args
+    attributes:
+      label: Exact arguments
+      description: The arguments passed to the tool. Redact anything you consider private.
+      render: json
+    validations:
+      required: true
+
+  - type: textarea
+    id: output
+    attributes:
+      label: Output / error
+      description: Paste the tool output or error. `LOG_LEVEL=debug` output is especially useful.
+      render: shell
+
+  - type: input
+    id: market
+    attributes:
+      label: Market
+      placeholder: pk
+
+  - type: input
+    id: version
+    attributes:
+      label: Server version
+      description: From `foodpanda://server-info` or `npx foodpanda-mcp-server --version`
+      placeholder: 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node version
+      placeholder: v22.11.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: client
+    attributes:
+      label: MCP client
+      options:
+        - Claude Desktop
+        - Claude Code
+        - Cursor
+        - ChatGPT
+        - Other / direct
+    validations:
+      required: true
+
+  - type: dropdown
+    id: transport
+    attributes:
+      label: Transport
+      options: [stdio, http]
+    validations:
+      required: true
