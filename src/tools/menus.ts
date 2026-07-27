@@ -2,9 +2,13 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   buildMeta,
+  dealShape,
+  discountShape,
+  feesShape,
   locationInput,
   metaShape,
   money,
+  PRICING_NOTE,
   resolveLocation,
   toolError,
   toolResult,
@@ -17,7 +21,7 @@ import {
   normalizeText,
   sortRestaurants,
 } from '../domain/search.js';
-import { itemHitLine } from './format.js';
+import { feesBlock, itemHitLine, offersBlock } from './format.js';
 import type { MenuItemHit } from '../domain/types.js';
 
 export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
@@ -26,9 +30,12 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
     {
       title: 'Get a restaurant menu',
       description:
-        'Retrieve the menu for one restaurant, with prices, categories and discount markers. ' +
+        'Retrieve the menu for one restaurant, with prices, categories and discount markers, plus the ' +
+        'charges needed to estimate a total: minimum order, small-order fee, delivery fee, service fee and VAT, ' +
+        'alongside the vendor\'s active deals and discounts. ' +
         'Optionally filter to items matching a keyword or a single category, and cap how much is returned — ' +
-        'full menus can run to hundreds of items.',
+        'full menus can run to hundreds of items. ' +
+        'Menu prices already include vendor deals; the fees are additive.',
       inputSchema: {
         code: z.string().min(1).describe('Restaurant code from search_restaurants.'),
         market: z.string().length(2).describe('Two-letter market code the restaurant belongs to.'),
@@ -58,12 +65,16 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
             ),
           }),
         ),
+        fees: feesShape.optional(),
+        deals: z.array(dealShape),
+        discounts: z.array(discountShape),
+        pricingNote: z.string(),
         meta: metaShape,
       },
     },
     async ({ code, market, query, category, maxItems, discountedOnly }) => {
       try {
-        const { menu, warnings } = await ctx.foodpanda.getVendorDetail(code, market);
+        const { menu, restaurant, warnings } = await ctx.foodpanda.getVendorDetail(code, market);
 
         let categories = menu.categories;
         if (category) {
@@ -97,6 +108,10 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
             totalItems: menu.itemCount,
             returnedItems: 0,
             categories: [],
+            ...(restaurant.fees ? { fees: restaurant.fees } : {}),
+            deals: restaurant.deals,
+            discounts: restaurant.discounts,
+            pricingNote: PRICING_NOTE,
             meta: buildMeta(market, 'foodpanda', warnings),
           });
         }
@@ -118,7 +133,10 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         const text =
           `${menu.restaurantName} (${menu.restaurantCode}) — showing ${returned} of ${menu.itemCount} items` +
           (query ? ` matching "${query}"` : '') +
-          `\n\n${body}`;
+          `\n\n${body}\n` +
+          feesBlock(restaurant.fees, market) +
+          offersBlock(restaurant.deals, restaurant.discounts, market) +
+          `\n${PRICING_NOTE}`;
 
         return toolResult(text, {
           restaurantName: menu.restaurantName,
@@ -137,6 +155,10 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
               ...(i.isSoldOut !== undefined ? { isSoldOut: i.isSoldOut } : {}),
             })),
           })),
+          ...(restaurant.fees ? { fees: restaurant.fees } : {}),
+          deals: restaurant.deals,
+          discounts: restaurant.discounts,
+          pricingNote: PRICING_NOTE,
           meta: buildMeta(market, 'foodpanda', warnings),
         });
       } catch (err) {
@@ -209,9 +231,12 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         const loc = await resolveLocation(ctx, input);
         const market = loc.market!;
 
+        // Candidate selection is a filter over the whole area, so scan the whole
+        // area. Only the menu fetches below are rate-limited, and those stay
+        // bounded by restaurantLimit.
         const listing = await ctx.foodpanda.listAllVendors(
           { latitude: loc.latitude, longitude: loc.longitude, market },
-          { maxTotal: 100 },
+          { maxTotal: ctx.config.maxScan },
         );
 
         // Pre-filter restaurants so we spend our menu fetches on plausible candidates.
@@ -243,7 +268,7 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
           try {
             const cuisineListing = await ctx.foodpanda.listAllVendors(
               { latitude: loc.latitude, longitude: loc.longitude, market, cuisineId: cuisineMatch.id },
-              { maxTotal: 60 },
+              { maxTotal: ctx.config.maxScan },
             );
             byCuisine = filterRestaurants(cuisineListing.restaurants, {
               maxDistanceKm: input.maxDistanceKm,

@@ -2,9 +2,13 @@ import { z } from 'zod';
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import {
   buildMeta,
+  dealShape,
+  discountShape,
+  feesShape,
   locationInput,
   metaShape,
   money,
+  PRICING_NOTE,
   resolveLocation,
   toolError,
   toolResult,
@@ -12,7 +16,7 @@ import {
 } from './context.js';
 import { enrichWithOpenStatus, keepOpen } from './enrich.js';
 import { filterRestaurants, sortRestaurants } from '../domain/search.js';
-import { restaurantList, restaurantLine, openLabel } from './format.js';
+import { restaurantList, restaurantLine, openLabel, feesBlock, offersBlock } from './format.js';
 import { WEEKDAY_NAMES } from '../domain/openNow.js';
 import type { Restaurant } from '../domain/types.js';
 
@@ -92,9 +96,14 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
           .number()
           .int()
           .min(20)
-          .max(200)
-          .default(100)
-          .describe('How many nearby restaurants to fetch and search through. Higher is more thorough but slower.'),
+          .max(2000)
+          .optional()
+          .describe(
+            'How many nearby restaurants to fetch and search through. Omit to let the server decide: ' +
+            'when a filter is active it scans everything available (up to FOODPANDA_MAX_SCAN, default 600) ' +
+            'so filtered results are complete rather than a truncated sample; with no filter it stops early ' +
+            'because the first page is already enough. Listing pages are cheap and not rate-limited.',
+          ),
         openNowCheckLimit: z
           .number()
           .int()
@@ -106,6 +115,9 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
       outputSchema: {
         restaurants: z.array(restaurantShape),
         totalNearby: z.number(),
+        scanned: z.number(),
+        /** True when the filter saw every nearby restaurant, not a truncated sample. */
+        scanComplete: z.boolean(),
         matched: z.number(),
         openStatusChecked: z.number().optional(),
         location: z.object({ displayName: z.string(), latitude: z.number(), longitude: z.number() }),
@@ -117,9 +129,25 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
         const loc = await resolveLocation(ctx, input);
         const market = loc.market!;
 
+        // A filter is only trustworthy if it saw every candidate. When one is
+        // active, scan the whole area; when it is not, the first page already
+        // answers "what is near me" and there is no reason to page further.
+        const filtered_ =
+          input.query !== undefined ||
+          input.cuisine !== undefined ||
+          input.openNow === true ||
+          input.minRating !== undefined ||
+          input.maxDeliveryFee !== undefined ||
+          input.maxMinimumOrder !== undefined ||
+          input.maxDistanceKm !== undefined ||
+          input.maxDeliveryTimeMinutes !== undefined ||
+          input.hasDiscount === true;
+
+        const scanLimit = input.scanLimit ?? (filtered_ ? ctx.config.maxScan : Math.max(input.limit, 50));
+
         const listing = await ctx.foodpanda.listAllVendors(
           { latitude: loc.latitude, longitude: loc.longitude, market },
-          { maxTotal: input.scanLimit },
+          { maxTotal: scanLimit },
         );
 
         // Apply every cheap filter first. openNow is deliberately excluded here:
@@ -163,15 +191,21 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
           .filter(Boolean)
           .join(', ');
 
+        const coverage = listing.complete
+          ? `Scanned all ${listing.availableCount} nearby restaurants`
+          : `Scanned ${listing.restaurants.length} of ${listing.availableCount} nearby restaurants`;
+
         const header =
           `${page.length} of ${sorted.length} matching restaurants near ${loc.displayName}` +
           (criteria ? ` (${criteria})` : '') +
-          `\nScanned ${listing.restaurants.length} of ${listing.availableCount} nearby restaurants · sorted by ${input.sort}` +
+          `\n${coverage} · sorted by ${input.sort}` +
           (checked !== undefined ? ` · opening hours checked for ${checked}` : '');
 
         return toolResult(restaurantList(page, header), {
           restaurants: page.map(slim),
           totalNearby: listing.availableCount,
+          scanned: listing.restaurants.length,
+          scanComplete: listing.complete === true,
           matched: sorted.length,
           ...(checked !== undefined ? { openStatusChecked: checked } : {}),
           location: { displayName: loc.displayName, latitude: loc.latitude, longitude: loc.longitude },
@@ -199,9 +233,18 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
       },
       outputSchema: {
         restaurant: restaurantShape.extend({
-          deals: z.array(z.object({ title: z.string(), description: z.string().optional() })),
-          discounts: z.array(z.object({ type: z.string(), description: z.string() })),
-          schedule: z.array(z.object({ weekday: z.string(), opensAt: z.string(), closesAt: z.string() })),
+          deals: z.array(dealShape),
+          discounts: z.array(discountShape),
+          fees: feesShape.optional(),
+          pricingNote: z.string(),
+          schedule: z.array(
+            z.object({
+              weekday: z.string(),
+              openingType: z.string(),
+              opensAt: z.string(),
+              closesAt: z.string(),
+            }),
+          ),
           openStatus: z
             .object({ isOpen: z.boolean(), localTime: z.string(), timezone: z.string(), closesAt: z.string().optional() })
             .optional(),
@@ -218,20 +261,23 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
 
         const { restaurant: r, menu, warnings } = await ctx.foodpanda.getVendorDetail(code, market, opts);
 
-        const sched = (r.schedules ?? []).map((s) => ({
+        // Vendors publish delivery AND pickup windows, usually with identical
+        // times, so showing both listed every opening twice. This server is
+        // about delivery (open/closed is computed from delivery windows too),
+        // so report those and fall back to whatever exists if there are none.
+        const allSchedules = r.schedules ?? [];
+        const deliverySchedules = allSchedules.filter((s) => /deliver/i.test(s.openingType));
+        const sched = (deliverySchedules.length ? deliverySchedules : allSchedules).map((s) => ({
           weekday: WEEKDAY_NAMES[s.weekday] ?? String(s.weekday),
+          openingType: s.openingType,
           opensAt: s.opensAt,
           closesAt: s.closesAt,
         }));
 
-        const dealLines = r.deals.length
-          ? `\nDeals:\n${r.deals.map((d) => `- ${d.title}${d.description ? ` — ${d.description}` : ''}`).join('\n')}`
-          : '';
-        const discLines = r.discounts.length
-          ? `\nDiscounts:\n${r.discounts.map((d) => `- ${d.description}`).join('\n')}`
-          : '';
+        const offerLines = offersBlock(r.deals, r.discounts, r.market);
+        const feeLines = feesBlock(r.fees, r.market);
         const schedLines = sched.length
-          ? `\nOpening hours:\n${sched.map((s) => `- ${s.weekday}: ${s.opensAt}–${s.closesAt}`).join('\n')}`
+          ? `\nDelivery hours:\n${sched.map((s) => `- ${s.weekday}: ${s.opensAt}–${s.closesAt}`).join('\n')}\n`
           : '';
 
         const text =
@@ -241,8 +287,8 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
           (r.rating !== undefined ? `- Rating: ${r.rating.toFixed(1)}★ from ${r.reviewCount ?? 0} reviews\n` : '') +
           (r.cuisines.length ? `- Cuisines: ${r.cuisines.join(', ')}\n` : '') +
           (r.address ? `- Address: ${r.address}\n` : '') +
-          (r.deliveryFee !== undefined ? `- Delivery fee: ${money(r.deliveryFee, r.market)}\n` : '') +
-          (r.minimumOrderAmount !== undefined ? `- Minimum order: ${money(r.minimumOrderAmount, r.market)}\n` : '') +
+          // Delivery fee and minimum order deliberately omitted here: the Fees
+          // block below carries them with the rest of the charges.
           (r.deliveryTimeMinutes !== undefined
             ? `- Estimated delivery: ~${r.deliveryTimeMinutes} min` +
               (r.deliveryTimeRangeMinutes
@@ -252,15 +298,18 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
             : '- Estimated delivery: not available (pass latitude/longitude to get one)\n') +
           `- Menu items: ${menu.itemCount} across ${menu.categories.length} categories\n` +
           (r.openStatus ? `- Local time: ${r.openStatus.localTime}\n` : '') +
-          dealLines +
-          discLines +
-          schedLines;
+          feeLines +
+          offerLines +
+          schedLines +
+          `\n${PRICING_NOTE}`;
 
         return toolResult(text, {
           restaurant: {
             ...slim(r),
-            deals: r.deals.map((d) => ({ title: d.title, ...(d.description ? { description: d.description } : {}) })),
-            discounts: r.discounts.map((d) => ({ type: d.type, description: d.description })),
+            deals: r.deals,
+            discounts: r.discounts,
+            ...(r.fees ? { fees: r.fees } : {}),
+            pricingNote: PRICING_NOTE,
             schedule: sched,
             ...(r.openStatus
               ? {
