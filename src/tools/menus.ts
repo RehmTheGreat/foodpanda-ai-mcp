@@ -47,6 +47,7 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
       outputSchema: {
         restaurantName: z.string(),
         restaurantCode: z.string(),
+        restaurantUrl: z.string().optional(),
         totalItems: z.number(),
         returnedItems: z.number(),
         categories: z.array(
@@ -105,6 +106,7 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
           return toolResult(`${menu.restaurantName} has no menu items${why}. The menu has ${menu.itemCount} items in total.`, {
             restaurantName: menu.restaurantName,
             restaurantCode: menu.restaurantCode,
+            ...(restaurant.url ? { restaurantUrl: restaurant.url } : {}),
             totalItems: menu.itemCount,
             returnedItems: 0,
             categories: [],
@@ -141,6 +143,7 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         return toolResult(text, {
           restaurantName: menu.restaurantName,
           restaurantCode: menu.restaurantCode,
+          ...(restaurant.url ? { restaurantUrl: restaurant.url } : {}),
           totalItems: menu.itemCount,
           returnedItems: returned,
           categories: out.map((c) => ({
@@ -215,7 +218,9 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
             totalWithDelivery: z.number().optional(),
             restaurantName: z.string(),
             restaurantCode: z.string(),
+            restaurantUrl: z.string().optional(),
             restaurantRating: z.number().optional(),
+            restaurantIsUnrated: z.boolean().optional(),
             distanceKm: z.number().optional(),
             deliveryFee: z.number().optional(),
             minimumOrderAmount: z.number().optional(),
@@ -324,6 +329,8 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
                   restaurantName: r.name,
                 };
                 if (r.rating !== undefined) hit.restaurantRating = r.rating;
+                if (r.isUnrated) hit.restaurantIsUnrated = r.isUnrated;
+                if (r.url) hit.restaurantUrl = r.url;
                 if (r.distanceKm !== undefined) hit.distanceKm = r.distanceKm;
                 if (r.deliveryFee !== undefined) hit.deliveryFee = r.deliveryFee;
                 if (r.minimumOrderAmount !== undefined) hit.minimumOrderAmount = r.minimumOrderAmount;
@@ -367,7 +374,9 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
             ...(h.totalWithDelivery !== undefined ? { totalWithDelivery: h.totalWithDelivery } : {}),
             restaurantName: h.restaurantName,
             restaurantCode: h.restaurantCode,
+            ...(h.restaurantUrl ? { restaurantUrl: h.restaurantUrl } : {}),
             ...(h.restaurantRating !== undefined ? { restaurantRating: h.restaurantRating } : {}),
+            ...(h.restaurantIsUnrated ? { restaurantIsUnrated: h.restaurantIsUnrated } : {}),
             ...(h.distanceKm !== undefined ? { distanceKm: h.distanceKm } : {}),
             ...(h.deliveryFee !== undefined ? { deliveryFee: h.deliveryFee } : {}),
             ...(h.minimumOrderAmount !== undefined ? { minimumOrderAmount: h.minimumOrderAmount } : {}),

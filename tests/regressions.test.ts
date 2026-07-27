@@ -270,3 +270,28 @@ describe('found while reviewing the rendered output', () => {
   });
 });
 
+describe('defect 3: a new, unrated restaurant renders as "0.0★" (Bug 4)', () => {
+  // Naseeb Biryani Phase 7 (code wtah) has rating:0, review_number:0 upstream —
+  // a genuinely new listing, indistinguishable from a badly-rated one once
+  // "0.0★" is printed, and impossible to exclude from a rating-based sort.
+
+  it('omits rating and flags isUnrated when there are zero reviews', () => {
+    const r = normalizeRestaurant({ code: 'wtah', name: 'Naseeb Biryani Phase 7', rating: 0, review_number: 0 }, 'pk');
+    expect(r.rating).toBeUndefined();
+    expect(r.reviewCount).toBe(0);
+    expect(r.isUnrated).toBe(true);
+  });
+
+  it('keeps a genuine low rating that has real reviews behind it', () => {
+    const r = normalizeRestaurant({ code: 'x', name: 'X', rating: 1.2, review_number: 5 }, 'pk');
+    expect(r.rating).toBe(1.2);
+    expect(r.isUnrated).toBeUndefined();
+  });
+
+  it('does not flag a restaurant that simply has no rating field at all', () => {
+    const r = normalizeRestaurant({ code: 'x', name: 'X' }, 'pk');
+    expect(r.rating).toBeUndefined();
+    expect(r.isUnrated).toBeUndefined();
+  });
+});
+

@@ -262,6 +262,45 @@ describe('pricing and link fields reach the tool output', () => {
     }
   });
 
+  it('find_deals emits a usable link for each restaurant', async () => {
+    const res: any = await client.callTool({
+      name: 'find_deals',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 5 },
+    });
+    const withUrl = res.structuredContent.restaurants.filter((r: any) => r.url);
+    expect(withUrl.length, 'expected at least one url').toBeGreaterThan(0);
+    for (const r of withUrl) expect(() => new URL(r.url)).not.toThrow();
+  });
+
+  it('browse_by_cuisine emits a usable link for each restaurant', async () => {
+    const res: any = await client.callTool({
+      name: 'browse_by_cuisine',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', cuisineName: 'Biryani', limit: 5 },
+    });
+    const withUrl = res.structuredContent.restaurants.filter((r: any) => r.url);
+    expect(withUrl.length, 'expected at least one url').toBeGreaterThan(0);
+    for (const r of withUrl) expect(() => new URL(r.url)).not.toThrow();
+  });
+
+  it('get_menu includes the restaurant link', async () => {
+    const res: any = await client.callTool({
+      name: 'get_menu',
+      arguments: { code: 'u1od', market: 'pk', maxItems: 5 },
+    });
+    expect(res.structuredContent.restaurantUrl).toBeDefined();
+    expect(() => new URL(res.structuredContent.restaurantUrl)).not.toThrow();
+  });
+
+  it('search_menu_items includes a link per hit', async () => {
+    const res: any = await client.callTool({
+      name: 'search_menu_items',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'sub', restaurantLimit: 2 },
+    });
+    const withUrl = res.structuredContent.items.filter((i: any) => i.restaurantUrl);
+    expect(withUrl.length, 'expected at least one url').toBeGreaterThan(0);
+    for (const i of withUrl) expect(() => new URL(i.restaurantUrl)).not.toThrow();
+  });
+
   it('search_restaurants reports scan coverage honestly', async () => {
     const res: any = await client.callTool({
       name: 'search_restaurants',

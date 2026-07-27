@@ -291,10 +291,19 @@ export function normalizeRestaurant(v: any, market: string, opts: { computeOpen?
     deals,
   };
 
-  const rating = n(v?.rating);
-  if (rating !== undefined) r.rating = rating;
   const reviews = n(v?.review_number);
   if (reviews !== undefined) r.reviewCount = reviews;
+  const rating = n(v?.rating);
+  if (rating !== undefined) {
+    // rating:0 with review_number:0 means "nothing rated it yet", not "rated
+    // zero stars" — the two are indistinguishable once printed as "0.0★", and
+    // a genuinely new listing should not be buried by a rating-based sort.
+    if (rating === 0 && (reviews === undefined || reviews === 0)) {
+      r.isUnrated = true;
+    } else {
+      r.rating = rating;
+    }
+  }
   const pc = n(v?.primary_cuisine_id);
   if (pc !== undefined) r.primaryCuisineId = pc;
   const addr = s(v?.address);

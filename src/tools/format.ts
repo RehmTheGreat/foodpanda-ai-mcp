@@ -18,6 +18,7 @@ export function openLabel(r: Restaurant): string {
 export function restaurantLine(r: Restaurant, index?: number): string {
   const parts: string[] = [];
   if (r.rating !== undefined) parts.push(`${r.rating.toFixed(1)}★${r.reviewCount ? ` (${r.reviewCount})` : ''}`);
+  else if (r.isUnrated) parts.push('unrated');
   if (r.distanceKm !== undefined) parts.push(`${r.distanceKm.toFixed(1)} km`);
   if (r.deliveryTimeMinutes !== undefined) parts.push(`~${r.deliveryTimeMinutes} min`);
   if (r.deliveryFee !== undefined) parts.push(`fee ${money(r.deliveryFee, r.market)}`);
@@ -48,6 +49,7 @@ export function itemHitLine(h: MenuItemHit, market: string, index: number): stri
     h.totalWithDelivery !== undefined ? ` · ${money(h.totalWithDelivery, market)} with delivery` : '';
   const bits: string[] = [];
   if (h.restaurantRating !== undefined) bits.push(`${h.restaurantRating.toFixed(1)}★`);
+  else if (h.restaurantIsUnrated) bits.push('unrated');
   if (h.distanceKm !== undefined) bits.push(`${h.distanceKm.toFixed(1)} km`);
   if (h.deliveryTimeMinutes !== undefined) bits.push(`~${h.deliveryTimeMinutes} min`);
   if (h.minimumOrderAmount !== undefined) bits.push(`min ${money(h.minimumOrderAmount, market)}`);

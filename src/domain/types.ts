@@ -119,6 +119,12 @@ export interface Restaurant {
   market: string;
   rating?: number;
   reviewCount?: number;
+  /**
+   * True when upstream reports rating 0 with 0 reviews — a genuinely new,
+   * unrated listing, not a badly-rated one. `rating` is omitted rather than
+   * carrying a misleading 0 in this case.
+   */
+  isUnrated?: boolean;
   cuisines: string[];
   primaryCuisineId?: number;
   address?: string;
@@ -202,6 +208,8 @@ export interface MenuItemHit extends MenuItem {
   restaurantCode: string;
   restaurantName: string;
   restaurantRating?: number;
+  restaurantIsUnrated?: boolean;
+  restaurantUrl?: string;
   distanceKm?: number;
   deliveryFee?: number;
   minimumOrderAmount?: number;
