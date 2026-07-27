@@ -1,0 +1,1402 @@
+{
+  "status_code": 200,
+  "message": "success",
+  "data": {
+    "available_count": 231,
+    "returned_count": 6,
+    "items": [
+      {
+        "id": 14615,
+        "code": "u1od",
+        "accepts_instructions": true,
+        "address": "34-C Rahat Lane 3, Phase 6, DHA Karachi",
+        "address_line2": "Building 12C Shop 1 Main Seher Commercial Avenue DHA Phase 7.",
+        "budget": 2,
+        "chain": {
+          "code": "cz0ks",
+          "name": "Subway -  South ",
+          "main_vendor_code": "t1gt",
+          "url_key": "subway-south"
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 133,
+            "name": "Healthy Food",
+            "url_key": "healthy-food",
+            "main": false
+          },
+          {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": true
+          },
+          {
+            "id": 151,
+            "name": "Western",
+            "url_key": "western",
+            "main": false
+          },
+          {
+            "id": 87,
+            "name": "American",
+            "url_key": "american",
+            "main": false
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 0.709,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/u1od-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/u1od-listing.jpg",
+        "is_new_until": "2022-12-30T00:00:00Z",
+        "premium_position": 0,
+        "latitude": 24.80871393,
+        "logo": "https://images.deliveryhero.io/image/fd-pk/pk-logos/cz0ks-logo.jpg",
+        "longitude": 67.0685123,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Subway - Sehar Commercial Ave",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 71,
+        "rating": 4.6,
+        "redirection_url": "https://foodpanda.pk/restaurant/u1od/subway-sehar-commercial-ave",
+        "review_number": 8788,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          },
+          {
+            "code": "DEAL",
+            "text": "34% off selected items",
+            "label_metadata": {
+              "deal": {
+                "id": "1670287"
+              }
+            }
+          }
+        ],
+        "url_key": "subway-sehar-commercial-ave",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 133,
+              "name": "Healthy Food",
+              "url_key": "healthy-food",
+              "main": false
+            },
+            {
+              "id": 71,
+              "name": "Sandwiches",
+              "url_key": "sandwiches",
+              "main": true
+            },
+            {
+              "id": 151,
+              "name": "Western",
+              "url_key": "western",
+              "main": false
+            },
+            {
+              "id": 87,
+              "name": "American",
+              "url_key": "american",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": true
+          }
+        },
+        "vendor_points": 14080,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/u1od/subway-sehar-commercial-ave",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [
+          {
+            "id": "1670287",
+            "value": 34
+          }
+        ],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "F AND S VENTURES",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": true,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "VOxE/k1Zut9RJzKgFLTTH+4yo3uOwVjYMFWBChPE6w2BdR2TBcjimT32u0jcJdhJAUypVwonITZzAzBPuBpJvZDQTetvMC5CK+sFyP1AaAa8WYWW7Sb/J6wHQpcH4eoVr+oTtHodvRq0T94rrMJ+8VBPuJZfeG7PtIVXdMrYprLNEuPXseX3lwz+KoyWG3TBA4sY7uiCUkvG6+lnDMv5Ry2b8IRGgOkb0fl7P5xymfZ/DmlPYd6vBP4IBMn9KZttueJWFSp7TP2I/vIIeb+O",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      },
+      {
+        "id": 94841,
+        "code": "qeqr",
+        "accepts_instructions": true,
+        "address": "Plot # 50-C, Ground Floor Main Khayaban-e-Shahbaz Lane 4 DHA Phase 6, Karachi",
+        "address_line2": "",
+        "budget": 3,
+        "chain": {
+          "code": "cq3hw",
+          "name": "Florentine - Cest La Vie",
+          "main_vendor_code": "qeqr",
+          "url_key": "florentine-cest-la-vie"
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 89,
+            "name": "Beverages",
+            "url_key": "beverages-89",
+            "main": false
+          },
+          {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": false
+          },
+          {
+            "id": 82,
+            "name": "Seafood",
+            "url_key": "seafood",
+            "main": false
+          },
+          {
+            "id": 73,
+            "name": "Pizza",
+            "url_key": "pizza",
+            "main": false
+          },
+          {
+            "id": 151,
+            "name": "Western",
+            "url_key": "western",
+            "main": false
+          },
+          {
+            "id": 86,
+            "name": "Fast Food",
+            "url_key": "fast-food",
+            "main": true
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 3.215,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/qeqr-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/qeqr-listing.jpg",
+        "is_new_until": "2023-07-19T13:16:06Z",
+        "premium_position": 1,
+        "latitude": 24.7943048,
+        "logo": "",
+        "longitude": 67.04876165,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Florentine - Cest La Vie",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 86,
+        "rating": 4.6,
+        "redirection_url": "https://foodpanda.pk/restaurant/qeqr/florentine-cest-la-vie",
+        "review_number": 173,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          },
+          {
+            "code": "DEAL",
+            "text": "Up to 25% off",
+            "label_metadata": {
+              "deal": {
+                "id": "1669056"
+              }
+            }
+          }
+        ],
+        "url_key": "florentine-cest-la-vie",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 89,
+              "name": "Beverages",
+              "url_key": "beverages-89",
+              "main": false
+            },
+            {
+              "id": 71,
+              "name": "Sandwiches",
+              "url_key": "sandwiches",
+              "main": false
+            },
+            {
+              "id": 82,
+              "name": "Seafood",
+              "url_key": "seafood",
+              "main": false
+            },
+            {
+              "id": 73,
+              "name": "Pizza",
+              "url_key": "pizza",
+              "main": false
+            },
+            {
+              "id": 151,
+              "name": "Western",
+              "url_key": "western",
+              "main": false
+            },
+            {
+              "id": 86,
+              "name": "Fast Food",
+              "url_key": "fast-food",
+              "main": true
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 86,
+            "name": "Fast Food",
+            "url_key": "fast-food",
+            "main": true
+          }
+        },
+        "vendor_points": 12711,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/qeqr/florentine-cest-la-vie",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "FLORENTINE",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": false,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "sdEEXX1eRlQc7IpbFhCCqJ4/0OVk9ytf7ORriV2cjoDsxY9COFbuSHV+I5kkoXWUNvLBZc6qpadd2HfPXI4lcEWtMjV9fE+TEmRiuqTd8ySpFptaUvD0ZlA1XPvchaQC+eG6B9CwuvIWUq7446gVRCkbsonst9Yp1mtrgzM2m85P9+IhtSam/DwcEDE4j6Q4PQS2wKGua3mm4mmnGfLS6oKB+lgLIrhrykkPRjYUtyV61glsiXcY33gvOnd7TZEw9Y1bUxQqfzTXYCy+JGVt",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      },
+      {
+        "id": 189518,
+        "code": "y3na",
+        "accepts_instructions": true,
+        "address": "Bismillah lahori hotel lane 4, plot 31c , shop no. 2 khadda market",
+        "address_line2": "",
+        "budget": 1,
+        "chain": {
+          "code": "",
+          "name": "",
+          "main_vendor_code": "",
+          "url_key": ""
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 259,
+            "name": "Paratha",
+            "url_key": "paratha",
+            "main": false
+          },
+          {
+            "id": 139,
+            "name": "Pakistani",
+            "url_key": "pakistani",
+            "main": false
+          },
+          {
+            "id": 193,
+            "name": "Biryani",
+            "url_key": "biryani",
+            "main": true
+          },
+          {
+            "id": 261,
+            "name": "Qeema",
+            "url_key": "qeema",
+            "main": false
+          },
+          {
+            "id": 251,
+            "name": "Karahi & Handi",
+            "url_key": "karahi-and-handi",
+            "main": false
+          },
+          {
+            "id": 252,
+            "name": "Nihari",
+            "url_key": "nihari",
+            "main": false
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 2.176,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://foodpanda.dhmedia.io/image/fd-pk/LH/y3na-listing.jpg",
+        "hero_listing_image": "https://foodpanda.dhmedia.io/image/fd-pk/LH/y3na-listing.jpg",
+        "is_new_until": "2026-09-04T08:37:08Z",
+        "premium_position": 2,
+        "latitude": 24.8124083,
+        "logo": "",
+        "longitude": 67.0501928,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Bismillah Lahori Hotel - Khadda Market",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 193,
+        "rating": 0,
+        "redirection_url": "https://foodpanda.pk/restaurant/y3na/bismillah-lahori-hotel-khadda-market-y3na",
+        "review_number": 0,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          },
+          {
+            "code": "DEAL",
+            "text": "10% off",
+            "label_metadata": {
+              "deal": {
+                "id": "1707160"
+              }
+            }
+          },
+          {
+            "code": "NEW",
+            "text": "NEXTGEN_NEW_TAG"
+          }
+        ],
+        "url_key": "bismillah-lahori-hotel-khadda-market-y3na",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 259,
+              "name": "Paratha",
+              "url_key": "paratha",
+              "main": false
+            },
+            {
+              "id": 139,
+              "name": "Pakistani",
+              "url_key": "pakistani",
+              "main": false
+            },
+            {
+              "id": 193,
+              "name": "Biryani",
+              "url_key": "biryani",
+              "main": true
+            },
+            {
+              "id": 261,
+              "name": "Qeema",
+              "url_key": "qeema",
+              "main": false
+            },
+            {
+              "id": 251,
+              "name": "Karahi & Handi",
+              "url_key": "karahi-and-handi",
+              "main": false
+            },
+            {
+              "id": 252,
+              "name": "Nihari",
+              "url_key": "nihari",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 193,
+            "name": "Biryani",
+            "url_key": "biryani",
+            "main": true
+          }
+        },
+        "vendor_points": 7648,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/y3na/bismillah-lahori-hotel-khadda-market-y3na",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [
+          {
+            "id": "1707160",
+            "value": 10
+          }
+        ],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "BISMILLAH LAHORI HOTEL",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": true,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": false,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "dma+bnMfMc9n3BfcG1BzkWOiIBeKyI05ZAJhfFWjl6gvJCqlmWmYW5sPu/W3yl6xF5GXPOxm/5oYtWYdxDpJ/7WB6qQt669IgiA9afvb7wmr4pmEtf9SvQ9B7bjEBeyvpq5fVaMdsLi0uiHiJ4CgcVT22CxqECBafSUs1K5/gDaeTDZGjowYfC+5QwJhK8wtahtaEfof4GtqiesK0437z9+ZcoL7rmBMDxAXSARFYlQHMd/xg+qF86R9hnOUK4t/rZ+kKQF3eH20qwfYCunS",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      },
+      {
+        "id": 57589,
+        "code": "cwy6",
+        "accepts_instructions": true,
+        "address": "Khayaban-e-Shahbaz, Khayaban-e-Shahbaz, D.H.A Phase 6 Shahbaz Commercial Area Phase 6 Defence Housing Authority, Karachi, 75500",
+        "address_line2": "",
+        "budget": 3,
+        "chain": {
+          "code": "cy2xg",
+          "name": "Subway -  South(Mall)",
+          "main_vendor_code": "u9qs",
+          "url_key": "subway-south-mall"
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 133,
+            "name": "Healthy Food",
+            "url_key": "healthy-food",
+            "main": false
+          },
+          {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": true
+          },
+          {
+            "id": 151,
+            "name": "Western",
+            "url_key": "western",
+            "main": false
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 1.292,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/cwy6-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/cwy6-listing.jpg",
+        "is_new_until": "2022-12-30T00:00:00Z",
+        "premium_position": 3,
+        "latitude": 24.80780882,
+        "logo": "",
+        "longitude": 67.06111371,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Subway - Dolmen Mall Clifton",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 71,
+        "rating": 4.6,
+        "redirection_url": "https://foodpanda.pk/restaurant/cwy6/subway-dolmen-mall-clifton",
+        "review_number": 1481,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          },
+          {
+            "code": "DEAL",
+            "text": "Up to 35% off",
+            "label_metadata": {
+              "deal": {
+                "id": "1489219"
+              }
+            }
+          }
+        ],
+        "url_key": "subway-dolmen-mall-clifton",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 133,
+              "name": "Healthy Food",
+              "url_key": "healthy-food",
+              "main": false
+            },
+            {
+              "id": 71,
+              "name": "Sandwiches",
+              "url_key": "sandwiches",
+              "main": true
+            },
+            {
+              "id": 151,
+              "name": "Western",
+              "url_key": "western",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 71,
+            "name": "Sandwiches",
+            "url_key": "sandwiches",
+            "main": true
+          }
+        },
+        "vendor_points": 12818,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/cwy6/subway-dolmen-mall-clifton",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "MFR FOODS (SMC-PRIVATE) LIMITED",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": false,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "WCDBr3ba9T3YLO/YpxtH/ICrMZ427J34DdMM73k3P+tRxw8eaKH6p9EBv9m7vakHNtiyn5XnD0VCfu10c2nPeYmVGVnhSOdyLkBwK82tm7ib1o8K7pzwtiepvdNKfYUB6qo7MZsEyLYDDxztuU+vMT2oY2pFj0YYF04kZBokp6h+dh/MD9/zgA7FaLUYhfzDUyaAd0JI00oeRFjLrLP/lOU9u7HKiS9DN92inuRF65rKDULIQQ2u54TE/HDv0v3Ky9olbAy/5q1UnvEhqn1b",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      },
+      {
+        "id": 161364,
+        "code": "vaxa",
+        "accepts_instructions": true,
+        "address": "shop 1, plot 13C Khayaban-e-Badar, DHA Phase 5 Badar Commercial Area Defence V Defence Housing Authority, Karachi,",
+        "address_line2": "",
+        "budget": 3,
+        "chain": {
+          "code": "",
+          "name": "",
+          "main_vendor_code": "",
+          "url_key": ""
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 139,
+            "name": "Pakistani",
+            "url_key": "pakistani",
+            "main": true
+          },
+          {
+            "id": 84,
+            "name": "Desserts",
+            "url_key": "desserts",
+            "main": false
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 3.024,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/vaxa-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/vaxa-listing.jpg",
+        "is_new_until": "2026-02-15T10:33:05Z",
+        "premium_position": 4,
+        "latitude": 24.798367,
+        "logo": "",
+        "longitude": 67.04745575,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": false,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Morning Fresh Bakers - Badar",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 139,
+        "rating": 4.9,
+        "redirection_url": "https://foodpanda.pk/restaurant/vaxa/morning-fresh-bakers-badar",
+        "review_number": 98,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          }
+        ],
+        "url_key": "morning-fresh-bakers-badar",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 139,
+              "name": "Pakistani",
+              "url_key": "pakistani",
+              "main": true
+            },
+            {
+              "id": 84,
+              "name": "Desserts",
+              "url_key": "desserts",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 139,
+            "name": "Pakistani",
+            "url_key": "pakistani",
+            "main": true
+          }
+        },
+        "vendor_points": 12618,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/vaxa/morning-fresh-bakers-badar",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "MORNING FRESH BAKERS",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": false,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "ieFxGsbHEJ/WGfjFGAD6sfxG0irAPBz2YwpKnsS2vRnGgmTB/vwWSYvwzpXVXaXtKXybAshJIJlOdcsJiy31n7dR8va8dns2efP57W8+I+l5Xgv6aNUf70EwVrh7EltbBYXO5cWF5i3Po3Sumxi1bfLFKNVEIQkrc3toLDVxFQm5Qjfj6c4SjH/cXcYWqs5PvaC8sXIWZtb7r8VfvaaOnX0Xzhjn2PrCS0vk+Xua+YkI6gDLVWvUg8qcsZPmj/0Hb4vbidfrCqYaBJfn7H5P",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      },
+      {
+        "id": 174105,
+        "code": "c1tf",
+        "accepts_instructions": true,
+        "address": "Plot#18-C, Main Khayaban e Rahat Commercial, Behind Hot & Spicy, Opposite Umer Farooq Masjid, Phase 6, DHA, Karachi",
+        "address_line2": "",
+        "budget": 2,
+        "chain": {
+          "code": "",
+          "name": "",
+          "main_vendor_code": "",
+          "url_key": ""
+        },
+        "city": {
+          "name": "Karachi"
+        },
+        "cuisines": [
+          {
+            "id": 247,
+            "name": "Savouries",
+            "url_key": "savouries",
+            "main": false
+          },
+          {
+            "id": 139,
+            "name": "Pakistani",
+            "url_key": "pakistani",
+            "main": true
+          },
+          {
+            "id": 193,
+            "name": "Biryani",
+            "url_key": "biryani",
+            "main": false
+          },
+          {
+            "id": 84,
+            "name": "Desserts",
+            "url_key": "desserts",
+            "main": false
+          }
+        ],
+        "custom_location_url": "",
+        "customer_type": "all",
+        "delivery_box": "",
+        "delivery_fee_type": "amount",
+        "description": "",
+        "distance": 0.576,
+        "food_characteristics": [],
+        "has_delivery_provider": true,
+        "hero_image": "https://images.deliveryhero.io/image/fd-pk/LH/c1tf-listing.jpg",
+        "hero_listing_image": "https://images.deliveryhero.io/image/fd-pk/LH/c1tf-listing.jpg",
+        "is_new_until": "2026-04-18T10:21:22Z",
+        "premium_position": 5,
+        "latitude": 24.8096551,
+        "logo": "",
+        "longitude": 67.0693984,
+        "loyalty_percentage_amount": 0,
+        "loyalty_program_enabled": false,
+        "maximum_express_order_amount": 0,
+        "metadata": {
+          "has_discount": true,
+          "timezone": "Asia/Karachi",
+          "close_reasons": [],
+          "available_in": null,
+          "events": [],
+          "is_delivery_available": true,
+          "is_pickup_available": true,
+          "is_dine_in_available": false,
+          "is_express_delivery_available": false,
+          "is_temporary_closed": false,
+          "is_flood_feature_closed": false
+        },
+        "minimum_delivery_fee": 99,
+        "minimum_delivery_time": 45,
+        "minimum_order_amount": 249,
+        "minimum_pickup_time": 15,
+        "name": "Lasani Biryani Centre",
+        "payment_types": [],
+        "post_code": "75500",
+        "primary_cuisine_id": 139,
+        "rating": 4.8,
+        "redirection_url": "https://foodpanda.pk/restaurant/c1tf/lasani-biryani-centre",
+        "review_number": 15,
+        "review_with_comment_number": 0,
+        "score": 0,
+        "service_fee_percentage_amount": 0,
+        "service_tax_percentage_amount": 0,
+        "tag": "NEXTGEN_FEATURED_TAG",
+        "tags": [
+          {
+            "code": "FEAT",
+            "text": "NEXTGEN_FEATURED_TAG"
+          },
+          {
+            "code": "DEAL",
+            "text": "20% off",
+            "label_metadata": {
+              "deal": {
+                "id": "1708761"
+              }
+            }
+          }
+        ],
+        "url_key": "lasani-biryani-centre",
+        "vat_percentage_amount": 0,
+        "characteristics": {
+          "cuisines": [
+            {
+              "id": 247,
+              "name": "Savouries",
+              "url_key": "savouries",
+              "main": false
+            },
+            {
+              "id": 139,
+              "name": "Pakistani",
+              "url_key": "pakistani",
+              "main": true
+            },
+            {
+              "id": 193,
+              "name": "Biryani",
+              "url_key": "biryani",
+              "main": false
+            },
+            {
+              "id": 84,
+              "name": "Desserts",
+              "url_key": "desserts",
+              "main": false
+            }
+          ],
+          "food_characteristics": [],
+          "primary_cuisine": {
+            "id": 139,
+            "name": "Pakistani",
+            "url_key": "pakistani",
+            "main": true
+          }
+        },
+        "vendor_points": 10720,
+        "vertical": "restaurants",
+        "vertical_segment": "restaurants",
+        "vertical_parent": "Restaurant",
+        "web_path": "https://foodpanda.pk/restaurant/c1tf/lasani-biryani-centre",
+        "website": "",
+        "has_online_payment": true,
+        "discounts_info": [
+          {
+            "id": "1708761",
+            "value": 20
+          }
+        ],
+        "discounts": [],
+        "vendor_legal_information": {
+          "legal_name": "Muhammad Irfan",
+          "trade_register_number": ""
+        },
+        "disclaimers": [],
+        "vertical_type_ids": [
+          "restaurants"
+        ],
+        "loyalty_programs": [],
+        "delivery_provider": "platform_delivery",
+        "is_active": true,
+        "is_best_in_city": false,
+        "is_checkout_comment_enabled": false,
+        "is_delivery_enabled": true,
+        "is_new": false,
+        "is_pickup_enabled": true,
+        "is_premium": true,
+        "is_preorder_enabled": false,
+        "is_replacement_dish_enabled": false,
+        "is_service_fee_enabled": false,
+        "is_service_tax_enabled": false,
+        "is_service_tax_visible": false,
+        "is_test": false,
+        "is_vat_disabled": false,
+        "is_vat_included_in_product_price": false,
+        "is_vat_visible": false,
+        "is_voucher_enabled": true,
+        "is_promoted": false,
+        "ncr_pricing_model": "cpc",
+        "ncr_token": "mZ9sBdo8g7eLqKeXPplnpMHFrWk2jaFTm7aW4V0LassBaY0VrKDGflMFmxzZzIyPXVHESPtuizNzz92qiDYt05AzezeD0b9dDwvsamO598/vKz/JxHUJTrPFjmb/ajfdgIJ5+CKrNWMar7Lnwfq02RSakCMnnWb5p+mM031wh3QAJaz8XEObcjG1IfftIRr07/TyYL12Gih9Dev035ZvxuZBDjIK3h7kgwxM4RR0BWvBaj9MD1dYA3f/qqbfHkk4jj3eWBnNTEuuXBYlnkSi",
+        "tag_ids": [],
+        "is_meal_for_one_vendor": false,
+        "is_preferred_partner": false
+      }
+    ],
+    "aggregations": {
+      "cuisines": [
+        {
+          "id": 87,
+          "title": "American",
+          "count": 5,
+          "slug": "american"
+        },
+        {
+          "id": 246,
+          "title": "BBQ",
+          "count": 10,
+          "slug": "bbq"
+        },
+        {
+          "id": 89,
+          "title": "Beverages",
+          "count": 76,
+          "slug": "beverages-89"
+        },
+        {
+          "id": 193,
+          "title": "Biryani",
+          "count": 22,
+          "slug": "biryani"
+        },
+        {
+          "id": 241,
+          "title": "Broast",
+          "count": 2,
+          "slug": "broast"
+        },
+        {
+          "id": 85,
+          "title": "Burgers",
+          "count": 14,
+          "slug": "burgers"
+        },
+        {
+          "id": 77,
+          "title": "Cakes & Bakery",
+          "count": 39,
+          "slug": "cakes-and-bakery"
+        },
+        {
+          "id": 74,
+          "title": "Chinese",
+          "count": 8,
+          "slug": "chinese"
+        },
+        {
+          "id": 79,
+          "title": "Continental",
+          "count": 12,
+          "slug": "continental"
+        },
+        {
+          "id": 84,
+          "title": "Desserts",
+          "count": 55,
+          "slug": "desserts"
+        },
+        {
+          "id": 86,
+          "title": "Fast Food",
+          "count": 27,
+          "slug": "fast-food"
+        },
+        {
+          "id": 258,
+          "title": "Halwa Puri",
+          "count": 12,
+          "slug": "halwa-puri"
+        },
+        {
+          "id": 133,
+          "title": "Healthy Food",
+          "count": 28,
+          "slug": "healthy-food"
+        },
+        {
+          "id": 110,
+          "title": "Ice Cream",
+          "count": 22,
+          "slug": "ice-cream"
+        },
+        {
+          "id": 72,
+          "title": "Japanese",
+          "count": 1,
+          "slug": "japanese"
+        },
+        {
+          "id": 251,
+          "title": "Karahi & Handi",
+          "count": 17,
+          "slug": "karahi-and-handi"
+        },
+        {
+          "id": 113,
+          "title": "Middle Eastern",
+          "count": 2,
+          "slug": "middle-eastern"
+        },
+        {
+          "id": 252,
+          "title": "Nihari",
+          "count": 4,
+          "slug": "nihari"
+        },
+        {
+          "id": 139,
+          "title": "Pakistani",
+          "count": 126,
+          "slug": "pakistani"
+        },
+        {
+          "id": 259,
+          "title": "Paratha",
+          "count": 45,
+          "slug": "paratha"
+        },
+        {
+          "id": 103,
+          "title": "Pasta",
+          "count": 13,
+          "slug": "pasta"
+        },
+        {
+          "id": 73,
+          "title": "Pizza",
+          "count": 16,
+          "slug": "pizza"
+        },
+        {
+          "id": 248,
+          "title": "Pulao",
+          "count": 8,
+          "slug": "pulao"
+        },
+        {
+          "id": 261,
+          "title": "Qeema",
+          "count": 3,
+          "slug": "qeema"
+        },
+        {
+          "id": 257,
+          "title": "Samosa",
+          "count": 9,
+          "slug": "samosa"
+        },
+        {
+          "id": 71,
+          "title": "Sandwiches",
+          "count": 30,
+          "slug": "sandwiches"
+        },
+        {
+          "id": 247,
+          "title": "Savouries",
+          "count": 24,
+          "slug": "savouries"
+        },
+        {
+          "id": 82,
+          "title": "Seafood",
+          "count": 3,
+          "slug": "seafood"
+        },
+        {
+          "id": 253,
+          "title": "Shakes",
+          "count": 21,
+          "slug": "shakes"
+        },
+        {
+          "id": 126,
+          "title": "Shawarma",
+          "count": 1,
+          "slug": "shawarma"
+        },
+        {
+          "id": 244,
+          "title": "Steak",
+          "count": 2,
+          "slug": "steak"
+        },
+        {
+          "id": 240,
+          "title": "Tea & Coffee",
+          "count": 56,
+          "slug": "tea-and-coffee"
+        },
+        {
+          "id": 76,
+          "title": "Thai",
+          "count": 1,
+          "slug": "thai"
+        },
+        {
+          "id": 94,
+          "title": "Vegetarian",
+          "count": 1,
+          "slug": "vegetarian"
+        },
+        {
+          "id": 151,
+          "title": "Western",
+          "count": 52,
+          "slug": "western"
+        },
+        {
+          "id": 121,
+          "title": "Wraps & Rolls",
+          "count": 11,
+          "slug": "wraps-and-rolls"
+        }
+      ],
+      "quickFilters": [
+        {
+          "id": 0,
+          "title": "has_online_payment",
+          "count": 231,
+          "slug": null
+        },
+        {
+          "id": 0,
+          "title": "is_voucher_enabled",
+          "count": 228,
+          "slug": null
+        },
+        {
+          "id": 0,
+          "title": "has_discount",
+          "count": 141,
+          "slug": null
+        },
+        {
+          "id": 0,
+          "title": "is_new",
+          "count": 18,
+          "slug": null
+        },
+        {
+          "id": 0,
+          "title": "is_super_vendor",
+          "count": 15,
+          "slug": null
+        }
+      ],
+      "foodCharacteristics": [
+        {
+          "id": 256,
+          "title": "In-Store Price",
+          "count": 77,
+          "slug": "in-store-price"
+        },
+        {
+          "id": 241,
+          "title": "Organic",
+          "count": 1,
+          "slug": "organic"
+        }
+      ]
+    }
+  }
+}

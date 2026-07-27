@@ -1,0 +1,1230 @@
+{
+  "status_code": 200,
+  "data": {
+    "id": 14615,
+    "code": "u1od",
+    "name": "Subway - Sehar Commercial Ave",
+    "address": "34-C Rahat Lane 3, Phase 6, DHA Karachi",
+    "city": {
+      "id": 107681,
+      "name": "Karachi",
+      "url_key": "karachi",
+      "is_top_city": false,
+      "is_main_city": false,
+      "is_express_delivery_enabled": false,
+      "latitude": 25.144689559936523,
+      "longitude": 67.18477630615234,
+      "timezone": "Asia/Karachi"
+    },
+    "latitude": 24.80871393,
+    "longitude": 67.0685123,
+    "rating": 4.6,
+    "review_number": 8788,
+    "cuisines": [
+      {
+        "id": 71,
+        "name": "Sandwiches",
+        "url_key": "sandwiches",
+        "main": true
+      },
+      {
+        "id": 87,
+        "name": "American",
+        "url_key": "american",
+        "main": false
+      },
+      {
+        "id": 133,
+        "name": "Healthy Food",
+        "url_key": "healthy-food",
+        "main": false
+      },
+      {
+        "id": 151,
+        "name": "Western",
+        "url_key": "western",
+        "main": false
+      }
+    ],
+    "budget": 2,
+    "minimum_order_amount": 299,
+    "minimum_delivery_fee": 0,
+    "minimum_delivery_time": 0,
+    "delivery_duration_range": null,
+    "is_delivery_enabled": true,
+    "is_pickup_enabled": true,
+    "has_online_payment": false,
+    "schedules": [
+      {
+        "id": 0,
+        "weekday": 1,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 1,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 2,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 2,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 3,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 3,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 4,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 4,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 5,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 5,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 6,
+        "opening_type": "delivering",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 6,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 7,
+        "opening_type": "delivering",
+        "opening_time": "12:00",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 7,
+        "opening_type": "delivering",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 1,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 1,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 2,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 2,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 3,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 3,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 4,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 4,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 5,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 5,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 6,
+        "opening_type": "pickup",
+        "opening_time": "09:30",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 6,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      },
+      {
+        "id": 0,
+        "weekday": 7,
+        "opening_type": "pickup",
+        "opening_time": "12:00",
+        "closing_time": "23:59"
+      },
+      {
+        "id": 0,
+        "weekday": 7,
+        "opening_type": "pickup",
+        "opening_time": "00:00",
+        "closing_time": "04:00"
+      }
+    ],
+    "deals": [
+      {
+        "id": 1670287,
+        "code": "1670287",
+        "offer_type": "percentage",
+        "type": "discount",
+        "voucher_type": "",
+        "minimum_order_value": 0,
+        "maximum_discount_amount": 0,
+        "value": 34,
+        "title": "34% off selected items",
+        "description": "",
+        "start_date": "2026-07-01T00:00:00+05:00",
+        "end_date": "2026-07-31T00:00:00+05:00",
+        "is_pro": false,
+        "is_new_customer": false,
+        "seq_priority": 1000,
+        "additional_info": {
+          "should_override": [
+            "dps"
+          ],
+          "calculation": {
+            "baseOn": null
+          }
+        },
+        "tc": [
+          "Applicable for Delivery.",
+          "Applicable only for selected products or categories.",
+          "Additional T&C can apply"
+        ],
+        "action": {
+          "type": "",
+          "name": "",
+          "description": ""
+        },
+        "source": "incentives",
+        "conditions": null,
+        "quantity": 0,
+        "used_quantity": 0,
+        "is_full_basket_applicable": false,
+        "construct_id": "",
+        "is_bogo": false
+      }
+    ],
+    "discounts": [
+      {
+        "banner_title": "",
+        "bogo_product_blocks": [],
+        "bogo_discount_unit": "",
+        "closing_time": "23:59",
+        "condition_type": "menucategory",
+        "condition_object": 1231370,
+        "condition_object_array": [
+          1231370
+        ],
+        "discount_amount": 34,
+        "discount_type": "percentage",
+        "conditions": null,
+        "daily_limit": 0,
+        "description": "",
+        "discount_text": "",
+        "end_date": "2026-07-31",
+        "file_name": "",
+        "id": 1670287,
+        "maximum_discount_amount": 0,
+        "minimum_order_value": 0,
+        "name": "34% off selected items",
+        "opening_time": "00:00",
+        "platform_ratio": 0,
+        "promotional_limit": 0,
+        "start_date": "2026-07-01",
+        "vendor_id": 0,
+        "additional_info": {
+          "calculation": {
+            "baseOn": null
+          },
+          "should_override": [
+            "dps"
+          ]
+        }
+      },
+      {
+        "banner_title": "",
+        "bogo_product_blocks": [],
+        "bogo_discount_unit": "",
+        "closing_time": "05:28",
+        "condition_type": "multiple_vendors",
+        "condition_object": 0,
+        "condition_object_array": [],
+        "discount_amount": 0,
+        "discount_type": "free-delivery",
+        "conditions": null,
+        "daily_limit": 0,
+        "description": "",
+        "discount_text": "",
+        "end_date": "2027-07-27",
+        "file_name": "",
+        "id": 0,
+        "maximum_discount_amount": 0,
+        "minimum_order_value": 0,
+        "name": "",
+        "opening_time": "05:28",
+        "platform_ratio": 0,
+        "promotional_limit": 0,
+        "start_date": "2026-07-27",
+        "vendor_id": 0,
+        "additional_info": {
+          "calculation": {
+            "baseOn": null
+          },
+          "high_value_action": "ACQUISITION",
+          "high_value_action_label": "NEXTGEN_HVA_ACQUISITION_FD"
+        }
+      }
+    ],
+    "tags": [
+      {
+        "code": "DEAL",
+        "text": "34% off selected items"
+      }
+    ],
+    "web_path": "https://www.foodpanda.pk/restaurant/u1od/subway-sehar-commercial-ave",
+    "url_key": "subway-sehar-commercial-ave",
+    "vertical": "restaurants",
+    "menus": [
+      {
+        "id": 28352,
+        "code": "",
+        "name": "Daily Menu",
+        "type": "delivery",
+        "menu_categories": [
+          {
+            "id": 1231370,
+            "code": "838dbe7f-573c-4875-8af7-83672e14bf7a",
+            "name": "Celebration Deals & Discounts",
+            "description": "",
+            "is_popular_category": false,
+            "products": [
+              {
+                "id": 98102364,
+                "code": "55d238a2-662c-4c0b-906a-a5767a849ed2",
+                "name": "Big Deal 1",
+                "description": "Get a 6 inch Chicken Sub at Great Discount ",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101123297/6c5e97db-ea50-412f-9648-8e25ec94cf8c.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101123297/6c5e97db-ea50-412f-9648-8e25ec94cf8c.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101123297/6c5e97db-ea50-412f-9648-8e25ec94cf8c.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101123297,
+                    "code": "3fd4ae5e-5a8a-434f-9d8e-cad23d211849",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 607.86,
+                    "price_before_discount": 921,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 98099473,
+                "code": "804ee6bd-0179-4cad-aebf-34ce19ce0916",
+                "name": "Celebration Deal",
+                "description": "Get any Chicken 6 inch sub and Drink at a great discounted value",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101119829/2f61ccbc-6ab9-4613-9faa-f2403c0b4609.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101119829/2f61ccbc-6ab9-4613-9faa-f2403c0b4609.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/101119829/2f61ccbc-6ab9-4613-9faa-f2403c0b4609.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101119829,
+                    "code": "b318ab75-5935-4f63-8d94-04270b348191",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 659.3399999999999,
+                    "price_before_discount": 999,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "system:image-updated-at=1762411380",
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 98099474,
+                "code": "438b92b1-9251-4d8f-8844-b3fc1d94578b",
+                "name": "Sub & Cookie Deal",
+                "description": "Get 2 Subs, 2 cookies and 2 drink",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/98099407.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/98099407.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/98099407.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101119830,
+                    "code": "bba9dc74-1a9f-4ffb-a037-d16c085ac0af",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 1826.22,
+                    "price_before_discount": 2767,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "system:image-updated-at=1762412028"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 98099475,
+                "code": "a3677183-d5e2-4f96-aaa0-916f1c7890af",
+                "name": "All In One",
+                "description": "Get a 6inch sub, cookie, chips and drink",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/98099436.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/98099436.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/98099436.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 101119831,
+                    "code": "6060fed0-aaac-4c09-b02d-e5e8aba5d673",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 864.6,
+                    "price_before_discount": 1310,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "system:image-updated-at=1762412485"
+                ],
+                "is_bundle": false,
+                "most_liked": {
+                  "ProductId": "",
+                  "Likes": 8,
+                  "TotalCount": 12,
+                  "Percentage": 67
+                }
+              }
+            ]
+          },
+          {
+            "id": 218378,
+            "code": "s6ro-mc-29u",
+            "name": "Sandwiches",
+            "description": "",
+            "is_popular_category": false,
+            "products": [
+              {
+                "id": 1675473,
+                "code": "s0ak-pr-7q54",
+                "name": "Chicken Tikka",
+                "description": "The all-time favorite chicken Tikka sub. Its classic! Customize it with whatever cheese or veggies you want and have a flavor blast",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675473-parent/ea19b633-3255-4a51-84e0-46a0836aeef1.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675473-parent/ea19b633-3255-4a51-84e0-46a0836aeef1.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675473-parent/ea19b633-3255-4a51-84e0-46a0836aeef1.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229615,
+                    "code": "s0ak-pv-a8um",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "6-Inch",
+                    "price": 784,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  },
+                  {
+                    "id": 2229616,
+                    "code": "s0ak-pv-a8un",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Footlong Sub",
+                    "price": 1490,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 32130589,
+                "code": "51dc631d-ee2c-4389-beca-2d044dcaeb86",
+                "name": "Chicken Fajita",
+                "description": "Tender chicken pieces tossed in fajita seasoning served in fresh bread. A delightful sandwich that delivers savory flavors and satisfying textures in every bite.",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/32130589-parent/26b75f11-4f33-474e-b6d4-21a303c93d96.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/32130589-parent/26b75f11-4f33-474e-b6d4-21a303c93d96.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/32130589-parent/26b75f11-4f33-474e-b6d4-21a303c93d96.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 34454385,
+                    "code": "d047a2ca-bbb5-4336-949a-52237df2c3ad",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "6-Inch",
+                    "price": 784,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  },
+                  {
+                    "id": 34454386,
+                    "code": "862ee16a-b317-4979-9feb-b463e35e0ae5",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Footlong Sub",
+                    "price": 1490,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "tags": [
+                  "popular"
+                ],
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 1675458,
+                "code": "s2dc-pr-u6o9",
+                "name": "Roasted Chicken Breast",
+                "description": "Tender roasted chicken breast on freshly baked bread with a golden crust. Juicy and flavorful, this sandwich is truly tempting and satisfying",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675458-parent/f6805605-f222-4038-96ba-4df331b85628.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675458-parent/f6805605-f222-4038-96ba-4df331b85628.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/global-menu-service/FP_PK/vendor/u1od/product/1675458-parent/f6805605-f222-4038-96ba-4df331b85628.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229587,
+                    "code": "s2dc-pv-143jj",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "6-Inch",
+                    "price": 706,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  },
+                  {
+                    "id": 2229588,
+                    "code": "s2dc-pv-143jk",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Footlong",
+                    "price": 1333,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": {
+                  "ProductId": "",
+                  "Likes": 6,
+                  "TotalCount": 8,
+                  "Percentage": 75
+                }
+              },
+              {
+                "id": 1675452,
+                "code": "s6hv-pr-azwu",
+                "name": "Peri Peri Chicken",
+                "description": "Flavorful blend of tender Peri Peri chicken strips. Served hot and  toasted on freshly baked bread",
+                "display_price": "",
+                "master_category_id": 4,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/522749.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/522749.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/522749.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229575,
+                    "code": "s6hv-pv-ef2h",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "6-Inch",
+                    "price": 840,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  },
+                  {
+                    "id": 2229576,
+                    "code": "s6hv-pv-ef2i",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "name": "Footlong",
+                    "price": 1596,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": null
+              }
+            ]
+          },
+          {
+            "id": 218397,
+            "code": "s6ro-mc-2ur",
+            "name": "Salads",
+            "description": "",
+            "is_popular_category": false,
+            "products": [
+              {
+                "id": 1675609,
+                "code": "s0ak-pr-88gc",
+                "name": "Chicken Tikka Salad",
+                "description": "Tasteful blend of tender tikka chicken strips. Served with the fresh crunch of your favorite vegetables",
+                "display_price": "",
+                "master_category_id": 2,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/384258.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/384258.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/384258.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229781,
+                    "code": "s0ak-pv-axa4",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 851,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 1675622,
+                "code": "s6ro-pr-hgxg",
+                "name": "Peri Peri Chicken Salad",
+                "description": "Everything but the bread! Turn your favorite Peri Peri Sub into a salad then add crunch to your meal with chopped lettuce, onions, tomatoes, cucumbers and much more!",
+                "display_price": "",
+                "master_category_id": 2,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/815092.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/815092.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/815092.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229794,
+                    "code": "s6ro-pv-n4oe",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 907,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 1675608,
+                "code": "s0ak-pr-88gb",
+                "name": "Chicken Fajita Salad",
+                "description": "Juicy bites of delish chicken added on top of a healthy, full of vitamins vegetables of your choice",
+                "display_price": "",
+                "master_category_id": 2,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/384257.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/384257.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/384257.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229780,
+                    "code": "s0ak-pv-axa3",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 851,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": null
+              },
+              {
+                "id": 1675624,
+                "code": "s6ro-pr-hgxi",
+                "name": "BBQ Chicken Salad",
+                "description": "You are not truly a Pakistani if you do not enjoy the flavors of Bar B Que but this time, with onions, lettuce, tomatoes and much more",
+                "display_price": "",
+                "master_category_id": 2,
+                "file_path": "https://images.deliveryhero.io/image/fd-pk/Products/815094.jpg?width=%s",
+                "logo_path": "https://images.deliveryhero.io/image/fd-pk/Products/815094.jpg?width=%s",
+                "images_urls": [],
+                "images": [
+                  {
+                    "image_url": "https://images.deliveryhero.io/image/fd-pk/Products/815094.jpg",
+                    "tags": {}
+                  }
+                ],
+                "is_prepacked_item": false,
+                "is_sold_out": false,
+                "is_express_item": true,
+                "exclude_dish_information": false,
+                "additives": [],
+                "is_alcoholic_item": false,
+                "sold_out_options": [
+                  {
+                    "default": true,
+                    "option": "REFUND",
+                    "text": "NEXTGEN_SoldOutOptions_Refund"
+                  },
+                  {
+                    "default": false,
+                    "option": "CANCEL",
+                    "text": "NEXTGEN_SoldOutOptions_Cancel"
+                  },
+                  {
+                    "default": false,
+                    "option": "CALL_CUSTOMER",
+                    "text": "NEXTGEN_SoldOutOptions_CALL_CUSTOMER"
+                  }
+                ],
+                "dietary_attributes": {},
+                "product_variations": [
+                  {
+                    "id": 2229796,
+                    "code": "s6ro-pv-n4og",
+                    "remote_code": "",
+                    "container_price": 0,
+                    "price": 907,
+                    "is_vegetarian": false,
+                    "is_non_vegetarian": false,
+                    "spiceness": "",
+                    "unit_pricing": null,
+                    "total_price": 0,
+                    "dietary_attributes": {}
+                  }
+                ],
+                "half_type": "",
+                "is_half_type_available": false,
+                "is_bundle": false,
+                "most_liked": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

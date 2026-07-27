@@ -1,0 +1,275 @@
+{
+  "status_code": 200,
+  "data": {
+    "global_entity_id": "FP_PK",
+    "country_code_mobile": "92",
+    "is_country_code_mobile_visible": false,
+    "location_has_seperate_street": false,
+    "timezone": "Asia/Karachi",
+    "currency_symbol": "Rs.",
+    "currency_symbol_position": "left",
+    "thousands_separator": ",",
+    "decimal_separator": ".",
+    "number_of_decimal_digits": 2,
+    "minimum_order_value": "always_ask",
+    "small_order_fee": null,
+    "has_customer_sms_confirmation": true,
+    "is_terms_checkbox_checked_by_default": false,
+    "is_terms_checkbox_visible": true,
+    "frontend_address": "https://www.foodpanda.pk",
+    "corporate_address": "https://corporate.foodpanda.pk",
+    "native_online_payment_supported": true,
+    "show_veg_icon": true,
+    "default_language_code": "en_PK",
+    "default_language_id": 1,
+    "languages": [
+      {
+        "language_id": 1,
+        "language_code": "en_PK",
+        "name": "English",
+        "locale": "en_PK"
+      },
+      {
+        "language_id": 3,
+        "language_code": "ur_PK",
+        "name": "Roman Urdu",
+        "locale": "ur_PK"
+      }
+    ],
+    "food_characteristic_available_filters": null,
+    "location_group_type": "polygon",
+    "location_type": "polygon",
+    "location_has_city": true,
+    "location_has_area": false,
+    "location_has_subarea": false,
+    "location_has_address": true,
+    "facebook_app_id": "1441869016037016",
+    "is_group_order_enabled": false,
+    "is_voucher_list_enabled": true,
+    "rating_popup_position": "home",
+    "call_vendor_enabled": true,
+    "home_screen_enabled": false,
+    "sms_verification_attempts_allowed": 3,
+    "sms_verification_resend_allowed": 1,
+    "sms_verification_callback_allowed": 2,
+    "currency_symbol_iso": "PKR",
+    "enabled_social_connects": {
+      "social_connects": [
+        {
+          "name": "facebook"
+        }
+      ]
+    },
+    "customer_configuration": {
+      "form_elements": [
+        {
+          "field_name": "first_name",
+          "label": "NEXTGEN_first_name",
+          "keyboard_type": "default",
+          "picker_type": null,
+          "validation": "[\\w\\s\\-]+",
+          "is_required": true,
+          "default_value": null
+        },
+        {
+          "field_name": "last_name",
+          "label": "NEXTGEN_last_name",
+          "keyboard_type": "default",
+          "picker_type": null,
+          "validation": "[\\w\\s\\-]+",
+          "is_required": true,
+          "default_value": null
+        },
+        {
+          "field_name": "email",
+          "label": "NEXTGEN_email",
+          "keyboard_type": "email",
+          "picker_type": null,
+          "validation": "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}",
+          "is_required": true,
+          "default_value": null
+        },
+        {
+          "field_name": "mobile_country_code",
+          "label": "NEXTGEN_mobile_country_code",
+          "keyboard_type": "phone",
+          "picker_type": "mobile_country_code",
+          "validation": "[+\\w+]+",
+          "is_required": true,
+          "default_value": "92"
+        },
+        {
+          "field_name": "mobile_number",
+          "label": "NEXTGEN_mobile_number",
+          "keyboard_type": "number",
+          "picker_type": null,
+          "validation": "\\w+",
+          "is_required": true,
+          "default_value": null
+        }
+      ]
+    },
+    "payment_form_configuration": {
+      "form_elements": []
+    },
+    "number_of_fraction_digits_if_zero": 2,
+    "number_of_fraction_digits_if_non_zero": 2,
+    "adyen_encryption_public_key": "10001|91E1694BDB8997E63E5D5E8DAC09018BFED79DE7B8EA98A75C5F69B1D1944E1C20990BABEA9EDB6403A4EAA8CFF59D51C04541B70BA2A952DA36B48BDAB64A17C3BD2010A7310B5784EC2F52C5993B83CDC3E97D8FF6EC119E891C4E6B021F551E748BBE0A88DECBF9102A52B2592B71EF9A09BBBE1C683ACF03858F25FEE61AC767D70B5317EBED7DCFE8044600F249140793E5BA8F0F8605FC4999C0B8BC02FE9E6B51A983B9FC2A68D9F401A8F3458B518B974ECD46018A9B2BE9DE65B7849302577371FFA937E5FC87921D0723E58C04E9E5B4906A21F888C1F66C82C3933E5D906B66872CB75ABCCF380DBED14C2FEB0BDE1B9FD2E8D78C4F2C5E6D47ED",
+    "adyen_merchant_id": "Foodpanda_PK",
+    "is_adyen3_d_s_enabled": true,
+    "is_adyen_recurring_enabled": true,
+    "paypal_seller_id": "",
+    "paypal_environment": "sandbox",
+    "paypal_client_id": "",
+    "is_ab_test_enabled": false,
+    "reload_configuration": {
+      "location_reload_version": 2,
+      "full_reload_version": 1
+    },
+    "sms_provider_sender_id": "+19294194144",
+    "quick_filters": [
+      "aaa",
+      "accept_voucher",
+      "delivery",
+      "express_delivery",
+      "free_delivery",
+      "has_discount",
+      "is_open",
+      "onlinepayment",
+      "pickup",
+      "preorder"
+    ],
+    "enabled_quick_filters": [
+      "is_voucher_enabled",
+      "has_free_delivery",
+      "has_discount",
+      "has_online_payment"
+    ],
+    "express_delivery_time_in_min": 45,
+    "delivery_type": "express",
+    "is_wallet_enabled": true,
+    "seconds_to_allow_sms_resend": 30,
+    "seconds_to_show_ivr_popup": 30,
+    "upsell_value": 0,
+    "always_verify_customer_number": true,
+    "self_service_mobile_address": "https://www.foodpanda.pk/help-center-body",
+    "alan_sdk_address": "https://helpcenter-ap.usehurrier.com/",
+    "customer_additional_fields": {
+      "form_elements": [],
+      "chain_codes": []
+    },
+    "customer_consent_fields": {
+      "form_elements": [],
+      "chain_codes": []
+    },
+    "cuisines_available_filters": null,
+    "customer_address_configuration": {
+      "form_elements": [
+        {
+          "field_name": "address_line1",
+          "label": "NEXTGEN_address_line1",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "address_line2",
+          "label": "NEXTGEN_address_line2",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "building",
+          "label": "NEXTGEN_building",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "address_line3",
+          "label": null,
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "city",
+          "label": null,
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "country_code",
+          "label": null,
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "floor",
+          "label": "NEXTGEN_address_other",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": ".*\\S.*",
+          "is_required": true,
+          "default_value": null
+        },
+        {
+          "field_name": "postcode",
+          "label": "NEXTGEN_postcode",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "company",
+          "label": "NEXTGEN_company",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        },
+        {
+          "field_name": "delivery_instructions",
+          "label": "NEXTGEN_delivery_instructions",
+          "keyboard_type": null,
+          "picker_type": null,
+          "validation": null,
+          "is_required": false,
+          "default_value": null
+        }
+      ],
+      "list_template": null
+    },
+    "is_opened": false,
+    "opens_at": "23:59",
+    "is_guest_checkout_enabled": false,
+    "zendesk_chat": "Pakistan",
+    "budget_symbol": "$",
+    "tracking": {
+      "criterio_id": null
+    },
+    "fintech": {
+      "region_code": "asia",
+      "client_code": "fp",
+      "client_key": "e292432c-ee6a-430c-92b3-c7272147db66"
+    }
+  }
+}

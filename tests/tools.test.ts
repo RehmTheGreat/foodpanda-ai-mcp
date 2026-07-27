@@ -1,0 +1,252 @@
+import { describe, it, expect, beforeAll } from 'vitest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { defaultRoutes, fixture, makeAdapter, testConfig } from './helpers.js';
+import { registerLocationTools } from '../src/tools/location.js';
+import { registerRestaurantTools } from '../src/tools/restaurants.js';
+import { registerMenuTools } from '../src/tools/menus.js';
+import { registerDiscoveryTools } from '../src/tools/discovery.js';
+import { registerPrompts } from '../src/prompts.js';
+import { registerResources } from '../src/resources.js';
+import { nullLogger } from '../src/logger.js';
+import type { ToolContext } from '../src/tools/context.js';
+import type { RouteSpec } from './helpers.js';
+
+/**
+ * These drive the real McpServer through a real MCP client over an in-memory
+ * transport, so tool registration, zod input validation and outputSchema
+ * validation are all genuinely exercised — only the network is faked.
+ */
+async function connect(routes: RouteSpec[] = defaultRoutes()) {
+  const config = testConfig();
+  const { adapter, geocoder } = makeAdapter(routes, config);
+  const ctx: ToolContext = { foodpanda: adapter, geocoder, config, logger: nullLogger };
+
+  const server = new McpServer({ name: 'test', version: '0.0.0' });
+  registerLocationTools(server, ctx);
+  registerRestaurantTools(server, ctx);
+  registerMenuTools(server, ctx);
+  registerDiscoveryTools(server, ctx);
+  registerPrompts(server);
+  registerResources(server, ctx);
+
+  const [clientTransport, serverTransport] = InMemoryTransport.createLinkedPair();
+  const client = new Client({ name: 'test-client', version: '0.0.0' });
+  await Promise.all([client.connect(clientTransport), server.connect(serverTransport)]);
+  return client;
+}
+
+const text = (res: any): string => res.content?.find((c: any) => c.type === 'text')?.text ?? '';
+
+/** Resource contents are a text|blob union; every resource here is text/JSON. */
+const readJson = (res: { contents: Array<Record<string, unknown>> }): any =>
+  JSON.parse(String(res.contents[0]!.text));
+
+let client: Awaited<ReturnType<typeof connect>>;
+beforeAll(async () => {
+  client = await connect();
+});
+
+describe('tool registration', () => {
+  it('registers the full documented tool set', async () => {
+    const { tools } = await client.listTools();
+    const names = tools.map((t) => t.name).sort();
+    expect(names).toEqual(
+      [
+        'browse_by_cuisine',
+        'check_open_now',
+        'compare_restaurants',
+        'find_deals',
+        'get_menu',
+        'get_restaurant',
+        'list_cuisines',
+        'list_markets',
+        'resolve_location',
+        'search_menu_items',
+        'search_restaurants',
+      ].sort(),
+    );
+  });
+
+  it('gives every tool a substantive description and an input schema', async () => {
+    const { tools } = await client.listTools();
+    for (const t of tools) {
+      expect(t.description, `${t.name} needs a description`).toBeTruthy();
+      expect(t.description!.length, `${t.name} description too short`).toBeGreaterThan(60);
+      expect(t.inputSchema, `${t.name} needs an inputSchema`).toBeTruthy();
+    }
+  });
+
+  it('registers prompts and resources', async () => {
+    expect((await client.listPrompts()).prompts.map((p) => p.name)).toEqual([
+      'what_should_i_order',
+      'cheapest_dish_nearby',
+      'compare_delivery_options',
+    ]);
+    expect((await client.listResources()).resources.map((r) => r.uri)).toContain('foodpanda://markets');
+    expect((await client.listResourceTemplates()).resourceTemplates).toHaveLength(1);
+  });
+});
+
+describe('every tool returns both text and structured output', () => {
+  const cases: Array<[string, Record<string, unknown>]> = [
+    ['list_markets', {}],
+    ['resolve_location', { query: 'Clifton, Karachi' }],
+    ['search_restaurants', { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 3 }],
+    ['get_restaurant', { code: 'u1od', market: 'pk' }],
+    ['get_menu', { code: 'u1od', market: 'pk', maxItems: 5 }],
+    ['check_open_now', { codes: ['u1od'], market: 'pk' }],
+    ['compare_restaurants', { codes: ['u1od', 'qeqr'], market: 'pk' }],
+    ['list_cuisines', { latitude: 24.81, longitude: 67.07, market: 'pk' }],
+    ['browse_by_cuisine', { latitude: 24.81, longitude: 67.07, market: 'pk', cuisineName: 'Biryani', limit: 3 }],
+    ['find_deals', { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 3 }],
+    ['search_menu_items', { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'sub', restaurantLimit: 2 }],
+  ];
+
+  for (const [name, args] of cases) {
+    it(`${name} succeeds and validates against its output schema`, async () => {
+      const res: any = await client.callTool({ name, arguments: args });
+      expect(res.isError, `${name} returned an error: ${text(res)}`).toBeFalsy();
+      expect(text(res).length, `${name} produced no human-readable text`).toBeGreaterThan(10);
+      expect(res.structuredContent, `${name} produced no structured output`).toBeDefined();
+      expect(res.structuredContent.meta?.market).toBeDefined();
+    });
+  }
+});
+
+describe('input validation', () => {
+  it('rejects a call with no location at all', async () => {
+    const res: any = await client.callTool({ name: 'search_restaurants', arguments: {} });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/location is required/i);
+  });
+
+  it('rejects an out-of-range latitude before any request is made', async () => {
+    // The SDK validates against the zod inputSchema and returns an error result
+    // rather than throwing, so the bad value never reaches our handler.
+    const res: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 999, longitude: 0 },
+    });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/validation|Invalid arguments/i);
+  });
+
+  it('rejects an unsupported market with guidance', async () => {
+    const res: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 51.5, longitude: -0.12, market: 'gb' },
+    });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/not supported|Supported markets/i);
+  });
+
+  it('refuses more restaurant codes than check_open_now allows', async () => {
+    const res: any = await client.callTool({
+      name: 'check_open_now',
+      arguments: { codes: Array.from({ length: 11 }, (_, i) => `c${i}`), market: 'pk' },
+    });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/too_big|<=10/i);
+  });
+});
+
+describe('search behaviour', () => {
+  it('filters by query rather than returning everything', async () => {
+    const all: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 20 },
+    });
+    const filtered: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'subway', limit: 20 },
+    });
+    expect(filtered.structuredContent.restaurants.length).toBeLessThan(
+      all.structuredContent.restaurants.length,
+    );
+  });
+
+  it('reports zero matches honestly instead of inventing results', async () => {
+    const res: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'zzzznotarealcuisine', limit: 5 },
+    });
+    expect(res.structuredContent.restaurants).toEqual([]);
+    expect(text(res)).toMatch(/No restaurants matched/i);
+  });
+
+  it('ranks cheapest first in search_menu_items', async () => {
+    const res: any = await client.callTool({
+      name: 'search_menu_items',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'sub', restaurantLimit: 2, limit: 10 },
+    });
+    const prices = res.structuredContent.items.map((i: any) => i.totalWithDelivery ?? i.price);
+    expect([...prices].sort((a: number, b: number) => a - b)).toEqual(prices);
+  });
+});
+
+describe('graceful degradation', () => {
+  it('surfaces a bot-protection block as a clear, actionable error', async () => {
+    const c = await connect([
+      { match: 'disco.deliveryhero.io', body: fixture('listing-pk.json') },
+      { match: '/api/v5/vendors/', status: 403, body: fixture('perimeterx-403.json') },
+    ]);
+    const res: any = await c.callTool({ name: 'get_restaurant', arguments: { code: 'u1od', market: 'pk' } });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/bot-protection/i);
+  });
+
+  it('keeps working when the upstream payload shape is unrecognisable', async () => {
+    const c = await connect([{ match: 'disco.deliveryhero.io', body: { totally: 'different' } }]);
+    const res: any = await c.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk' },
+    });
+    expect(res.isError).toBeFalsy();
+    expect(res.structuredContent.meta.degraded).toBe(true);
+    expect(res.structuredContent.restaurants).toEqual([]);
+  });
+
+  it('does not fail the whole batch when one restaurant lookup fails', async () => {
+    const res: any = await client.callTool({
+      name: 'check_open_now',
+      arguments: { codes: ['u1od', 'definitely-not-real'], market: 'pk' },
+    });
+    expect(res.isError).toBeFalsy();
+    expect(res.structuredContent.results).toHaveLength(2);
+  });
+});
+
+describe('resources', () => {
+  it('serves the market table', async () => {
+    const data = readJson(await client.readResource({ uri: 'foodpanda://markets' }));
+    expect(data.supported.length).toBe(10);
+    expect(data.unavailable[0].code).toBe('th');
+  });
+
+  it('declares itself read-only in server-info', async () => {
+    const data = readJson(await client.readResource({ uri: 'foodpanda://server-info' }));
+    expect(data.readOnly).toBe(true);
+    expect(data.capabilities.ordering).toBe(false);
+    expect(data.disclaimer).toMatch(/not affiliated/i);
+  });
+
+  it('resolves a templated restaurant URI', async () => {
+    const data = readJson(await client.readResource({ uri: 'foodpanda://restaurant/pk/u1od' }));
+    expect(data.code).toBeTruthy();
+    expect(data.menuSummary.itemCount).toBeGreaterThan(0);
+  });
+});
+
+describe('prompts', () => {
+  it('renders a prompt that names the tools to use', async () => {
+    const p = await client.getPrompt({
+      name: 'cheapest_dish_nearby',
+      arguments: { dish: 'biryani', location: 'Karachi' },
+    });
+    const body = (p.messages[0]!.content as any).text;
+    expect(body).toMatch(/search_menu_items/);
+    expect(body).toMatch(/biryani/);
+  });
+});

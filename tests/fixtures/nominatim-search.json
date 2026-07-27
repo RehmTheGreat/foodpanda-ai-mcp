@@ -1,0 +1,33 @@
+[
+  {
+    "place_id": 243356095,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+    "osm_type": "way",
+    "osm_id": 487063875,
+    "lat": "24.8190552",
+    "lon": "67.0262397",
+    "category": "boundary",
+    "type": "administrative",
+    "place_rank": 20,
+    "importance": 0.39022041580958405,
+    "addresstype": "town",
+    "name": "کلفٹن",
+    "display_name": "کلفٹن, ضلع کراچی, کراچی ڈویژن, سندھ, 75600, پاکستان",
+    "address": {
+      "town": "کلفٹن",
+      "city_district": "ضلع کراچی",
+      "city": "کراچی ڈویژن",
+      "state": "سندھ",
+      "ISO3166-2-lvl4": "PK-SD",
+      "postcode": "75600",
+      "country": "پاکستان",
+      "country_code": "pk"
+    },
+    "boundingbox": [
+      "24.8002551",
+      "24.8406746",
+      "66.9939520",
+      "67.0436604"
+    ]
+  }
+]
