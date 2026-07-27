@@ -1,0 +1,20 @@
+node_modules/
+dist/
+coverage/
+*.log
+npm-debug.log*
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.tsbuildinfo
+
+# Reverse-engineering scratch space: multi-MB raw API captures and throwaway probe
+# scripts. The distilled findings live in docs/API-RESEARCH.md and tests/fixtures/.
+research/
+
+# Wrangler
+.wrangler/

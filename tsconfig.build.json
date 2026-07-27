@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // Emit-only config: pin rootDir so dist/ mirrors src/ exactly.
+    "rootDir": "src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist", "research", "tests", "**/*.test.ts"]
+}
