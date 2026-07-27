@@ -7,6 +7,7 @@ import { registerLocationTools } from '../src/tools/location.js';
 import { registerRestaurantTools } from '../src/tools/restaurants.js';
 import { registerMenuTools } from '../src/tools/menus.js';
 import { registerDiscoveryTools } from '../src/tools/discovery.js';
+import { registerExportTools } from '../src/tools/export.js';
 import { registerPrompts } from '../src/prompts.js';
 import { registerResources } from '../src/resources.js';
 import { nullLogger } from '../src/logger.js';
@@ -28,6 +29,7 @@ async function connect(routes: RouteSpec[] = defaultRoutes()) {
   registerRestaurantTools(server, ctx);
   registerMenuTools(server, ctx);
   registerDiscoveryTools(server, ctx);
+  registerExportTools(server, ctx);
   registerPrompts(server);
   registerResources(server, ctx);
 
@@ -57,6 +59,7 @@ describe('tool registration', () => {
         'browse_by_cuisine',
         'check_open_now',
         'compare_restaurants',
+        'export_data',
         'find_deals',
         'get_menu',
         'get_restaurant',
@@ -102,6 +105,7 @@ describe('every tool returns both text and structured output', () => {
     ['browse_by_cuisine', { latitude: 24.81, longitude: 67.07, market: 'pk', cuisineName: 'Biryani', limit: 3 }],
     ['find_deals', { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 3 }],
     ['search_menu_items', { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'sub', restaurantLimit: 2 }],
+    ['export_data', { target: 'restaurants', latitude: 24.81, longitude: 67.07, market: 'pk' }],
   ];
 
   for (const [name, args] of cases) {
@@ -350,6 +354,76 @@ describe('pricing and link fields reach the tool output', () => {
       expect(sc.scanned).toBeLessThan(sc.totalNearby);
       expect((sc.meta.warnings ?? []).some((w: string) => /available nearby/i.test(w))).toBe(true);
     }
+  });
+});
+
+describe('export_data (Phase 3)', () => {
+  it('exports restaurants as JSON rows', async () => {
+    const res: any = await client.callTool({
+      name: 'export_data',
+      arguments: { target: 'restaurants', latitude: 24.81, longitude: 67.07, market: 'pk', limit: 3 },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    const sc = res.structuredContent;
+    expect(sc.format).toBe('json');
+    const rows = JSON.parse(sc.data);
+    expect(Array.isArray(rows)).toBe(true);
+    expect(rows.length).toBe(sc.rowCount);
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows[0]).toHaveProperty('code');
+    expect(rows[0]).toHaveProperty('name');
+  });
+
+  it('exports restaurants as CSV with a header row', async () => {
+    const res: any = await client.callTool({
+      name: 'export_data',
+      arguments: { target: 'restaurants', latitude: 24.81, longitude: 67.07, market: 'pk', format: 'csv', limit: 3 },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    const lines = res.structuredContent.data.split('\n');
+    expect(lines[0]).toBe(
+      'code,name,rating,isUnrated,cuisines,address,url,distanceKm,deliveryFee,minimumOrderAmount,deliveryTimeMinutes,budgetTier,hasDiscount',
+    );
+    expect(lines.length).toBe(res.structuredContent.rowCount + 1);
+  });
+
+  it('exports one restaurant\'s menu as JSON rows', async () => {
+    const res: any = await client.callTool({
+      name: 'export_data',
+      arguments: { target: 'menu', code: 'u1od', market: 'pk' },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    const rows = JSON.parse(res.structuredContent.data);
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows[0]).toHaveProperty('price');
+    expect(rows[0]).toHaveProperty('category');
+  });
+
+  it('rejects a menu export missing code or market', async () => {
+    const res: any = await client.callTool({ name: 'export_data', arguments: { target: 'menu' } });
+    expect(res.isError).toBe(true);
+    expect(text(res)).toMatch(/code.*market|market.*code/i);
+  });
+
+  it('exports only restaurants with active deals for target=deals', async () => {
+    const res: any = await client.callTool({
+      name: 'export_data',
+      arguments: { target: 'deals', latitude: 24.81, longitude: 67.07, market: 'pk' },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    const rows = JSON.parse(res.structuredContent.data);
+    expect(rows.length).toBeGreaterThan(0);
+    for (const r of rows) expect(String(r.discounts).length).toBeGreaterThan(0);
+  });
+
+  it('reports truncation honestly when more rows exist than the limit', async () => {
+    const res: any = await client.callTool({
+      name: 'export_data',
+      arguments: { target: 'restaurants', latitude: 24.81, longitude: 67.07, market: 'pk', limit: 1 },
+    });
+    expect(res.isError, text(res)).toBeFalsy();
+    expect(res.structuredContent.rowCount).toBe(1);
+    expect(res.structuredContent.truncated).toBe(true);
   });
 });
 

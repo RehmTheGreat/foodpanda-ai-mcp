@@ -16,6 +16,7 @@ const EXPECTED_TOOLS = [
   'browse_by_cuisine',
   'check_open_now',
   'compare_restaurants',
+  'export_data',
   'find_deals',
   'get_menu',
   'get_restaurant',

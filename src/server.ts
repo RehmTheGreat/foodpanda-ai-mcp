@@ -8,6 +8,7 @@ import { GeocodeAdapter } from './adapters/geocode.js';
 import { registerRestaurantTools } from './tools/restaurants.js';
 import { registerMenuTools } from './tools/menus.js';
 import { registerDiscoveryTools } from './tools/discovery.js';
+import { registerExportTools } from './tools/export.js';
 import { registerLocationTools } from './tools/location.js';
 import { registerPrompts } from './prompts.js';
 import { registerResources } from './resources.js';
@@ -75,6 +76,7 @@ export async function buildServer(overrides: Partial<Config> = {}): Promise<Buil
   registerRestaurantTools(server, ctx);
   registerMenuTools(server, ctx);
   registerDiscoveryTools(server, ctx);
+  registerExportTools(server, ctx);
   registerPrompts(server);
   registerResources(server, ctx);
 
