@@ -22,6 +22,12 @@ export interface RouteSpec {
   /** Raw text body, used for non-JSON responses such as challenge pages. */
   text?: string;
   headers?: Record<string, string>;
+  /**
+   * Build the body from the request URL. Needed to emulate offset pagination,
+   * where the response depends on the limit/offset the caller asked for.
+   * Takes precedence over `body`.
+   */
+  handler?: (url: string) => unknown;
 }
 
 export interface StubFetch {
@@ -48,7 +54,8 @@ export function stubFetch(routes: RouteSpec[]): StubFetch {
       });
     }
 
-    const body = route.text ?? JSON.stringify(route.body ?? {});
+    const body =
+      route.text ?? JSON.stringify(route.handler ? route.handler(url) : (route.body ?? {}));
     return new Response(body, {
       status: route.status ?? 200,
       headers: { 'content-type': 'application/json', ...(route.headers ?? {}) },

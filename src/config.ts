@@ -41,6 +41,18 @@ const EnvSchema = z.object({
   FOODPANDA_DEFAULT_MARKET: z.string().optional(),
   FOODPANDA_LANGUAGE_ID: int(1, 1, 999),
 
+  /**
+   * Ceiling on how many nearby vendors a filtered search may scan.
+   *
+   * This bounds the LISTING host only, which has no page-size cap and is not the
+   * bot-protected one, so a high value is cheap: a dense city of ~500 vendors is
+   * two or three requests. It does NOT affect menu fetches, which hit the
+   * rate-limited host and stay bounded by each tool's own limit.
+   */
+  FOODPANDA_MAX_SCAN: int(600, 20, 5000),
+  /** Vendors requested per listing page. Upstream honours large values. */
+  FOODPANDA_LISTING_PAGE_SIZE: int(200, 20, 400),
+
   // Deliberately conservative. The menu host sits behind PerimeterX and starts
   // serving bot challenges when one IP gets busy, so throughput is limited by
   // what the edge tolerates, not by what the API can serve.
@@ -77,6 +89,8 @@ export interface Config {
   allowedHosts: string[];
   defaultMarket: string;
   languageId: number;
+  maxScan: number;
+  listingPageSize: number;
   rateLimitRps: number;
   rateLimitBurst: number;
   maxConcurrency: number;
@@ -96,7 +110,7 @@ export interface Config {
 }
 
 export const SERVER_NAME = 'foodpanda-ai-mcp';
-export const SERVER_VERSION = '0.1.0';
+export const SERVER_VERSION = '0.2.0';
 
 /**
  * A polite, honest, identifying User-Agent. We do not impersonate a browser:
@@ -122,6 +136,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): Config {
     allowedHosts: e.ALLOWED_HOSTS,
     defaultMarket: (e.FOODPANDA_DEFAULT_MARKET || 'pk').toLowerCase(),
     languageId: e.FOODPANDA_LANGUAGE_ID,
+    maxScan: e.FOODPANDA_MAX_SCAN,
+    listingPageSize: e.FOODPANDA_LISTING_PAGE_SIZE,
     rateLimitRps: e.FOODPANDA_RATE_LIMIT_RPS,
     rateLimitBurst: e.FOODPANDA_RATE_LIMIT_BURST,
     maxConcurrency: e.FOODPANDA_MAX_CONCURRENCY,

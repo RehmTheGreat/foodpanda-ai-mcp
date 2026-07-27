@@ -55,6 +55,12 @@ export interface ListingResult {
   returnedCount: number;
   cuisines: Cuisine[];
   warnings: string[];
+  /**
+   * True when every nearby vendor was scanned, so a filter applied downstream
+   * saw the whole set rather than a truncated sample. Only meaningful from
+   * listAllVendors(); a single page leaves it undefined.
+   */
+  complete?: boolean;
 }
 
 /**
@@ -162,15 +168,21 @@ export class FoodpandaAdapter {
   /**
    * Fetch every nearby vendor by walking the offset pages.
    *
-   * Needed because all text search and item search happens client-side. Bounded
-   * by `maxPages` so a dense city cannot turn one tool call into 40 requests.
+   * Needed because all text search and item search happens client-side: to
+   * filter accurately we must first hold the candidates.
+   *
+   * This walks the LISTING host, which has no page-size cap (limit=300 returns
+   * everything available) and is NOT the bot-protected one. Full coverage of a
+   * dense city is therefore two or three cheap requests, which is why the
+   * default ceiling is generous. Menu fetches are the expensive, rate-limited
+   * calls and are bounded separately by each tool.
    */
   async listAllVendors(
     params: ListingParams,
     opts: { maxTotal?: number; pageSize?: number } = {},
   ): Promise<ListingResult> {
-    const pageSize = Math.min(opts.pageSize ?? 100, 200);
-    const maxTotal = opts.maxTotal ?? 200;
+    const pageSize = Math.min(opts.pageSize ?? this.config.listingPageSize, 400);
+    const maxTotal = opts.maxTotal ?? this.config.maxScan;
 
     const first = await this.listVendors({ ...params, limit: pageSize, offset: 0 });
     const target = Math.min(first.availableCount, maxTotal);
@@ -206,9 +218,14 @@ export class FoodpandaAdapter {
       if (added === 0) break;
     }
 
-    if (first.availableCount > maxTotal) {
+    // Only warn when coverage is genuinely partial. Scanning 120 of 120 is
+    // complete even though a ceiling existed, and saying otherwise trained
+    // callers to treat every result as a truncated sample.
+    const capped = first.availableCount > all.length;
+    if (capped) {
       warnings.push(
-        `${first.availableCount} restaurants are available nearby; this result covers the first ${all.length}. Narrow the search or raise the limit for wider coverage.`,
+        `${first.availableCount} restaurants are available nearby; this result covers ${all.length}. ` +
+          `Raise scanLimit (or FOODPANDA_MAX_SCAN) for wider coverage.`,
       );
     }
 
@@ -218,6 +235,7 @@ export class FoodpandaAdapter {
       returnedCount: Math.min(all.length, maxTotal),
       cuisines: first.cuisines,
       warnings: [...new Set(warnings)],
+      complete: !capped,
     };
   }
 

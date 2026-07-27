@@ -218,6 +218,70 @@ describe('graceful degradation', () => {
   });
 });
 
+describe('pricing and link fields reach the tool output', () => {
+  it('get_restaurant surfaces fees, deals, discounts and the double-count warning', async () => {
+    const res: any = await client.callTool({
+      name: 'get_restaurant',
+      arguments: { code: 'u1od', market: 'pk' },
+    });
+    expect(res.isError).toBeFalsy();
+    const r = res.structuredContent.restaurant;
+
+    expect(r.fees, 'fees object missing').toBeDefined();
+    expect(Array.isArray(r.deals)).toBe(true);
+    expect(Array.isArray(r.discounts)).toBe(true);
+    expect(r.deals.length).toBeGreaterThan(0);
+    expect(r.pricingNote).toMatch(/already include/i);
+    expect(text(res)).toMatch(/already include/i);
+  });
+
+  it('get_menu surfaces the same pricing context alongside items', async () => {
+    const res: any = await client.callTool({
+      name: 'get_menu',
+      arguments: { code: 'u1od', market: 'pk', maxItems: 5 },
+    });
+    expect(res.isError).toBeFalsy();
+    const sc = res.structuredContent;
+    expect(sc.fees).toBeDefined();
+    expect(Array.isArray(sc.deals)).toBe(true);
+    expect(Array.isArray(sc.discounts)).toBe(true);
+    expect(sc.pricingNote).toMatch(/already include/i);
+  });
+
+  it('search_restaurants emits usable, single-origin links', async () => {
+    const res: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 5 },
+    });
+    const withUrl = res.structuredContent.restaurants.filter((r: any) => r.url);
+    expect(withUrl.length, 'expected at least one url').toBeGreaterThan(0);
+    for (const r of withUrl) {
+      expect(r.url.match(/:\/\//g) ?? []).toHaveLength(1);
+      expect(r.url).not.toMatch(/foodpanda\.[a-z.]+\/https/);
+      expect(() => new URL(r.url)).not.toThrow();
+    }
+  });
+
+  it('search_restaurants reports scan coverage honestly', async () => {
+    const res: any = await client.callTool({
+      name: 'search_restaurants',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', limit: 5 },
+    });
+    const sc = res.structuredContent;
+    expect(typeof sc.scanned).toBe('number');
+    expect(typeof sc.scanComplete).toBe('boolean');
+
+    // The fixture advertises available_count=231 but only serves 6 vendors, so
+    // coverage really is partial here. The invariant that matters is that the
+    // flag and the warning agree with each other and with the numbers.
+    expect(sc.scanComplete).toBe(sc.scanned >= sc.totalNearby);
+    if (!sc.scanComplete) {
+      expect(sc.scanned).toBeLessThan(sc.totalNearby);
+      expect((sc.meta.warnings ?? []).some((w: string) => /available nearby/i.test(w))).toBe(true);
+    }
+  });
+});
+
 describe('resources', () => {
   it('serves the market table', async () => {
     const data = readJson(await client.readResource({ uri: 'foodpanda://markets' }));
