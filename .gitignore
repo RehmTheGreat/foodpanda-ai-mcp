@@ -18,3 +18,8 @@ research/
 
 # Wrangler
 .wrangler/
+
+# Never commit registry credentials. The real token lives in the user-level
+# ~/.npmrc, outside this repo; this is a safety net so a stray project-level
+# .npmrc can never be pushed to a public repository.
+.npmrc
