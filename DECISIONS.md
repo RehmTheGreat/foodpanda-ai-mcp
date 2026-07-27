@@ -183,3 +183,58 @@ deliberately left intact, since renaming those would have falsified the history.
 
 GitHub redirects the old repository URL, so existing links keep working. The npm badge and
 install instructions point at the new name, which is the one that will be published.
+
+### D20 — `web_path` is already absolute; never prefix it
+
+Every link the server emitted was broken:
+`https://www.foodpanda.pk/https://foodpanda.pk/restaurant/s4pe/burger-lab-dha-clifton`.
+
+The cause was an assumption that `web_path` is a path. It is not — upstream returns a full
+absolute URL, and the host differs by endpoint for the same vendor: listing responses give
+`https://foodpanda.pk/...`, detail responses give `https://www.foodpanda.pk/...`. The old
+builder also returned `undefined` for every market except `pk`, so nine markets had no links
+at all.
+
+The builder now takes what upstream gives when it is already a URL, joins a genuinely
+relative path to the market host, reconstructs from `code` + `url_key` when there is no link,
+refuses any non-http scheme rather than gluing it onto a host, and validates the result
+parses before emitting it. A broken link is worse than no link, so anything doubtful is omitted.
+
+Per-market hosts are stored on the market registry because they follow **no derivable rule** —
+Bangladesh is `foodpanda.com.bd` but Malaysia is `foodpanda.my`. They were read from live
+`web_path` values across all ten markets, not guessed from a pattern.
+
+### D21 — Surface the charges needed to price an order
+
+`get_restaurant` and `get_menu` returned menu prices with no way to reach a total. Both now
+return a `fees` object (minimum order, small-order fee, delivery fee, service fee, VAT and
+whether VAT is already inside the price) plus `deals` and `discounts` **with their numbers** —
+percentage, absolute amount, minimum order value and cap — rather than a bare label.
+
+One mapper reads both endpoint shapes, because the field names are identical on the listing
+and detail payloads even though which fields are present differs.
+
+Every response also carries an explicit `pricingNote`: **menu prices already include vendor
+deals, so subtracting an advertised percentage double-counts it.** That is the single easiest
+mistake to make with this data, and stating it inline is cheaper than hoping the caller read
+the docs. Bank and voucher codes are out of scope and the note says so.
+
+### D22 — Scan the whole area when a filter is active
+
+Filtered searches scanned the first 100 of ~490 nearby vendors and flagged `degraded: true`,
+so every filtered answer was a truncated sample presented as a result.
+
+The constraint was misplaced. The **listing** host has no page-size cap and is not the
+bot-protected one — full coverage of a dense city is two or three cheap requests. Only
+`<market>.fd-api.com` sits behind PerimeterX, and that host is touched by menu fetches, which
+remain bounded per tool.
+
+So the ceiling is now configurable (`FOODPANDA_MAX_SCAN`, default 600) with a larger page size
+(`FOODPANDA_LISTING_PAGE_SIZE`, default 200), and the tools scale the scan to the question:
+when a filter is active they cover the whole area; with no filter they stop early, because the
+first page already answers "what is near me". Response size is unchanged — `limit` still
+governs what is returned, so token cost does not move.
+
+The truncation warning now fires **only when coverage is genuinely partial**, and results
+carry `scanComplete`. Warning on every large area taught callers to ignore the warning.
+
