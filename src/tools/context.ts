@@ -131,6 +131,51 @@ export const metaShape = z.object({
   degraded: z.boolean().optional(),
 });
 
+/**
+ * Charges on top of the basket, shared by every tool that reports pricing.
+ *
+ * `pricingNote` is part of the payload on purpose: the single easiest mistake a
+ * model can make with this data is to subtract an advertised discount from a
+ * menu price that already includes it. Saying so inline is cheaper than hoping
+ * the caller read the docs.
+ */
+export const feesShape = z.object({
+  minimumOrderAmount: z.number().optional(),
+  smallOrderFee: z.number().optional(),
+  deliveryFee: z.number().optional(),
+  isServiceFeeEnabled: z.boolean().optional(),
+  serviceFeePercent: z.number().optional(),
+  vatPercent: z.number().optional(),
+  isVatIncludedInPrice: z.boolean().optional(),
+  isVatVisible: z.boolean().optional(),
+});
+
+/** A discount with the numbers needed to reason about it, not just its label. */
+export const discountShape = z.object({
+  type: z.string(),
+  description: z.string(),
+  percentage: z.number().optional(),
+  amount: z.number().optional(),
+  minimumOrderValue: z.number().optional(),
+  maximumDiscountAmount: z.number().optional(),
+});
+
+export const dealShape = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  type: z.string().optional(),
+  value: z.number().optional(),
+  minimumOrderValue: z.number().optional(),
+  maximumDiscountAmount: z.number().optional(),
+  isProOnly: z.boolean().optional(),
+  isNewCustomerOnly: z.boolean().optional(),
+});
+
+export const PRICING_NOTE =
+  'Menu prices already include vendor deals and discounts - do not subtract them again. ' +
+  'Fees are additive on top of the basket. Bank and voucher codes are not covered here. ' +
+  'The foodpanda checkout screen is the only authority on the final total.';
+
 export function buildMeta(
   market: string,
   source: ToolMeta['source'],

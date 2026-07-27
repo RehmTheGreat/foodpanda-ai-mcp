@@ -1,6 +1,6 @@
 import { money } from './context.js';
 import { WEEKDAY_NAMES } from '../domain/openNow.js';
-import type { MenuItemHit, Restaurant } from '../domain/types.js';
+import type { Deal, Discount, Fees, MenuItemHit, Restaurant } from '../domain/types.js';
 
 /** Human-readable renderers. Kept apart from tool logic so both stay readable. */
 
@@ -62,4 +62,83 @@ export function itemHitLine(h: MenuItemHit, market: string, index: number): stri
 
 export function bullet(label: string, value: string | number | undefined): string {
   return value === undefined || value === '' ? '' : `- ${label}: ${value}\n`;
+}
+
+/** Render the additive charges. Empty string when the vendor published none. */
+export function feesBlock(fees: Fees | undefined, market: string): string {
+  if (!fees) return '';
+  const lines: string[] = [];
+
+  if (fees.minimumOrderAmount !== undefined) {
+    lines.push(`- Minimum order: ${money(fees.minimumOrderAmount, market)}`);
+  }
+  if (fees.smallOrderFee !== undefined) {
+    lines.push(
+      `- Small order fee: ${money(fees.smallOrderFee, market)}` +
+        (fees.minimumOrderAmount !== undefined
+          ? ` (applies below ${money(fees.minimumOrderAmount, market)})`
+          : ''),
+    );
+  }
+  if (fees.deliveryFee !== undefined) lines.push(`- Delivery fee: ${money(fees.deliveryFee, market)}`);
+
+  if (fees.isServiceFeeEnabled === false) {
+    lines.push('- Service fee: none');
+  } else if (fees.serviceFeePercent !== undefined) {
+    lines.push(`- Service fee: ${fees.serviceFeePercent}%`);
+  } else if (fees.isServiceFeeEnabled === true) {
+    lines.push('- Service fee: charged (rate not published)');
+  }
+
+  if (fees.vatPercent !== undefined) {
+    const incl =
+      fees.isVatIncludedInPrice === true
+        ? ' (already included in menu prices)'
+        : fees.isVatIncludedInPrice === false
+          ? ' (added at checkout)'
+          : '';
+    lines.push(`- VAT: ${fees.vatPercent}%${incl}`);
+  }
+
+  return lines.length ? `\nFees:\n${lines.join('\n')}\n` : '';
+}
+
+/** Render deals and discounts with their numbers, not just their labels. */
+export function offersBlock(deals: Deal[], discounts: Discount[], market: string): string {
+  const parts: string[] = [];
+
+  if (deals.length) {
+    parts.push(
+      `Deals:\n${deals
+        .map((d) => {
+          const bits = [
+            d.minimumOrderValue !== undefined ? `min ${money(d.minimumOrderValue, market)}` : null,
+            d.maximumDiscountAmount !== undefined ? `capped at ${money(d.maximumDiscountAmount, market)}` : null,
+            d.isProOnly ? 'pandapro only' : null,
+            d.isNewCustomerOnly ? 'new customers only' : null,
+          ].filter(Boolean);
+          return `- ${d.title}${d.description && d.description !== d.title ? ` — ${d.description}` : ''}` +
+            (bits.length ? `\n  (${bits.join(', ')})` : '');
+        })
+        .join('\n')}`,
+    );
+  }
+
+  if (discounts.length) {
+    parts.push(
+      `Discounts:\n${discounts
+        .map((d) => {
+          const bits = [
+            d.percentage !== undefined ? `${d.percentage}%` : null,
+            d.amount !== undefined && d.amount > 0 ? money(d.amount, market) : null,
+            d.minimumOrderValue !== undefined ? `min ${money(d.minimumOrderValue, market)}` : null,
+            d.maximumDiscountAmount !== undefined ? `capped at ${money(d.maximumDiscountAmount, market)}` : null,
+          ].filter(Boolean);
+          return `- ${d.description}${bits.length ? ` (${bits.join(', ')})` : ''}`;
+        })
+        .join('\n')}`,
+    );
+  }
+
+  return parts.length ? `\n${parts.join('\n\n')}\n` : '';
 }
