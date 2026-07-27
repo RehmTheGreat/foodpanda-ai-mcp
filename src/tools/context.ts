@@ -20,7 +20,7 @@ export interface ToolContext {
  * the `list_markets` tool and the foodpanda://server-info resource so clients
  * can detect drift. See docs/VERSIONING.md for the deprecation policy.
  */
-export const TOOL_SCHEMA_VERSION = '1.0.0';
+export const TOOL_SCHEMA_VERSION = '1.1.0';
 
 /**
  * Location input shared by every location-aware tool.
