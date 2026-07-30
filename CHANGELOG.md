@@ -6,7 +6,49 @@ release cut (npm publish, git tag, GitHub release) happen once per
 [docs/RELEASING.md](docs/RELEASING.md), not per phase — this section accumulates
 until then.
 
-## [Unreleased]
+## [0.4.0] — 2026-07-30
+
+Tool schema version moves to 1.2.0: new optional inputs and new output fields, all
+backward compatible.
+
+### Added — pickup pricing
+
+Vendors publish a **separate price list per fulfilment mode**, and pickup-only discounts
+do not appear in delivery prices at all. Until now every request hardcoded
+`opening_type=delivery`, so those discounts were invisible and unreachable — the gap
+flagged as "order-mode parameter" in the Phase 0 payload inventory.
+
+- `get_menu`, `search_menu_items` and `export_data` (menu target) take
+  **`openingType: "delivery" | "pickup"`**, defaulting to `delivery` so existing callers
+  are unaffected.
+- `get_menu` returns the `openingType` it read and labels the price list in its text.
+- `search_menu_items` reports no delivery fee and no fee-inclusive total on pickup, where
+  no such fee exists, so ranking falls back to the item price — the true landed cost.
+- `get_restaurant` and `search_restaurants` expose **`isPickupEnabled`**, so a caller knows
+  when the comparison is worth making; `get_menu` adds a warning pointing at it.
+- Requesting pickup from a delivery-only vendor now **warns**. Upstream answers 200 with the
+  delivery price list rather than erroring, so silence here meant quoting delivery prices as
+  pickup prices.
+- Delivery and pickup cache separately — the mode is part of the request URL.
+
+### Fixed — the voucher-subtraction trap
+
+`foodpanda://voucher-codes` published bank codes with no way to know a vendor rejects them.
+On 2026-07-30 that led to a real shortlist built with a flat PKR 200 deduction applied to
+every candidate, at a vendor (Pizza Max Khayaban-e-Ittehad, `h0e2`) that accepts no vouchers
+at all — two options were inside budget only because of a discount that did not exist.
+
+- The resource now leads with a **`quotingRule`**: quote the menu price as the headline number,
+  present a voucher only as a separate labelled upside, and never let an option fit a budget
+  because a code was subtracted from it.
+- A new **`eligibility`** field states plainly that per-vendor eligibility is not discoverable
+  by this server or any endpoint, only at checkout, and that many vendors opt out.
+- **`knownExclusions`** records vendors observed to reject codes, starting with `h0e2`.
+- The resource points at pickup as the saving that *is* verifiable.
+- `PRICING_NOTE`, returned with every menu and restaurant response, was upgraded from the
+  passive "bank and voucher codes are not covered here" to an explicit instruction not to
+  subtract an assumed one.
+- README limitation 5 documents the same rule.
 
 ### Phase 0 — Payload inventory
 
