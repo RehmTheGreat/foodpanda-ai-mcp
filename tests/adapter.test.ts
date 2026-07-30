@@ -57,6 +57,47 @@ describe('FoodpandaAdapter', () => {
     expect(menu.categories.length).toBeGreaterThan(0);
   });
 
+  it('requests the delivery price list by default', async () => {
+    const { adapter, stub } = makeAdapter(defaultRoutes());
+    const res = await adapter.getVendorDetail('u1od', 'pk');
+    expect(stub.calls.at(-1)).toContain('opening_type=delivery');
+    expect(res.openingType).toBe('delivery');
+  });
+
+  it('requests the pickup price list when asked', async () => {
+    // Vendors publish a different price list per fulfilment mode, and a
+    // pickup-only discount is absent from the delivery menu entirely.
+    const { adapter, stub } = makeAdapter(defaultRoutes());
+    const res = await adapter.getVendorDetail('u1od', 'pk', { openingType: 'pickup' });
+    expect(stub.calls.at(-1)).toContain('opening_type=pickup');
+    expect(res.openingType).toBe('pickup');
+  });
+
+  it('caches delivery and pickup separately', async () => {
+    // A cache keyed without the mode would serve delivery prices as pickup
+    // prices, which is worse than not supporting pickup at all.
+    const cached = testConfig({ ttl: { listing: 60, vendor: 60, config: 60, geocode: 60 } });
+    const { adapter, stub } = makeAdapter(defaultRoutes(), cached);
+    await adapter.getVendorDetail('u1od', 'pk');
+    await adapter.getVendorDetail('u1od', 'pk', { openingType: 'pickup' });
+    await adapter.getVendorDetail('u1od', 'pk');
+
+    const vendorCalls = stub.calls.filter((u) => u.includes('/api/v5/vendors/'));
+    expect(vendorCalls).toHaveLength(2);
+    expect(vendorCalls.filter((u) => u.includes('opening_type=pickup'))).toHaveLength(1);
+  });
+
+  it('warns when pickup is requested from a delivery-only vendor', async () => {
+    // Upstream answers 200 with the delivery price list rather than erroring,
+    // so without a warning the caller would quote delivery prices as pickup.
+    const detail = fixture<any>('vendor-detail-pk.json');
+    const deliveryOnly = { ...detail, data: { ...detail.data, is_pickup_enabled: false } };
+    const { adapter } = makeAdapter([{ match: '/api/v5/vendors/', body: deliveryOnly }, ...defaultRoutes()]);
+
+    const { warnings } = await adapter.getVendorDetail('u1od', 'pk', { openingType: 'pickup' });
+    expect(warnings.join(' ')).toMatch(/does not offer pickup/i);
+  });
+
   it('computes open status from the detail schedule', async () => {
     const { adapter } = makeAdapter(defaultRoutes());
     const { restaurant } = await adapter.getVendorDetail('u1od', 'pk');

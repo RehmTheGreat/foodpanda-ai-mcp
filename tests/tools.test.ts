@@ -282,6 +282,46 @@ describe('pricing and link fields reach the tool output', () => {
     expect(Array.isArray(sc.deals)).toBe(true);
     expect(Array.isArray(sc.discounts)).toBe(true);
     expect(sc.pricingNote).toMatch(/already include/i);
+    // The note must actively warn against the voucher-subtraction mistake,
+    // not merely state that vouchers are "not covered".
+    expect(sc.pricingNote).toMatch(/never let an option fit a budget/i);
+  });
+
+  it('get_menu defaults to delivery and points at the pickup comparison', async () => {
+    const res: any = await client.callTool({
+      name: 'get_menu',
+      arguments: { code: 'u1od', market: 'pk', maxItems: 5 },
+    });
+    const sc = res.structuredContent;
+    expect(sc.openingType).toBe('delivery');
+    expect(sc.isPickupEnabled).toBe(true);
+    expect(text(res)).toMatch(/DELIVERY prices/);
+    expect((sc.meta.warnings ?? []).join(' ')).toMatch(/pickup/i);
+  });
+
+  it('get_menu reads the pickup price list when asked', async () => {
+    const res: any = await client.callTool({
+      name: 'get_menu',
+      arguments: { code: 'u1od', market: 'pk', maxItems: 5, openingType: 'pickup' },
+    });
+    expect(res.isError).toBeFalsy();
+    expect(res.structuredContent.openingType).toBe('pickup');
+    expect(text(res)).toMatch(/PICKUP prices/);
+    // Having already told the caller it is looking at pickup, it must not then
+    // nag it to go and compare against pickup.
+    expect((res.structuredContent.meta.warnings ?? []).join(' ')).not.toMatch(/openingType "pickup"/);
+  });
+
+  it('search_menu_items drops the delivery fee from pickup ranking', async () => {
+    const res: any = await client.callTool({
+      name: 'search_menu_items',
+      arguments: { latitude: 24.81, longitude: 67.07, market: 'pk', query: 'sub', openingType: 'pickup', restaurantLimit: 2 },
+    });
+    expect(res.isError).toBeFalsy();
+    for (const item of res.structuredContent.items) {
+      expect(item.deliveryFee, 'pickup orders pay no delivery fee').toBeUndefined();
+      expect(item.totalWithDelivery).toBeUndefined();
+    }
   });
 
   it('search_restaurants emits usable, single-origin links', async () => {
@@ -464,6 +504,25 @@ describe('resources', () => {
       expect(c.maxDiscount, `${c.code} needs maxDiscount`).toBeTruthy();
       expect(c.confidence, `${c.code} needs a confidence note`).toBeTruthy();
     }
+  });
+
+  it('states that voucher eligibility is per-vendor and unknowable, with the exclusions seen so far', async () => {
+    // Publishing the codes without this is actively harmful: it invites a
+    // consumer to subtract a discount the vendor does not honour, which is
+    // exactly what happened on 2026-07-30 with Pizza Max (h0e2).
+    const data = readJson(await client.readResource({ uri: 'foodpanda://voucher-codes' }));
+
+    expect(data.quotingRule).toMatch(/menu price/i);
+    expect(data.quotingRule).toMatch(/never/i);
+    expect(data.eligibility).toMatch(/checkout/i);
+    expect(data.eligibility).toMatch(/not discoverable|not knowable/i);
+
+    const excluded = data.knownExclusions.find((e: any) => e.code === 'h0e2');
+    expect(excluded, 'Pizza Max exclusion must survive').toBeTruthy();
+    expect(excluded.market).toBe('pk');
+
+    // Pickup is the saving that IS verifiable, so the resource must point at it.
+    expect(JSON.stringify(data)).toMatch(/openingType/);
   });
 });
 

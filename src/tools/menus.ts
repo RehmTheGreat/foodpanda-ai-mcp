@@ -36,6 +36,9 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         'Optionally filter to items matching a keyword or a single category, and cap how much is returned — ' +
         'full menus can run to hundreds of items. ' +
         'Menu prices already include vendor deals; the fees are additive. ' +
+        'Set openingType to "pickup" to read the pickup price list instead of the delivery one — vendors ' +
+        'frequently run pickup-only discounts that do not appear in delivery prices, so compare both before ' +
+        'quoting a total. ' +
         'Includes restaurantUrl, a link to the restaurant\'s foodpanda page, when upstream provides one.',
       inputSchema: {
         code: z.string().min(1).describe('Restaurant code from search_restaurants.'),
@@ -44,11 +47,22 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         category: z.string().optional().describe('Only return items from this menu category, matched loosely.'),
         maxItems: z.number().int().min(1).max(300).default(60).describe('Maximum items to return.'),
         discountedOnly: z.boolean().default(false).describe('Only return items currently discounted.'),
+        openingType: z
+          .enum(['delivery', 'pickup'])
+          .default('delivery')
+          .describe(
+            'Which price list to read. Vendors publish separate delivery and pickup menus and a pickup-only ' +
+            'discount is invisible in the delivery menu, so call twice to compare when pickup is an option.',
+          ),
       },
       outputSchema: {
         restaurantName: z.string(),
         restaurantCode: z.string(),
         restaurantUrl: z.string().optional(),
+        /** Which price list these prices came from. */
+        openingType: z.enum(['delivery', 'pickup']),
+        /** Whether this vendor offers pickup at all, so a comparison is worth making. */
+        isPickupEnabled: z.boolean().optional(),
         totalItems: z.number(),
         returnedItems: z.number(),
         categories: z.array(
@@ -74,9 +88,21 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         meta: metaShape,
       },
     },
-    async ({ code, market, query, category, maxItems, discountedOnly }) => {
+    async ({ code, market, query, category, maxItems, discountedOnly, openingType }) => {
       try {
-        const { menu, restaurant, warnings } = await ctx.foodpanda.getVendorDetail(code, market);
+        const { menu, restaurant, warnings, openingType: mode } = await ctx.foodpanda.getVendorDetail(code, market, {
+          openingType,
+        });
+
+        // Nudge the caller towards the comparison when there is money in it.
+        // A pickup discount is invisible from the delivery menu, so the delivery
+        // answer alone is not enough to quote a cheapest total.
+        if (mode === 'delivery' && restaurant.isPickupEnabled === true) {
+          warnings.push(
+            'This vendor also offers pickup, which can carry a pickup-only discount not shown in these ' +
+              'delivery prices. Call get_menu again with openingType "pickup" to compare.',
+          );
+        }
 
         let categories = menu.categories;
         if (category) {
@@ -108,6 +134,8 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
             restaurantName: menu.restaurantName,
             restaurantCode: menu.restaurantCode,
             ...(restaurant.url ? { restaurantUrl: restaurant.url } : {}),
+            openingType: mode,
+            ...(restaurant.isPickupEnabled !== undefined ? { isPickupEnabled: restaurant.isPickupEnabled } : {}),
             totalItems: menu.itemCount,
             returnedItems: 0,
             categories: [],
@@ -136,6 +164,7 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         const text =
           `${menu.restaurantName} (${menu.restaurantCode}) — showing ${returned} of ${menu.itemCount} items` +
           (query ? ` matching "${query}"` : '') +
+          `\n${mode === 'pickup' ? 'PICKUP prices (delivery fee does not apply)' : 'DELIVERY prices'}` +
           `\n\n${body}\n` +
           feesBlock(restaurant.fees, market) +
           offersBlock(restaurant.deals, restaurant.discounts, market) +
@@ -145,6 +174,8 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
           restaurantName: menu.restaurantName,
           restaurantCode: menu.restaurantCode,
           ...(restaurant.url ? { restaurantUrl: restaurant.url } : {}),
+          openingType: mode,
+          ...(restaurant.isPickupEnabled !== undefined ? { isPickupEnabled: restaurant.isPickupEnabled } : {}),
           totalItems: menu.itemCount,
           returnedItems: returned,
           categories: out.map((c) => ({
@@ -198,7 +229,17 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         includeDeliveryFee: z
           .boolean()
           .default(true)
-          .describe('Rank by item price plus delivery fee instead of item price alone.'),
+          .describe(
+            'Rank by item price plus delivery fee instead of item price alone. Ignored when openingType is ' +
+            '"pickup", where no delivery fee applies.',
+          ),
+        openingType: z
+          .enum(['delivery', 'pickup'])
+          .default('delivery')
+          .describe(
+            'Which price list to search. Use "pickup" to hunt pickup prices, which can be materially cheaper ' +
+            'than the delivery ones at the same vendor.',
+          ),
         restaurantLimit: z
           .number()
           .int()
@@ -311,7 +352,9 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
         await Promise.all(
           candidates.map(async (r) => {
             try {
-              const { menu, restaurant } = await ctx.foodpanda.getVendorDetail(r.code, market);
+              const { menu, restaurant } = await ctx.foodpanda.getVendorDetail(r.code, market, {
+                openingType: input.openingType,
+              });
               // The detail response is where opening hours live, so the openNow
               // filter is free at this point.
               if (input.openNow && restaurant.openStatus?.isOpen !== true) {
@@ -343,8 +386,13 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
                 // already in scope from the fetch above. Ranking by the stale listing value
                 // here was Bug 1 — it could rank a truly-free-delivery vendor as more
                 // expensive than it actually is.
-                if (restaurant.deliveryFee !== undefined) hit.deliveryFee = restaurant.deliveryFee;
-                hit.totalWithDelivery = item.price + (restaurant.deliveryFee ?? 0);
+                // On pickup there is no delivery fee to land, so neither the fee
+                // nor a fee-inclusive total is reported; ranking then falls back
+                // to the item price, which is the true landed cost in that mode.
+                if (input.openingType !== 'pickup') {
+                  if (restaurant.deliveryFee !== undefined) hit.deliveryFee = restaurant.deliveryFee;
+                  hit.totalWithDelivery = item.price + (restaurant.deliveryFee ?? 0);
+                }
                 hits.push(hit);
               }
             } catch (err) {
@@ -367,7 +415,12 @@ export function registerMenuTools(server: McpServer, ctx: ToolContext): void {
           );
         }
 
-        const basis = input.includeDeliveryFee ? 'item price + delivery fee' : 'item price';
+        const basis =
+          input.openingType === 'pickup'
+            ? 'pickup item price'
+            : input.includeDeliveryFee
+              ? 'item price + delivery fee'
+              : 'item price';
         const text =
           `${hits.length} matches for "${input.query}" across ${candidates.length} restaurants near ${loc.displayName}${closedNote}` +
           `\nShowing the ${page.length} cheapest by ${basis}:\n\n` +

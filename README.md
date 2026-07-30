@@ -317,8 +317,8 @@ Windows paths need escaped backslashes: `"C:\\Users\\you\\foodpanda-ai-mcp\\dist
 |---|---|---|
 | `search_restaurants` | The main one. Find restaurants with filters for rating, fee, minimum order, distance, delivery time, discounts, open-now. | Text matching is local; with a filter active it scans the whole area, so results are complete — see [limitations](#-known-limitations-read-this) |
 | `get_restaurant` | Full detail: fees (minimum order, small-order fee, delivery, service fee, VAT), ETA, rating, deals and discounts with their numbers, weekly hours, open right now. | Needs `code` + `market` |
-| `get_menu` | A restaurant's menu with prices, plus the fees and deals needed to estimate a total. | Menus can be 100s of items — use `maxItems` |
-| `search_menu_items` | **Search one dish across many restaurants**, ranked by price. | Slowest tool: opens one menu per restaurant |
+| `get_menu` | A restaurant's menu with prices, plus the fees and deals needed to estimate a total. | Menus can be 100s of items — use `maxItems`. Set `openingType: "pickup"` for the pickup price list |
+| `search_menu_items` | **Search one dish across many restaurants**, ranked by price. | Slowest tool: opens one menu per restaurant. Honours `openingType` |
 | `compare_restaurants` | Side-by-side on fee, minimum, ETA, rating, deals; flags cheapest/fastest/best-rated. | 2–8 restaurants |
 | `check_open_now` | Open/closed for up to 10 restaurants, with next opening time. | Uses each market's local timezone |
 | `list_cuisines` | Cuisines available near a point, with restaurant counts. | Returns ids for `browse_by_cuisine` |
@@ -594,11 +594,18 @@ Consequences of what the upstream API actually supports. Details in
    codes are not modelled by any tool either — `foodpanda://voucher-codes` lists a couple of
    publicly known Pakistan bank codes as static reference content (explicitly **not** live API
    data; its own disclaimer says so). Checkout is the only authority on what any code pays out.
-5. **No reviews, no order history, no account data.** `/vendors/<code>/reviews` and `/ratings`
+5. **Whether a vendor accepts a voucher code is not knowable from this data — by any means.**
+   It is absent from the listing response, absent from the vendor detail response, and there is
+   no promotions endpoint; eligibility is resolved against the basket at checkout, and plenty of
+   vendors accept nothing. **Quote menu prices as the real price and treat a voucher as a
+   separate maybe** — never let an option qualify for a budget only because a code was
+   subtracted from it. Pickup, by contrast, *is* readable: pass `openingType: "pickup"` to
+   `get_menu` and compare, since pickup-only discounts do not appear in delivery prices at all.
+6. **No reviews, no order history, no account data.** `/vendors/<code>/reviews` and `/ratings`
    both cleanly 404 — not just bot-protected, genuinely absent. No order history or account data
    either; none of this is exposed by the discovery endpoints this server reads.
-6. **Thailand is unavailable** (origin DNS failure upstream).
-7. **This cannot order food.** By design, permanently.
+7. **Thailand is unavailable** (origin DNS failure upstream).
+8. **This cannot order food.** By design, permanently.
 
 ---
 

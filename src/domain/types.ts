@@ -70,6 +70,17 @@ export interface Deal {
   isNewCustomerOnly?: boolean;
 }
 
+/**
+ * Which fulfilment mode a vendor request is about.
+ *
+ * This is not cosmetic: a vendor can publish an entirely different price list
+ * per mode, and pickup-only discounts are common and are invisible in the
+ * delivery menu. Verified 2026-07-30 against Pizza Max Khayaban-e-Ittehad,
+ * which runs a 15% pickup discount that appears nowhere in its delivery data.
+ * Upstream expects these exact lowercase strings in `opening_type`.
+ */
+export type OpeningType = 'delivery' | 'pickup';
+
 export interface ScheduleEntry {
   /** ISO-8601 weekday: 1 = Monday … 7 = Sunday. Verified empirically. */
   weekday: number;

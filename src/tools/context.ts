@@ -20,7 +20,7 @@ export interface ToolContext {
  * the `list_markets` tool and the foodpanda://server-info resource so clients
  * can detect drift. See docs/VERSIONING.md for the deprecation policy.
  */
-export const TOOL_SCHEMA_VERSION = '1.1.0';
+export const TOOL_SCHEMA_VERSION = '1.2.0';
 
 /**
  * Location input shared by every location-aware tool.
@@ -173,7 +173,10 @@ export const dealShape = z.object({
 
 export const PRICING_NOTE =
   'Menu prices already include vendor deals and discounts - do not subtract them again. ' +
-  'Fees are additive on top of the basket. Bank and voucher codes are not covered here. ' +
+  'Fees are additive on top of the basket. Bank and voucher codes are not covered here, and whether a vendor ' +
+  'accepts one cannot be determined from any data this server can read - many vendors accept none - so quote ' +
+  'the menu price as the real price and never let an option fit a budget only after subtracting an assumed ' +
+  'voucher. A pickup-only discount, by contrast, IS readable: fetch the menu again with openingType "pickup". ' +
   'The foodpanda checkout screen is the only authority on the final total.';
 
 export function buildMeta(

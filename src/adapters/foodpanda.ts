@@ -9,7 +9,7 @@ import {
 } from '../domain/schemas.js';
 import { normalizeCuisines, normalizeMenu, normalizeRestaurant } from '../domain/normalize.js';
 import { getMarket, isSupportedMarket, KNOWN_ABSENT } from '../domain/markets.js';
-import type { Cuisine, Menu, Restaurant } from '../domain/types.js';
+import type { Cuisine, Menu, OpeningType, Restaurant } from '../domain/types.js';
 
 /**
  * THE ADAPTER BOUNDARY.
@@ -239,17 +239,26 @@ export class FoodpandaAdapter {
     };
   }
 
-  /** Full vendor record including menus, schedules and deals. */
+  /**
+   * Full vendor record including menus, schedules and deals.
+   *
+   * `openingType` selects the fulfilment mode and is NOT cosmetic: upstream
+   * returns a different price list per mode, and pickup-only discounts exist
+   * that are absent from the delivery menu entirely. Defaults to delivery so
+   * existing callers are unaffected. The mode is part of the request URL, so
+   * the HTTP cache keys the two modes separately with no extra work.
+   */
   async getVendorDetail(
     code: string,
     market: string,
-    opts: { latitude?: number; longitude?: number } = {},
-  ): Promise<{ restaurant: Restaurant; menu: Menu; warnings: string[] }> {
+    opts: { latitude?: number; longitude?: number; openingType?: OpeningType } = {},
+  ): Promise<{ restaurant: Restaurant; menu: Menu; openingType: OpeningType; warnings: string[] }> {
     const m = this.assertMarket(market);
+    const openingType: OpeningType = opts.openingType ?? 'delivery';
     const q = new URLSearchParams({
       include: 'menus,bundles,multiple_discounts',
       language_id: String(this.config.languageId),
-      opening_type: 'delivery',
+      opening_type: openingType,
     });
     const cur = getMarket(m)?.currencySymbol;
     if (cur) q.set('basket_currency', currencyCode(m));
@@ -273,9 +282,21 @@ export class FoodpandaAdapter {
     }
 
     const warnings = warning ? [warning] : [];
+    const restaurant = normalizeRestaurant(data, m);
+
+    // Upstream does not error when pickup is requested from a delivery-only
+    // vendor: it answers 200 with the delivery price list. Without this warning
+    // the caller would present delivery prices as pickup prices.
+    if (openingType === 'pickup' && restaurant.isPickupEnabled === false) {
+      warnings.push(
+        `${restaurant.name} does not offer pickup, so these are its delivery prices, not pickup prices.`,
+      );
+    }
+
     return {
-      restaurant: normalizeRestaurant(data, m),
+      restaurant,
       menu: normalizeMenu(data, m),
+      openingType,
       warnings,
     };
   }

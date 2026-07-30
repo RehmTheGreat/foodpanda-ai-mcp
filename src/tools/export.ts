@@ -102,6 +102,10 @@ export function registerExportTools(server: McpServer, ctx: ToolContext): void {
           .describe('Restaurant target only: row order.'),
         limit: z.number().int().min(1).max(500).default(100).describe('Restaurant and deals targets: maximum rows.'),
         maxItems: z.number().int().min(1).max(300).default(150).describe('Menu target only: maximum item rows.'),
+        openingType: z
+          .enum(['delivery', 'pickup'])
+          .default('delivery')
+          .describe('Menu target only: which price list to export. Pickup prices can differ from delivery ones.'),
       },
       outputSchema: {
         target: z.enum(['restaurants', 'menu', 'deals']),
@@ -118,7 +122,9 @@ export function registerExportTools(server: McpServer, ctx: ToolContext): void {
           if (!input.code || !input.market) {
             return toolError(new Error('target "menu" needs both `code` and `market`.'));
           }
-          const { menu, warnings } = await ctx.foodpanda.getVendorDetail(input.code, input.market);
+          const { menu, warnings } = await ctx.foodpanda.getVendorDetail(input.code, input.market, {
+            openingType: input.openingType,
+          });
           const items = flattenMenu(menu.categories);
           const truncated = items.length > input.maxItems;
           const rows = items.slice(0, input.maxItems).map((item) => ({

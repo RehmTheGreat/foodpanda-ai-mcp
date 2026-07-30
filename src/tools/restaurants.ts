@@ -33,6 +33,8 @@ const restaurantShape = z.object({
   deliveryTimeMinutes: z.number().optional(),
   hasDiscount: z.boolean(),
   isOpen: z.boolean().optional(),
+  /** When true, get_menu with openingType "pickup" may show a cheaper price list. */
+  isPickupEnabled: z.boolean().optional(),
   address: z.string().optional(),
   url: z.string().optional(),
 });
@@ -51,6 +53,7 @@ function slim(r: Restaurant) {
     ...(r.deliveryTimeMinutes !== undefined ? { deliveryTimeMinutes: r.deliveryTimeMinutes } : {}),
     hasDiscount: r.hasDiscount,
     ...(r.openStatus ? { isOpen: r.openStatus.isOpen } : {}),
+    ...(r.isPickupEnabled !== undefined ? { isPickupEnabled: r.isPickupEnabled } : {}),
     ...(r.address ? { address: r.address } : {}),
     ...(r.url ? { url: r.url } : {}),
   };
@@ -223,7 +226,8 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
       title: 'Get restaurant details',
       description:
         'Full detail for one restaurant by its code: fees, minimum order, delivery estimate, rating, cuisines, ' +
-        'active deals and discounts, weekly opening hours and whether it is open right now. ' +
+        'active deals and discounts, weekly opening hours, whether it is open right now, and whether it offers ' +
+        'pickup (which can carry its own cheaper price list, readable via get_menu). ' +
         'Get the code from search_restaurants.',
       inputSchema: {
         code: z.string().min(1).describe('Restaurant code from search_restaurants, e.g. "u1od".'),
@@ -297,6 +301,11 @@ export function registerRestaurantTools(server: McpServer, ctx: ToolContext): vo
               '\n'
             : '- Estimated delivery: not available (pass latitude/longitude to get one)\n') +
           `- Menu items: ${menu.itemCount} across ${menu.categories.length} categories\n` +
+          (r.isPickupEnabled === true
+            ? '- Pickup: offered — call get_menu with openingType "pickup" for its pickup price list, which can be cheaper\n'
+            : r.isPickupEnabled === false
+              ? '- Pickup: not offered\n'
+              : '') +
           (r.openStatus ? `- Local time: ${r.openStatus.localTime}\n` : '') +
           feeLines +
           offerLines +

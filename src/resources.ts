@@ -92,7 +92,9 @@ export function registerResources(server: McpServer, ctx: ToolContext): void {
       description:
         'Bank-card promo codes commonly advertised for foodpanda Pakistan (e.g. HBL25, ASKARI30), with their ' +
         'published terms. NOT read from the API — there is no working voucher/promotions endpoint upstream — ' +
-        'so treat this as unverified static reference content, not live data.',
+        'so treat this as unverified static reference content, not live data. Critically, WHICH VENDORS ACCEPT ' +
+        'A CODE IS NOT KNOWABLE from here: many opt out, and eligibility is only resolved in the basket at ' +
+        'checkout. Quote menu prices as the real price and treat any voucher as a separate maybe.',
       mimeType: 'application/json',
     },
     async (uri) => ({
@@ -103,6 +105,37 @@ export function registerResources(server: McpServer, ctx: ToolContext): void {
           text: JSON.stringify(
             {
               market: 'pk',
+              quotingRule:
+                'READ THIS BEFORE USING ANY CODE BELOW IN A CALCULATION. Quote the menu price as the headline ' +
+                'number and present a voucher only as a separate, clearly-labelled upside line. Never rank or ' +
+                'recommend options by a voucher-inclusive total, and never let an option qualify for a budget ' +
+                'only because a voucher was subtracted from it — if it does not fit on menu price, it does not ' +
+                'fit. This rule exists because it was broken: on 2026-07-30 a shortlist was built with a flat ' +
+                'PKR 200 ASKARI30 deduction applied to every candidate, and the vendor turned out not to accept ' +
+                'vouchers at all, so two options were only inside budget because of a discount that did not exist.',
+              eligibility:
+                'PER-VENDOR ELIGIBILITY IS NOT DISCOVERABLE, by this server or by any other means short of ' +
+                'checkout. It is not in the listing response, not in the vendor detail response, and there is no ' +
+                'promotions endpoint; it is resolved against the basket at checkout. A large share of vendors ' +
+                'opt out entirely, and "eligible restaurants only" appears in the codes\' own terms. Assume a ' +
+                'code does NOT apply until the checkout screen says otherwise.',
+              cheaperAlternativeThatIsActuallyReadable:
+                'Unlike vouchers, pickup pricing IS readable: call get_menu (or search_menu_items) with ' +
+                'openingType "pickup". Vendors run pickup-only discounts that never appear in delivery prices, ' +
+                'and get_restaurant reports isPickupEnabled so you know when the comparison is worth making. ' +
+                'Prefer this verifiable saving over an assumed voucher.',
+              knownExclusions: [
+                {
+                  market: 'pk',
+                  code: 'h0e2',
+                  name: 'Pizza Max - Khayaban-e-Ittehad',
+                  observed: '2026-07-30',
+                  note:
+                    'Accepts no bank voucher codes. Reported first-hand by a customer after this server\'s data ' +
+                    'was used to quote a voucher-inclusive price. It does run a 15% pickup discount, which is ' +
+                    'readable via get_menu with openingType "pickup".',
+                },
+              ],
               disclaimer:
                 'This is NOT from the foodpanda API — this project reads only public discovery data and has no ' +
                 'working voucher or promotions endpoint (see docs/API-RESEARCH.md). The entries below are static ' +
